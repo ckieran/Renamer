@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Renamer
 {
@@ -9,6 +6,10 @@ namespace Renamer
     {
         static void Main(string[] args)
         {
+            foreach (var arg  in args)
+            {
+                Console.WriteLine("arg was:" + arg);
+            }
         }
     }
 }
