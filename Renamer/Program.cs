@@ -1,16 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.IO;
 using System.Diagnostics;
 using System.Reflection;
+
+/*
+ * Thanks go to Alois Kraus, I found his colour console template and decided to give it a go for this application
+ * 
+ * His blog post on the template can be found here: 
+ * http://geekswithblogs.net/akraus1/archive/2010/11/11/142685.aspx
+ * 
+ * The Visual Studio Gallery installer can be found here:
+ * http://visualstudiogallery.msdn.microsoft.com/51606523-019b-40d6-989a-88465dd6a6aa/?SRC=Home
+ * 
+ */
+
 
 namespace Renamer
 {
     class Program
     {
         static string HelpStr =
-            String.Format("Renamer (c) 2010 by Alois Kraus v{0}{1}", Assembly.GetExecutingAssembly().GetName().Version, Environment.NewLine) +
+            String.Format("Renamer (c) 2012 by Chris Kieran v{0}{1}", Assembly.GetExecutingAssembly().GetName().Version, Environment.NewLine) +
             "Explain what your application does" + Environment.NewLine +
             "Usage: " + Environment.NewLine +
             "Renamer [-OptionaL] -ArgSwitch <file> <other arguments>" + Environment.NewLine +
@@ -91,13 +101,13 @@ namespace Renamer
         {
             // Place here your actual code to execute your logic after the command line has been parsed and validated.
 
-            Console.WriteLine("Got Optional: {0}", this.Optional);
-            Console.WriteLine("Got ArgSwitch: {0}", this.ArgSwitch);
+            Console.WriteLine("Got Optional: {0}", Optional);
+            Console.WriteLine("Got ArgSwitch: {0}", ArgSwitch);
 
-            if (this.OtherArgs != null)
+            if (OtherArgs != null)
             {
-                Console.WriteLine("Info: Additional Arg Count: {0}", this.OtherArgs.Count);
-                foreach (var addtionalArg in this.OtherArgs)
+                Console.WriteLine("Info: Additional Arg Count: {0}", OtherArgs.Count);
+                foreach (var addtionalArg in OtherArgs)
                 {
                     Console.WriteLine("Additional: {0}", addtionalArg);
                 }
