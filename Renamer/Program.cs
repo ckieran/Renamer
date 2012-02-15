@@ -21,27 +21,27 @@ namespace Renamer
     {
         static string HelpStr =
             String.Format("Renamer (c) 2012 by Chris Kieran v{0}{1}", Assembly.GetExecutingAssembly().GetName().Version, Environment.NewLine) +
-            "Explain what your application does" + Environment.NewLine +
+            "Renames folders based on image dates within the folder" + Environment.NewLine +
             "Usage: " + Environment.NewLine +
-            "Renamer [-OptionaL] -ArgSwitch <file> <other arguments>" + Environment.NewLine +
-            " -ArgSwitch <file>    Sample switch with argument." + Environment.NewLine +
-            " [-OptionaL]          Optional: Optional command line switch" + Environment.NewLine +
+            "Renamer [-OptionaL] -Folder <file> <other arguments>" + Environment.NewLine +
+            " -Folder <folder>    Sample switch with argument." + Environment.NewLine +
+            " [-OptionaL]          RenameFiles: Optional command line switch" + Environment.NewLine +
             " Examples: " + Environment.NewLine +
             " Renamer " + Environment.NewLine +
-            " Renamer -as file" + Environment.NewLine +
-            " Renamer -as file arg1 arg2 arg3" + Environment.NewLine +
-            " Renamer -Optional -argswitch file arg1 arg2 arg3" + Environment.NewLine +
-            " Renamer -Optional -argswitch file" + Environment.NewLine +
+            " Renamer -f folder" + Environment.NewLine +
+            " Renamer -f folder arg1 arg2 arg3" + Environment.NewLine +
+            " Renamer -RenameFiles -folder folder arg1 arg2 arg3" + Environment.NewLine +
+            " Renamer -RenameFiles -folder folder" + Environment.NewLine +
             Environment.NewLine;
 
         #region Parsed Command Line Switches
-        public bool Optional
+        public bool RenameFiles
         {
             get;
             set;
         }
 
-        public string ArgSwitch
+        public string Folder
         {
             get;
             set;
@@ -55,7 +55,7 @@ namespace Renamer
         #endregion
 
         /// <summary>
-        /// Main entry point which is directly called from main where nothing happens execept exception catching.
+        /// Main entry point which is directly called from main where nothing happens except exception catching.
         /// </summary>
         /// <param name="args"></param>
         public Program(string[] args)
@@ -64,13 +64,13 @@ namespace Renamer
             // Please note: Upper case characters define the shortcut name for each switch
             var switches = new Dictionary<string, Action>
             {
-                {"OptionaL", () => Optional=true }, // shortcut -ol
+                {"RenameFiles", () => RenameFiles=true }, // shortcut -rf
             };
 
             // define command line switches which take one parameter
             var switchWithArg = new Dictionary<string, Action<string>>
             {
-                {"ArgSwitch", (arg) => ArgSwitch = arg },  // shortcut -AS
+                {"Folder", (arg) => Folder = arg },  // shortcut -F
             };
 
             // Handler for <other arguments> if present
@@ -101,8 +101,8 @@ namespace Renamer
         {
             // Place here your actual code to execute your logic after the command line has been parsed and validated.
 
-            Console.WriteLine("Got Optional: {0}", Optional);
-            Console.WriteLine("Got ArgSwitch: {0}", ArgSwitch);
+            Console.WriteLine("Got Optional: {0}", RenameFiles);
+            Console.WriteLine("Got Folder: {0}", Folder);
 
             if (OtherArgs != null)
             {
@@ -124,9 +124,9 @@ namespace Renamer
         {
             bool lret = true;
 
-            /*    if (String.IsNullOrEmpty(ArgSwitch) )
+            /*    if (String.IsNullOrEmpty(Folder) )
                 {
-                    parser.AddFormat(Levels.Error, "No arg for -ArgSwitch passed.");
+                    parser.AddFormat(Levels.Error, "No arg for -Folder passed.");
                     return false;
                 }
              */
