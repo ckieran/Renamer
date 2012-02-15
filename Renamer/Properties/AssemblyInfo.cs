@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Renamer")]
-[assembly: AssemblyDescription("App for renaming files/folders")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Whizz-bang")]
 [assembly: AssemblyProduct("Renamer")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("f60e15a0-750f-4765-a931-374c5f2c8305")]
+[assembly: Guid("019f8cf2-0b26-403c-9092-b712ce713c0a")]
 
 // Version information for an assembly consists of the following four values:
 //
