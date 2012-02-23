@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
+using Renamer.ConsoleFramework;
 
 /*
  * Thanks go to Alois Kraus, I found his colour console template and decided to give it a go for this application
@@ -17,7 +18,7 @@ using System.Reflection;
 
 namespace Renamer
 {
-    class Program
+    class Renamer
     {
         static string HelpStr =
             String.Format("Renamer (c) 2012 by Chris Kieran v{0}{1}", Assembly.GetExecutingAssembly().GetName().Version, Environment.NewLine) +
@@ -58,7 +59,7 @@ namespace Renamer
         /// Main entry point which is directly called from main where nothing happens except exception catching.
         /// </summary>
         /// <param name="args"></param>
-        public Program(string[] args)
+        public Renamer(string[] args)
         {
             // define parameterless command line switches. 
             // Please note: Upper case characters define the shortcut name for each switch
@@ -141,7 +142,7 @@ namespace Renamer
                 try
                 {
                     AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-                    Program p = new Program(args);
+                    Renamer p = new Renamer(args);
                 }
                 catch (Exception ex)
                 {
@@ -183,4 +184,6 @@ namespace Renamer
             Console.WriteLine(format, ex.Message);
         }
     }
+
+    
 }

@@ -2,7 +2,7 @@
 using System.Text;
 using System.IO;
 
-namespace Renamer
+namespace Renamer.ConsoleFramework
 {
     /// <summary>
     /// Colored console class which does color the console output which do contain specific keywords.

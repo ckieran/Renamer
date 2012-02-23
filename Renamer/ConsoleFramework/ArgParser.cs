@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace Renamer
+namespace Renamer.ConsoleFramework
 {
     /// <summary>
     /// Severity levels for each parser message. Used by <see cref="ArgParser.AddFormat"/>
