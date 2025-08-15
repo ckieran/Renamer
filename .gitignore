@@ -1,0 +1,40 @@
+# .NET & MAUI
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.vs/
+.vscode/
+# Build results
+[Dd]ebug*/
+[Rr]elease*/
+# NuGet
+*.nupkg
+.nuget/
+# Mac
+.DS_Store
+# Windows
+Thumbs.db
+# Rider
+.idea/
+*.iml
+# Visual Studio Code
+.history/
+# MAUI specific
+platforms/*/bin/
+platforms/*/obj/
+# Test results
+TestResults/
+# Others
+*.log
+*.pid
+*.tmp
+*.bak
+*.swp
+# User secrets
+secrets.json
+# Images and generated files
+src/**/Resources/Raw/
+samples/TestPhotos/
