@@ -198,11 +198,16 @@ public interface IRenameService
 - [x] Implement basic file system operations
 
 ### Phase 2: EXIF Processing 
-- [ ] Implement EXIF metadata extraction
-- [ ] Add support for multiple image formats
-- [ ] Create date range calculation logic
-- [ ] Write unit tests for EXIF functionality
-- [ ] Add error handling for corrupt files
+- [x] Implement EXIF metadata extraction
+    - Implemented `ExifService` using `MetadataExtractor` to read DateTimeOriginal and return `PhotoMetadata`.
+- [x] Add support for multiple image formats
+    - Added a supported extensions list (.jpg, .jpeg, .jpe, .png, .tiff, .tif, .heic, .dng, .cr2, .nef, .arw, .raf) and `IsValidImageFileAsync`.
+- [x] Create date range calculation logic
+    - Basic capture date extraction implemented; full folder-level min/max calculation is scaffolded in `FolderInfo` and will be used by rename planning.
+- [x] Write unit tests for EXIF functionality
+    - Added `ExifServiceTests` (checks supported extensions and IsValidImageFileAsync). Tests pass.
+- [x] Add error handling for corrupt files
+    - `ExifService` safely catches exceptions and returns metadata with filename only when parsing fails.
 
 ### Phase 3: Rename Logic 
 - [ ] Implement folder name parsing

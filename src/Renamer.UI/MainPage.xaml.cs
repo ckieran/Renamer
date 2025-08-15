@@ -10,7 +10,7 @@ public partial class MainPage : ContentPage
 	public MainPage()
 	{
 		InitializeComponent();
-		_themeService = Application.Current.Handler.MauiContext.Services.GetService<IThemeService>();
+		_themeService = Application.Current?.Handler.MauiContext?.Services.GetService<IThemeService>() ?? new ThemeService();
 		var currentTheme = _themeService.GetAppTheme();
 		DarkModeSwitch.IsToggled = currentTheme == AppTheme.Dark;
 	}

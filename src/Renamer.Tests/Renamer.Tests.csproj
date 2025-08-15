@@ -18,4 +18,12 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Renamer.Core\Renamer.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SampleImages\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
