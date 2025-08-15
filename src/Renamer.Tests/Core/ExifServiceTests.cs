@@ -1,6 +1,4 @@
 using Renamer.Core.Services;
-using System.Threading.Tasks;
-using Xunit;
 
 namespace Renamer.Tests.Core
 {
@@ -45,32 +43,32 @@ namespace Renamer.Tests.Core
             return path;
         }
         [Fact]
-        public async Task SupportedExtensions_ReturnsList()
+        public void SupportedExtensions_ReturnsList()
         {
             var svc = new ExifService();
-            var exts = await svc.GetSupportedExtensionsAsync();
+            var exts = svc.GetSupportedExtensions();
             Assert.Contains(".jpg", exts);
             Assert.Contains(".dng", exts);
         }
 
         [Fact]
-        public async Task IsValidImageFileAsync_Works()
+        public void IsValidImageFileAsync_Works()
         {
             var svc = new ExifService();
-            Assert.True(await svc.IsValidImageFileAsync("photo.jpg"));
-            Assert.False(await svc.IsValidImageFileAsync("doc.txt"));
+            Assert.True(svc.IsValidImageFile("photo.jpg"));
+            Assert.False(svc.IsValidImageFile("doc.txt"));
         }
 
         [Fact]
-        public async Task ExtractMetadataAsync_FromSampleFiles_ReturnsCaptureDate()
+        public void ExtractMetadataAsync_FromSampleFiles_ReturnsCaptureDate()
         {
             var svc = new ExifService();
             Console.WriteLine(AppContext.BaseDirectory);
             var jpgPath = PrepareSampleFile(SampleFileNameJpg);
             var dngPath = Path.Combine(AppContext.BaseDirectory, "SampleImages", SampleFileNameDng);
 
-            var metaJpg = await svc.ExtractMetadataAsync(jpgPath);
-            var metaDng = await svc.ExtractMetadataAsync(dngPath);
+            var metaJpg = svc.ExtractMetadata(jpgPath);
+            var metaDng = svc.ExtractMetadata(dngPath);
 
             Assert.NotNull(metaJpg);
             Assert.NotNull(metaJpg.CaptureDate);

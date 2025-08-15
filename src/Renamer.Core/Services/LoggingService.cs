@@ -10,7 +10,7 @@ namespace Renamer.Core.Services
 
         public LoggingService()
         {
-            if (!_initialized)
+            if (!_initialized || _logger == null)
             {
                 _logger = new LoggerConfiguration()
                     .MinimumLevel.Debug()
@@ -30,7 +30,7 @@ namespace Renamer.Core.Services
             _logger.Warning(message);
         }
 
-        public void LogError(string message, Exception ex = null)
+        public void LogError(string message, Exception ex)
         {
             if (ex != null)
                 _logger.Error(ex, message);

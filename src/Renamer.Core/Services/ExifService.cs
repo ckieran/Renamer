@@ -6,22 +6,22 @@ namespace Renamer.Core.Services
 {
     public class ExifService : IExifService
     {
-        private static readonly string[] _supported = new[] { 
+        private static readonly string[] _supported = [ 
             ".jpg", ".jpeg", ".jpe", ".png", ".tiff", ".tif", ".heic", ".dng", ".cr2", ".nef", ".arw", ".raf"
-        };
+        ];
 
-        public Task<IEnumerable<string>> GetSupportedExtensionsAsync()
+        public IEnumerable<string> GetSupportedExtensions()
         {
-            return Task.FromResult(_supported.AsEnumerable());
+            return _supported.AsEnumerable();
         }
 
-        public Task<bool> IsValidImageFileAsync(string filePath)
+        public bool IsValidImageFile(string filePath)
         {
             var ext = Path.GetExtension(filePath)?.ToLowerInvariant() ?? string.Empty;
-            return Task.FromResult(_supported.Contains(ext));
+            return _supported.Contains(ext);
         }
 
-        public async Task<PhotoMetadata> ExtractMetadataAsync(string filePath)
+        public PhotoMetadata ExtractMetadata(string filePath)
         {
             if (!File.Exists(filePath)) return new PhotoMetadata { FileName = Path.GetFileName(filePath) };
 
@@ -47,9 +47,9 @@ namespace Renamer.Core.Services
             }
         }
 
-        public async Task<DateTime?> GetCaptureDateAsync(string filePath)
+        public DateTime? GetCaptureDate(string filePath)
         {
-            var meta = await ExtractMetadataAsync(filePath).ConfigureAwait(false);
+            var meta = ExtractMetadata(filePath);
             return meta.CaptureDate;
         }
     }

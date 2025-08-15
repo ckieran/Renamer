@@ -44,6 +44,6 @@ namespace Renamer.Core.Services
     // Minimal FolderTree class for stub
     public class FolderTree
     {
-        public string Path { get; set; }
+        public string Path { get; set; } = string.Empty;
     }
 }
