@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Renamer.UI.ViewModels"
+             xmlns:conv="clr-namespace:Renamer.UI.Converters"
+             x:Class="Renamer.UI.Views.PlanViewPage">
+    <ContentPage.Resources>
+        <conv:OperationTypeToColorConverter x:Key="OpColor" />
+    </ContentPage.Resources>
+    <VerticalStackLayout>
+        <ProgressBar Progress="{Binding Progress}" Margin="5" />
+        <Button Text="Simulate" Command="{Binding SimulateCommand}" />
+        <CollectionView ItemsSource="{Binding Operations}" SelectionChanged="OnSelectionChanged">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="5" Padding="10" BackgroundColor="{Binding OperationType, Converter={StaticResource OpColor}}">
+                        <Label Text="{Binding DestinationPath}" />
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>

@@ -221,12 +221,12 @@ public interface IRenameService
 - [x] Write unit tests for rename logic
     - Added `RenameServiceTests` with fake `IFileSystemService` and `IExifService`; tests passed.
 
-### Phase 4: UI Implementation 
-- [ ] Build folder picker interface
-- [ ] Create plan view with color coding
-- [ ] Implement progress indicators
-- [ ] Add error handling dialogs
-- [ ] Polish dark mode implementation
+### Phase 4: UI Implementation
+- [x] Build folder picker interface
+- [x] Create plan view with color coding
+- [x] Implement progress indicators
+- [x] Add error handling dialogs
+- [x] Polish dark mode implementation
 
 ### Phase 5: Testing & Polish 
 - [ ] Comprehensive unit test coverage
