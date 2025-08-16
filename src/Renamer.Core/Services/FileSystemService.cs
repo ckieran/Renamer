@@ -2,16 +2,10 @@ using Microsoft.Extensions.Logging;
 
 namespace Renamer.Core.Services
 {
-    public class FileSystemService : IFileSystemService
+    public class FileSystemService(IExifService exif, Logger<FileSystemService> logger) : IFileSystemService
     {
-        private readonly IExifService _exif;
-        private readonly ILogger _logger;
-
-        public FileSystemService(IExifService exif, Logger<FileSystemService> logger)
-        {
-            _exif = exif;
-            _logger = logger;
-        }
+        private readonly IExifService _exif = exif;
+        private readonly ILogger _logger = logger;
 
         public async Task<Models.FolderTree> BuildFolderTreeAsync(string rootPath)
         {

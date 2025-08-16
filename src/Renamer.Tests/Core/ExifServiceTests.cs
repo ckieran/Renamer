@@ -1,9 +1,11 @@
+using Microsoft.Extensions.Logging;
 using Renamer.Core.Services;
 
 namespace Renamer.Tests.Core
 {
     public class ExifServiceTests
     {
+        private readonly ILogger<ExifService> logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<ExifService>();
         private const string SampleFileNameJpg = "sample_exif.jpg";
         private const string SampleFileNameDng = "tiny.dng";
         private static readonly byte[] _jpgWithExif = new byte[] {
@@ -32,20 +34,21 @@ namespace Renamer.Tests.Core
 
         private string PrepareSampleFile(string fileName)
         {
-            var dir = System.IO.Path.Combine(System.AppContext.BaseDirectory, "SampleImages");
-            System.IO.Directory.CreateDirectory(dir);
-            var path = System.IO.Path.Combine(dir, fileName);
-            if (!System.IO.File.Exists(path))
+            var dir = Path.Combine(AppContext.BaseDirectory, "SampleImages");
+            Directory.CreateDirectory(dir);
+            var path = Path.Combine(dir, fileName);
+            if (!File.Exists(path))
             {
                 // write same JPEG bytes for both .jpg and .dng (tests focus on metadata parsing)
-                System.IO.File.WriteAllBytes(path, _jpgWithExif);
+                File.WriteAllBytes(path, _jpgWithExif);
             }
             return path;
         }
         [Fact]
         public void SupportedExtensions_ReturnsList()
         {
-            var svc = new ExifService();
+            
+            var svc = new ExifService(logger);
             var exts = svc.GetSupportedExtensions();
             Assert.Contains(".jpg", exts);
             Assert.Contains(".dng", exts);
@@ -54,7 +57,7 @@ namespace Renamer.Tests.Core
         [Fact]
         public void IsValidImageFileAsync_Works()
         {
-            var svc = new ExifService();
+            var svc = new ExifService(logger);
             Assert.True(svc.IsValidImageFile("photo.jpg"));
             Assert.False(svc.IsValidImageFile("doc.txt"));
         }
@@ -62,7 +65,7 @@ namespace Renamer.Tests.Core
         [Fact]
         public void ExtractMetadataAsync_FromSampleFiles_ReturnsCaptureDate()
         {
-            var svc = new ExifService();
+            var svc = new ExifService(logger);
             Console.WriteLine(AppContext.BaseDirectory);
             var jpgPath = PrepareSampleFile(SampleFileNameJpg);
             var dngPath = Path.Combine(AppContext.BaseDirectory, "SampleImages", SampleFileNameDng);
