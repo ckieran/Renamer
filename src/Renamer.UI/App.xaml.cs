@@ -2,13 +2,15 @@
 
 public partial class App : Application
 {
-	public App()
-	{
-		InitializeComponent();
-	}
+        public App(Renamer.UI.Services.IThemeService themeService)
+        {
+                InitializeComponent();
+                var theme = themeService.GetAppTheme();
+                themeService.SetAppTheme(theme);
+        }
 
-	protected override Window CreateWindow(IActivationState? activationState)
-	{
-		return new Window(new AppShell());
-	}
+        protected override Window CreateWindow(IActivationState? activationState)
+        {
+                return new Window(new AppShell());
+        }
 }

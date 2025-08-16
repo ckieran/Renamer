@@ -4,11 +4,17 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Renamer.UI"
+    xmlns:views="clr-namespace:Renamer.UI.Views"
     Title="Renamer.UI">
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Title="Folder Picker"
+        ContentTemplate="{DataTemplate views:FolderPickerPage}"
+        Route="FolderPickerPage" />
+
+    <ShellContent
+        Title="Plan View"
+        ContentTemplate="{DataTemplate views:PlanViewPage}"
+        Route="PlanViewPage" />
 
 </Shell>
