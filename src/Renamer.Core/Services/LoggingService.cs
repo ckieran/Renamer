@@ -6,18 +6,15 @@ namespace Renamer.Core.Services
     public class LoggingService : ILoggingService
     {
         private static bool _initialized = false;
-        private static ILogger _logger;
-
-        public LoggingService()
-        {
-            if (!_initialized || _logger == null)
-            {
-                _logger = new LoggerConfiguration()
+        private static ILogger _logger = new LoggerConfiguration()
                     .MinimumLevel.Debug()
                     .WriteTo.File("renamer.log", rollingInterval: RollingInterval.Day)
                     .CreateLogger();
-                _initialized = true;
-            }
+
+        public LoggingService()
+        {
+            // _logger is initialized at declaration; keep the flag for compatibility
+            _initialized = true;
         }
 
         public void LogInfo(string message)

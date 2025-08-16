@@ -119,10 +119,10 @@ public interface IFileSystemService
 ```csharp
 public interface IExifService
 {
-    Task<PhotoMetadata> ExtractMetadataAsync(string filePath);
-    Task<DateTime?> GetCaptureDateAsync(string filePath);
-    Task<bool> IsValidImageFileAsync(string filePath);
-    Task<IEnumerable<string>> GetSupportedExtensionsAsync();
+    PhotoMetadata ExtractMetadata(string filePath);
+    DateTime? GetCaptureDate(string filePath);
+    bool IsValidImageFile(string filePath);
+    IEnumerable<string> GetSupportedExtensions();
 }
 ```
 
@@ -210,11 +210,16 @@ public interface IRenameService
     - `ExifService` safely catches exceptions and returns metadata with filename only when parsing fails.
 
 ### Phase 3: Rename Logic 
-- [ ] Implement folder name parsing
-- [ ] Create rename plan generation
-- [ ] Add operation ordering logic
-- [ ] Implement test run functionality
-- [ ] Write unit tests for rename logic
+- [x] Implement folder name parsing
+    - Basic folder name generation implemented in `RenameService.GenerateRenamePlanAsync`.
+- [x] Create rename plan generation
+    - Implemented `RenameService` which builds `RenamePlan` from `FolderTree` using photo capture dates.
+- [x] Add operation ordering logic
+    - Simple validation implemented in `RenameService.ValidateOperationOrderAsync` to detect duplicate destinations.
+- [x] Implement test run functionality
+    - `RenameService.ExecuteRenamePlanAsync` performs renames via `IFileSystemService.RenameFolderAsync` and returns `OperationResult`.
+- [x] Write unit tests for rename logic
+    - Added `RenameServiceTests` with fake `IFileSystemService` and `IExifService`; tests passed.
 
 ### Phase 4: UI Implementation 
 - [ ] Build folder picker interface
