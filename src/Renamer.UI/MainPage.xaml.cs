@@ -31,4 +31,9 @@ public partial class MainPage : ContentPage
 	{
 		_themeService.SetAppTheme(e.Value ? AppTheme.Dark : AppTheme.Light);
 	}
+
+	private async void OnPickFolderPage(object sender, EventArgs e)
+	{
+		await Shell.Current.GoToAsync("//FolderPicker");
+	}
 }

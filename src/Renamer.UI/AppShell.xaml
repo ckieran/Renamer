@@ -11,4 +11,7 @@
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
+    <ShellContent Title="FolderPicker" ContentTemplate="{DataTemplate local:Views.FolderPickerPage}" Route="FolderPicker" />
+    <ShellContent Title="PlanView" ContentTemplate="{DataTemplate local:Views.PlanViewPage}" Route="PlanView" />
+
 </Shell>

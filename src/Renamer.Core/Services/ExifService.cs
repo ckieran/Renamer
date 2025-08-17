@@ -5,12 +5,16 @@ using Renamer.Core.Models;
 
 namespace Renamer.Core.Services
 {
-    public class ExifService(ILogger<ExifService> logger) : IExifService
+    public class ExifService : IExifService
     {
-        private static readonly string[] _supported = [ 
-            ".jpg", ".jpeg", ".jpe", ".png", ".tiff", ".tif", ".heic", ".dng", ".cr2", ".nef", ".arw", ".raf"
-        ];
-        private readonly ILogger<ExifService> _logger = logger;
+        private static readonly string[] _supported = new[]
+        { ".jpg", ".jpeg", ".jpe", ".png", ".tiff", ".tif", ".heic", ".dng", ".cr2", ".nef", ".arw", ".raf" };
+        private readonly ILogger<ExifService> _logger;
+
+        public ExifService(ILogger<ExifService> logger)
+        {
+            _logger = logger;
+        }
 
         public IEnumerable<string> GetSupportedExtensions()
         {
@@ -43,9 +47,9 @@ namespace Renamer.Core.Services
                     CaptureDate = capture
                 };
             }
-            catch
+            catch (Exception ex)
             {
-                _logger.LogError("Failed to extract metadata for file {FilePath}", filePath);
+                _logger.LogError(ex, "Failed to extract metadata for file {FilePath}", filePath);
                 return new PhotoMetadata { FileName = Path.GetFileName(filePath) };
             }
         }

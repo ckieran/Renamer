@@ -34,6 +34,7 @@
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Fill" />
+            <Button Text="Pick Folder" Clicked="OnPickFolderPage" HorizontalOptions="Fill" />
         </VerticalStackLayout>
     </ScrollView>
 

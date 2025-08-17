@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Renamer.UI.Views.PlanViewPage"
+             Title="Plan View">
+
+    <VerticalStackLayout Padding="20" Spacing="12">
+        <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+            <ActivityIndicator x:Name="BusyIndicator" IsRunning="False" IsVisible="False" WidthRequest="24" HeightRequest="24" Grid.Column="0" />
+            <Label x:Name="StatusLabel" Text="Ready" VerticalOptions="Center" Margin="8,0" Grid.Column="1" />
+            <Button x:Name="ExecuteBtn" Text="Execute Plan" Grid.Column="2" />
+        </Grid>
+
+        <CollectionView x:Name="OperationsList">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border StrokeThickness="1" BackgroundColor="WhiteSmoke" Padding="10" Margin="5">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="6" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout>
+                            <Label Text="{Binding OperationType}" />
+                            <Label Text="{Binding SourcePath}" FontSize="12" />
+                            <Label Text="{Binding DestinationPath}" FontSize="12" />
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>

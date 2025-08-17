@@ -1,26 +1,33 @@
 using Microsoft.Extensions.Logging;
+using Renamer.Core.Models;
 
 namespace Renamer.Core.Services
 {
-    public class FileSystemService(IExifService exif, Logger<FileSystemService> logger) : IFileSystemService
+    public class FileSystemService : IFileSystemService
     {
-        private readonly IExifService _exif = exif;
-        private readonly ILogger _logger = logger;
+        private readonly IExifService _exif;
+        private readonly ILogger<FileSystemService> _logger;
 
-        public async Task<Models.FolderTree> BuildFolderTreeAsync(string rootPath)
+        public FileSystemService(IExifService exif, ILogger<FileSystemService> logger)
         {
-            var tree = new Models.FolderTree { RootPath = rootPath };
+            _exif = exif;
+            _logger = logger;
+        }
+
+        public async Task<FolderTree> BuildFolderTreeAsync(string rootPath)
+        {
+            var tree = new FolderTree { RootPath = rootPath };
             await ScanDirectoryAsync(rootPath, tree).ConfigureAwait(false);
             return tree;
         }
 
-        private async Task ScanDirectoryAsync(string dir, Models.FolderTree tree, int depth = 0)
+        private async Task ScanDirectoryAsync(string dir, FolderTree tree, int depth = 0)
         {
             if (depth > 10) return; // guard depth
-            var folder = new Models.FolderInfo { Path = dir };
+            var folder = new FolderInfo { Path = dir };
             var files = Directory.Exists(dir) ? Directory.EnumerateFiles(dir).ToList() : new List<string>();
             folder.FileCount = files.Count;
-            folder.Photos = [];
+            folder.Photos = new List<PhotoMetadata>();
             foreach (var f in files)
             {
                 try
@@ -31,9 +38,12 @@ namespace Renamer.Core.Services
                         folder.Photos.Add(meta);
                     }
                 }
-                catch { }
+                catch
+                {
+                    // ignore individual file errors
+                }
             }
-            if (folder.Photos.Any(p => p.CaptureDate.HasValue))
+            if (folder.Photos != null && folder.Photos.Any(p => p.CaptureDate.HasValue))
             {
                 folder.MinDate = folder.Photos.Where(p => p.CaptureDate.HasValue).Min(p => p.CaptureDate);
                 folder.MaxDate = folder.Photos.Where(p => p.CaptureDate.HasValue).Max(p => p.CaptureDate);
@@ -49,7 +59,7 @@ namespace Renamer.Core.Services
                 }
             }
             catch (Exception ex)
-            { 
+            {
                 _logger.LogError(ex, "Error scanning directory {Directory}", dir);
             }
         }
@@ -61,9 +71,9 @@ namespace Renamer.Core.Services
                 await Task.Run(() => Directory.Move(oldPath, newPath));
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
-                _logger.LogError("Failed to rename folder from {OldPath} to {NewPath}", oldPath, newPath);
+                _logger.LogError(ex, "Failed to rename folder from {OldPath} to {NewPath}", oldPath, newPath);
                 return false;
             }
         }
