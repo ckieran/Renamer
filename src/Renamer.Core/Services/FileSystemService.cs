@@ -41,6 +41,7 @@ namespace Renamer.Core.Services
                 catch
                 {
                     // ignore individual file errors
+                    _logger.LogWarning("Failed to extract metadata for file {FilePath}", f);
                 }
             }
             if (folder.Photos != null && folder.Photos.Any(p => p.CaptureDate.HasValue))

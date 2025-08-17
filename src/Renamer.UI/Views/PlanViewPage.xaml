@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Renamer.Core.Models;assembly=Renamer.Core"
              x:Class="Renamer.UI.Views.PlanViewPage"
              Title="Plan View">
 
     <VerticalStackLayout Padding="20" Spacing="12">
-        <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
-            <ActivityIndicator x:Name="BusyIndicator" IsRunning="False" IsVisible="False" WidthRequest="24" HeightRequest="24" Grid.Column="0" />
-            <Label x:Name="StatusLabel" Text="Ready" VerticalOptions="Center" Margin="8,0" Grid.Column="1" />
-            <Button x:Name="ExecuteBtn" Text="Execute Plan" Grid.Column="2" />
+        <Grid ColumnDefinitions="Auto,*,Auto,Auto" VerticalOptions="Center" RowDefinitions="Auto,Auto">
+            <ActivityIndicator x:Name="BusyIndicator" IsRunning="False" IsVisible="False" WidthRequest="24" HeightRequest="24" Grid.Column="0" Grid.Row="0" />
+            <Label x:Name="StatusLabel" Text="Ready" VerticalOptions="Center" Margin="8,0" Grid.Column="1" Grid.Row="0" />
+            <Button x:Name="RefreshBtn" Text="Refresh" Grid.Column="2" Grid.Row="0" />
+            <Button x:Name="ExecuteBtn" Text="Execute Plan" Grid.Column="3" Grid.Row="0" />
+
+            <Label x:Name="PlanInfoLabel" Text="Plan: 0 operations" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" />
+            <HorizontalStackLayout Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" HorizontalOptions="End">
+                <Label Text="Preview" VerticalOptions="Center" />
+                <Switch x:Name="PreviewSwitch" IsToggled="True" />
+            </HorizontalStackLayout>
         </Grid>
 
         <CollectionView x:Name="OperationsList">
             <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Border StrokeThickness="1" BackgroundColor="WhiteSmoke" Padding="10" Margin="5">
+                <DataTemplate x:DataType="models:FileOperation">
+                    <Border StrokeThickness="1" Padding="10" Margin="5">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="6" />
                         </Border.StrokeShape>

@@ -14,7 +14,9 @@ public partial class PlanViewPage : ContentPage
     {
         InitializeComponent();
         _renameService = renameService;
-    ExecuteBtn.Clicked += ExecuteBtn_Clicked;
+        ExecuteBtn.Clicked += ExecuteBtn_Clicked;
+        RefreshBtn.Clicked += RefreshBtn_Clicked;
+        PreviewSwitch.Toggled += PreviewSwitch_Toggled;
     }
 
     protected override async void OnAppearing()
@@ -27,6 +29,7 @@ public partial class PlanViewPage : ContentPage
                 _currentPlan = await _renameService.GenerateRenamePlanAsync(RootPath);
                 OperationsList.ItemsSource = _currentPlan.Operations;
                 ExecuteBtn.IsEnabled = _currentPlan.Operations != null && _currentPlan.Operations.Count > 0;
+                PlanInfoLabel.Text = $"Plan: {_currentPlan?.Operations.Count ?? 0} operations - Generated: {_currentPlan?.GeneratedAt.ToString("G") ?? "n/a"}";
             }
             catch (Exception ex)
             {
@@ -74,5 +77,36 @@ public partial class PlanViewPage : ContentPage
             BusyIndicator.IsVisible = false;
             ExecuteBtn.IsEnabled = true;
         }
+    }
+
+    private async void RefreshBtn_Clicked(object? sender, EventArgs e)
+    {
+        try
+        {
+            BusyIndicator.IsRunning = true;
+            BusyIndicator.IsVisible = true;
+            StatusLabel.Text = "Refreshing...";
+            _currentPlan = await _renameService.GenerateRenamePlanAsync(RootPath);
+            OperationsList.ItemsSource = _currentPlan.Operations;
+            ExecuteBtn.IsEnabled = _currentPlan.Operations != null && _currentPlan.Operations.Count > 0;
+            PlanInfoLabel.Text = $"Plan: {_currentPlan?.Operations.Count ?? 0} operations - Generated: {_currentPlan?.GeneratedAt.ToString("G") ?? "n/a"}";
+            StatusLabel.Text = "Ready";
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", ex.Message, "OK");
+        }
+        finally
+        {
+            BusyIndicator.IsRunning = false;
+            BusyIndicator.IsVisible = false;
+        }
+    }
+
+    private void PreviewSwitch_Toggled(object? sender, ToggledEventArgs e)
+    {
+        if (_currentPlan == null) return;
+        _currentPlan.IsPreview = e.Value;
+        StatusLabel.Text = e.Value ? "Preview mode" : "Execute mode";
     }
 }

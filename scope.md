@@ -222,11 +222,12 @@ public interface IRenameService
     - Added `RenameServiceTests` with fake `IFileSystemService` and `IExifService`; tests passed.
 
 ### Phase 4: UI Implementation 
-- [ ] Build folder picker interface
-- [ ] Create plan view with color coding
-- [ ] Implement progress indicators
-- [ ] Add error handling dialogs
-- [ ] Polish dark mode implementation
+### Phase 4: UI Implementation 
+- [x] Build folder picker interface (implemented `FolderPickerPage` with platform-safe FilePicker fallback; macOS entitlements configured)
+- [~] Create plan view with color coding (`PlanViewPage` implemented with operations list, refresh, preview toggle, execute button; color coding per-type still pending)
+- [x] Implement progress indicators (ActivityIndicator wired to plan generation and execution)
+- [~] Add error handling dialogs (basic `DisplayAlert` for errors and confirmation dialog before execution implemented)
+- [x] Polish dark mode implementation (theme service present and dark mode toggle wired in `MainPage`)
 
 ### Phase 5: Testing & Polish 
 - [ ] Comprehensive unit test coverage
