@@ -4,21 +4,39 @@
 Render plan JSON in a user-friendly preview list.
 
 ## In scope
-- Select/load plan artifact.
-- Display operations list and key summary values.
-- Show loading/error states.
+- Select/load plan artifact path.
+- Deserialize and display operations list and summary values.
+- UI states: idle, loading, loaded, error.
 
 ## Out of scope
 - Executing apply.
 - Editing plan contents.
 
+## Implementation steps
+1. Add ViewModel for plan-loading workflow.
+2. Implement JSON load using core serializer contract.
+3. Map DTOs into display model.
+4. Implement state transitions (idle/loading/loaded/error).
+5. Bind view controls to ViewModel state.
+
+## Commands to run
+1. `dotnet restore Renamer.sln`
+2. `dotnet build Renamer.sln`
+3. `dotnet build src/Renamer.UI/Renamer.UI.csproj`
+4. `dotnet test Renamer.sln --filter "FullyQualifiedName~PlanView"`
+
 ## Acceptance checks
 - Valid plan file renders operations and summary.
-- Invalid/missing file shows actionable error.
+- Invalid/missing file shows actionable error state.
 
 ## Tests
-- ViewModel tests for load, map, and error states.
+- Add `src/Renamer.Tests/UI/PlanViewModelTests.cs` for load/map/error states.
+
+## Test scope
+- Plan-view ViewModel behavior.
+
+## Expected outputs
+- Plan view UI bindings and ViewModel tests.
 
 ## Exit criteria
 - Users can review planned operations in UI.
-

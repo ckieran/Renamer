@@ -20,9 +20,9 @@ Acceptance:
 ## Chunk C: Console wrapper (CLI)
 Acceptance:
 - CLI accepts a root path and writes preview output as JSON only.
-- CLI writes plan output to `rename-plan.v1.json`.
-- CLI apply consumes `rename-plan.v1.json` and writes `rename-report.v1.json`.
-- CLI exits non-zero on errors.
+- CLI writes plan output to `rename-plan.json` and overwrites existing output paths.
+- CLI apply consumes `rename-plan.json`, writes `rename-report.json`, and overwrites existing output paths.
+- CLI exits non-zero on errors with categorized codes from `070-engineering-contract.md`.
 - Basic integration test or scripted sample run exists.
 - Adaptive collision handling is verified with max 10 retries; if unresolved, plan execution aborts and report captures failure.
 - Report entries include `sourcePath` for each operation result.
@@ -38,3 +38,6 @@ Acceptance:
 Acceptance:
 - All operations are logged with timestamps and status.
 - Each executable writes to one long-lived log file (no per-run log splitting required).
+- Default log root uses OS-aware behavior:
+  - Windows `%LOCALAPPDATA%/Renamer/logs`
+  - macOS `~/Library/Logs/Renamer`

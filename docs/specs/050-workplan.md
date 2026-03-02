@@ -4,6 +4,14 @@
 - Finalize product + requirements + acceptance + architecture.
 - Confirm supported file types and naming format.
 
+## Entry criteria before implementation
+- Specs are approved through `080-cli-contract.md`.
+- Slice docs `110` to `240` include concrete runbook sections:
+  - implementation steps
+  - commands to run
+  - test scope
+  - expected outputs
+
 ## Phase 1: Core hardening
 - Execute slices in order:
   - `110-core-contract-models.md`

@@ -12,8 +12,8 @@
 - Preview is produced as JSON only (no required console rendering in CLI).
 - Execute renames with explicit confirmation.
 - Log all operations with status (success/failure/skip).
-- Planner must emit a JSON plan artifact for execution (`rename-plan.v1.json`).
-- Executor must consume the JSON plan artifact and emit a JSON report artifact (`rename-report.v1.json`).
+- Planner must emit a JSON plan artifact for execution (`rename-plan.json`).
+- Executor must consume the JSON plan artifact and emit a JSON report artifact (`rename-report.json`).
 
 ## Non-functional requirements
 - Cross-platform: Windows and macOS.
@@ -36,14 +36,34 @@
 - Conflict resolution appends numeric suffixes to the destination folder name until a unique path is found, with a maximum of 10 retries.
 - If a unique destination is not found after 10 retries, abort current plan execution and mark it as failed in the report.
 
-## Logging policy
-- Operational logs are written to one long-lived file per executable (for example CLI and UI each maintain their own file).
-- Logs should include info through error records suitable for debugging.
-- Per-run outcomes are recorded in execution report JSON (`rename-report.v1.json`), not via per-run log files.
+## Output artifact policy
+- `plan` and `apply` overwrite output files if they already exist.
+- Default artifact names remain `rename-plan.json` and `rename-report.json`.
 
-## Plan and report contract (v1)
-- Plan file: `rename-plan.v1.json`.
-- Report file: `rename-report.v1.json`.
+## Logging policy
+- Operational logs are written to one long-lived file per executable.
+- Default path roots:
+  - Windows: `%LOCALAPPDATA%/Renamer/logs/<executable>.log`
+  - macOS: `~/Library/Logs/Renamer/<executable>.log`
+- Log path is provided by OS-aware constants/provider, not hardcoded call sites.
+- Logs should include info through error records suitable for debugging.
+- Per-run outcomes are recorded in execution report JSON (`rename-report.json`), not via per-run log files.
+
+## Exit code policy
+- `0`: success.
+- `2`: invalid arguments or input validation failure.
+- `3`: IO/path access failure.
+- `4`: unsupported/invalid plan schema.
+- `5`: conflict retry limit reached (plan execution abort).
+- `6`: unexpected runtime error.
+
+## CLI output mode
+- Canonical machine output is JSON artifacts.
+- Human-readable console output is optional and non-contractual.
+
+## Plan and report contract
+- Plan file: `rename-plan.json`.
+- Report file: `rename-report.json`.
 - Required plan metadata: `schemaVersion`, `planId`, `createdAtUtc`, `rootPath`.
 - Each planned operation includes: `opId`, `sourcePath`, `plannedDestinationPath`, `reason`.
 - Report entries include: `opId`, `sourcePath`, `plannedDestinationPath`, `actualDestinationPath`, `status`, `attempts`, `warnings`, `error`.

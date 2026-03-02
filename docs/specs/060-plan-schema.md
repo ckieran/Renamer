@@ -4,15 +4,19 @@
 Defines the v1 JSON contract between planning and execution for CLI and UI wrappers.
 
 ## Files
-- Plan artifact: `rename-plan.v1.json`
-- Execution report artifact: `rename-report.v1.json`
+- Plan artifact: `rename-plan.json`
+- Execution report artifact: `rename-report.json`
 
 ## Compatibility and versioning
 - `schemaVersion` is required in both files.
 - v1 uses `schemaVersion: "1.0"`.
 - Any breaking field change requires a new schema version.
 
-## Plan schema (`rename-plan.v1.json`)
+## File overwrite semantics
+- Writers overwrite existing `rename-plan.json` and `rename-report.json` files by default.
+- Partial writes should not produce malformed JSON artifacts.
+
+## Plan schema (`rename-plan.json`)
 
 ### Required top-level fields
 - `schemaVersion` (string)
@@ -46,7 +50,7 @@ Defines the v1 JSON contract between planning and execution for CLI and UI wrapp
   - Single day: `YYYY-MM-DD - <rest of name>`
 - `<rest of name>` is the original source folder name unchanged.
 
-## Report schema (`rename-report.v1.json`)
+## Report schema (`rename-report.json`)
 
 ### Required top-level fields
 - `schemaVersion` (string)
@@ -84,7 +88,7 @@ Defines the v1 JSON contract between planning and execution for CLI and UI wrapp
 - Maximum retry attempts: 10 suffix retries after the initial attempt.
 - `attempts` includes the initial attempt.
 - When final destination differs from planned destination, report it and increment `drifted`.
-- If destination remains unresolved after max retries, executor aborts current plan execution and records failure.
+- If destination remains unresolved after max retries, executor aborts current plan execution, records failure, and process exits with code `5`.
 - Missing/invalid EXIF handling is a planning concern: file is skipped and warning is logged.
 
 ## Validation rules
@@ -93,7 +97,7 @@ Defines the v1 JSON contract between planning and execution for CLI and UI wrapp
 - Fail apply when `planId` is missing.
 - Fail apply when an operation has empty `sourcePath` or `plannedDestinationPath`.
 
-## CLI output contract (v1)
+## CLI output contract
 - CLI writes canonical output as JSON artifacts only.
 - Human-readable console output is optional and not required by contract.
 
