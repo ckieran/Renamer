@@ -5,29 +5,33 @@
 - Confirm supported file types and naming format.
 
 ## Phase 1: Core hardening
-- Ensure EXIF extraction + date range logic is stable.
-- Add tests for Nikon `.nef` and JPEG handling.
-- Add tests for missing EXIF behavior (skip file + warning log).
-- Configure Serilog from the start with console sink and one long-lived file sink per executable (`renamer.log`), including info/error operational records.
+- Execute slices in order:
+  - `110-core-contract-models.md`
+  - `120-serilog-cli-bootstrap.md`
+  - `130-exif-reader-jpeg-nef.md`
+  - `140-folder-date-range.md`
+  - `150-name-generation.md`
+  - `160-conflict-retry-policy.md`
 
 ## Phase 2: CLI wrapper
-- Create `Renamer.Cli` project.
-- Implement `plan` and `apply` modes.
-- Implement JSON artifact contract:
-  - `rename-plan.v1.json` from `plan`
-  - `rename-report.v1.json` from `apply`
-- Keep execution mode adaptive-only for v1.
-- Keep operations rename-only for v1 (no operation type expansion yet).
-- Implement and verify deterministic conflict auto-suffix behavior in preview and apply with max 10 retries.
-- Abort current plan execution when collision retries exceed max.
-- Add minimal integration tests or scripted fixture runs.
+- Execute slices in order:
+  - `170-plan-json-writer.md`
+  - `180-apply-engine.md`
+  - `190-report-json-writer.md`
+  - `200-cli-plan-command.md`
+  - `210-cli-apply-command.md`
 
 ## Phase 3: UI wrapper
-- Wire MAUI UI to core + reuse CLI flow concepts.
-- Implement preview list + apply confirmation.
-- Improve error surfaces.
+- Execute slices in order:
+  - `220-serilog-ui-bootstrap.md`
+  - `230-maui-plan-view.md`
+  - `240-maui-apply-flow.md`
 
 ## Phase 4: Polish
-- Extend logging/audit detail as needed based on production usage.
 - Cross-platform validation on Windows/macOS.
-- Documentation updates.
+- Documentation updates and retrospective cleanup.
+
+## Delivery mode
+- One slice per PR.
+- Complete acceptance checks and tests for the current slice before starting the next slice.
+- Keep each PR scoped to a single slice document.
