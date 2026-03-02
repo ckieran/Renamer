@@ -7,10 +7,6 @@
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
-            <StackLayout Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="End">
-                <Label Text="Dark Mode" VerticalOptions="Center" Margin="0,0,10,0"/>
-                <Switch x:Name="DarkModeSwitch" Toggled="OnDarkModeToggled"/>
-            </StackLayout>
             <Image
                 Source="dotnet_bot.png"
                 HeightRequest="185"
@@ -34,7 +30,6 @@
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Fill" />
-            <Button Text="Pick Folder" Clicked="OnPickFolderPage" HorizontalOptions="Fill" />
         </VerticalStackLayout>
     </ScrollView>
 

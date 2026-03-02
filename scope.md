@@ -1,3 +1,6 @@
+# Note - don't consider this as current scope - deprecated and superceded by docs folder content, temporarily left here for backup and cross-referencing purposes. Skip from here if considering current scope.
+
+From here consider .docs/specs/000-index.md as start of current project scope.
 # Renamer App - Project Scope
 
 ## Overview
@@ -192,7 +195,6 @@ public interface IRenameService
 
 ### Phase 1: Core Infrastructure 
 - [x] Set up MAUI project structure
-- [x] Implement basic UI with dark mode
 - [x] Create core service interfaces
 - [x] Set up logging infrastructure
 - [x] Implement basic file system operations
@@ -222,7 +224,7 @@ public interface IRenameService
     - Added `RenameServiceTests` with fake `IFileSystemService` and `IExifService`; tests passed.
 
 ### Phase 4: UI Implementation 
-### Phase 4: UI Implementation 
+- [x] Implement basic UI with dark mode
 - [x] Build folder picker interface (implemented `FolderPickerPage` with platform-safe FilePicker fallback; macOS entitlements configured)
 - [~] Create plan view with color coding (`PlanViewPage` implemented with operations list, refresh, preview toggle, execute button; color coding per-type still pending)
 - [x] Implement progress indicators (ActivityIndicator wired to plan generation and execution)
