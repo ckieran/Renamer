@@ -39,6 +39,7 @@ Define shared execution standards for every implementation slice so PRs are cons
 - Execute one slice per PR.
 - Use the slice document as the sole scope for implementation.
 - Run the commands listed in the slice plus the standard command sequence.
+- when adding dependencies from external sources eg nuget, ask for approval and list popularity/install base.  Preference is for open source recently updated packages with high usage to lower chance of adding malware/vulnerabilities
 
 ## Slice completion requirement
 - Every slice must include:
