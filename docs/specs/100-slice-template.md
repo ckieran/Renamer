@@ -23,6 +23,7 @@ One-sentence outcome.
 3. `dotnet test Renamer.sln`
 
 ## Git/PR workflow
+0. Setup - change to `main` branch and pull latest from origin to prepare for new work.
 1. Branch from current `main` using prefix `codex/` (for example `codex/xxx-slice-name`).
 2. Keep one slice per branch and one branch per PR.
 3. Commit only files related to this slice.
