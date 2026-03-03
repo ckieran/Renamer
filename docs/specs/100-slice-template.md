@@ -12,6 +12,19 @@ One-sentence outcome.
 ## Out of scope
 - Explicit non-goals for this slice.
 
+## Pre-implementation gate (must pass before code edits)
+1. Verify working tree is clean:
+   - `git status --short` returns no changes.
+2. Verify current branch is `main`:
+   - `git branch --show-current` returns `main`.
+3. Update local `main` from origin:
+   - `git pull --ff-only origin main`
+4. Create the slice branch from `main` with required prefix:
+   - `git switch -c codex/XXX-name`
+5. Confirm branch naming matches this slice ID:
+   - `git branch --show-current` equals `codex/XXX-name`.
+6. Do not edit code until steps 1-5 are complete.
+
 ## Implementation steps
 1. Step 1.
 2. Step 2.
@@ -28,6 +41,7 @@ One-sentence outcome.
 2. Keep one slice per branch and one branch per PR.
 3. Commit only files related to this slice.
 4. Open PR back into `main` with slice ID in title/body.
+5. Include the slice ID in PR title and body.
 
 ## Acceptance checks
 - Observable check 1.
@@ -49,5 +63,6 @@ One-sentence outcome.
 - Acceptance checks in this slice are satisfied.
 - Tests listed in this slice are implemented and pass locally.
 - Checklist item for this slice is updated.
-- Branch follows `codex/` naming and is ready for PR into `main`.
+- Branch pre-implementation gate completed before first code edit.
+- Branch name follows `codex/` and maps to this slice ID.
 - PR scope is limited to this slice (no unrelated refactors).

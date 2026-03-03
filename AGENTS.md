@@ -9,6 +9,36 @@
 - Keep changes scoped; avoid unrelated refactors.
 - Use branches with prefix `codex/` when creating new branches.
 
+## Deterministic slice start protocol
+- Always start execution from `docs/checklists/v1.md`.
+- Choose the first unchecked item in "Implementation slices (one PR per item)" as the active slice.
+- Open the referenced slice spec under `docs/specs/` and use it as the implementation scope.
+- Before any code edits, enforce the pre-implementation gate in `docs/specs/100-slice-template.md`.
+- Do not implement if preflight fails; fix branch/preflight state first.
+- Required preflight order:
+  1. `git status --short` must be clean.
+  2. `git branch --show-current` must be `main`.
+  3. `git pull --ff-only origin main`.
+  4. `git switch -c codex/<slice-id>-<slice-name>`.
+  5. Confirm branch name matches the active slice.
+- Only after preflight passes: implement one slice, run slice-required commands/tests, then update `docs/checklists/v1.md`.
+
+## Required context pack (read before implementing a slice)
+- Mandatory baseline for every slice:
+  - `docs/checklists/v1.md`
+  - `docs/specs/040-architecture.md`
+  - `docs/specs/050-workplan.md`
+  - `docs/specs/060-plan-schema.md`
+  - `docs/specs/070-engineering-contract.md`
+  - `docs/specs/100-slice-template.md`
+  - Active slice spec (`docs/specs/<slice>.md`)
+- Conditional reads by slice type:
+  - CLI slices: read `docs/specs/080-cli-contract.md`.
+  - UI slices: read relevant UI specs/contracts (`220+` and dependencies).
+  - Contract/report/plan serialization slices: re-check `060-plan-schema.md` immediately before implementation.
+- Dependency rule:
+  - If the active slice depends on outputs from earlier slices, read those prior slice specs before editing.
+
 ## Spec orchestrator (reusable fast planning mode)
 - Default to `spec_only` for project restarts or major pivots.
 - In `spec_only`, do not edit `src/` until the spec gate is complete.
