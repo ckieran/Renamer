@@ -1,4 +1,4 @@
-# 230 MAUI Plan View
+# 230 Desktop Plan View
 
 ## Goal
 Render plan JSON in a user-friendly preview list.
@@ -7,10 +7,12 @@ Render plan JSON in a user-friendly preview list.
 - Select/load plan artifact path.
 - Deserialize and display operations list and summary values.
 - UI states: idle, loading, loaded, error.
+- Desktop targets only (Windows + macOS Mac Catalyst).
 
 ## Out of scope
 - Executing apply.
 - Editing plan contents.
+- iOS/Android/mobile/tablet targets.
 
 ## Implementation steps
 1. Add ViewModel for plan-loading workflow.
@@ -21,9 +23,8 @@ Render plan JSON in a user-friendly preview list.
 
 ## Commands to run
 1. `dotnet restore Renamer.sln`
-2. `dotnet build Renamer.sln`
-3. `dotnet build src/Renamer.UI/Renamer.UI.csproj`
-4. `dotnet test Renamer.sln --filter "FullyQualifiedName~PlanView"`
+2. `dotnet build src/Renamer.UI/Renamer.UI.csproj`
+3. `dotnet test src/Renamer.Tests/Renamer.Tests.csproj --filter "FullyQualifiedName~PlanView"`
 
 ## Acceptance checks
 - Valid plan file renders operations and summary.

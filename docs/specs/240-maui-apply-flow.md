@@ -1,4 +1,4 @@
-# 240 MAUI Apply Flow
+# 240 Desktop Apply Flow
 
 ## Goal
 Run apply from UI and present execution report results.
@@ -8,10 +8,12 @@ Run apply from UI and present execution report results.
 - Display progress and final report summary.
 - Surface abort/failure outcomes clearly.
 - Map CLI/apply exit outcomes into UI error states.
+- Desktop targets only (Windows + macOS Mac Catalyst).
 
 ## Out of scope
 - Advanced report analytics.
 - Background scheduling.
+- iOS/Android/mobile/tablet targets.
 
 ## Implementation steps
 1. Add apply command and progress state to apply ViewModel.
@@ -27,9 +29,8 @@ Run apply from UI and present execution report results.
 
 ## Commands to run
 1. `dotnet restore Renamer.sln`
-2. `dotnet build Renamer.sln`
-3. `dotnet build src/Renamer.UI/Renamer.UI.csproj`
-4. `dotnet test Renamer.sln --filter "FullyQualifiedName~ApplyFlow"`
+2. `dotnet build src/Renamer.UI/Renamer.UI.csproj`
+3. `dotnet test src/Renamer.Tests/Renamer.Tests.csproj --filter "FullyQualifiedName~ApplyFlow"`
 
 ## Acceptance checks
 - Successful apply shows summary counts and drift info.

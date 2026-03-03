@@ -1,17 +1,19 @@
 # 220 Serilog UI Bootstrap
 
 ## Goal
-Configure MAUI UI operational logging from startup.
+Configure desktop UI operational logging from startup.
 
 ## In scope
-- Add Serilog provider in MAUI startup.
+- Add Serilog provider in desktop UI startup.
 - Resolve OS-aware long-lived UI log path via `ILogPathProvider`.
 - Write to console and `renamer-ui.log`.
 - Capture startup and command flow info/error logs.
+- Confirm desktop-only target scope (Windows + macOS Mac Catalyst).
 
 ## Out of scope
 - CLI logging setup.
 - Feature-level UI behavior.
+- iOS/Android/mobile/tablet targets.
 
 ## Implementation steps
 1. Add/confirm Serilog packages in `Renamer.UI`.
@@ -24,9 +26,8 @@ Configure MAUI UI operational logging from startup.
 
 ## Commands to run
 1. `dotnet restore Renamer.sln`
-2. `dotnet build Renamer.sln`
-3. `dotnet build src/Renamer.UI/Renamer.UI.csproj`
-4. `dotnet test Renamer.sln --filter "FullyQualifiedName~UiLogging"`
+2. `dotnet build src/Renamer.UI/Renamer.UI.csproj`
+3. `dotnet test src/Renamer.Tests/Renamer.Tests.csproj --filter "FullyQualifiedName~UiLogging"`
 
 ## Acceptance checks
 - UI run creates/appends to long-lived `renamer-ui.log`.

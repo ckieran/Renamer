@@ -14,7 +14,7 @@ Implement CLI `plan` command to generate plan artifact.
 
 ## Out of scope
 - Apply execution.
-- MAUI integration.
+- UI integration.
 
 ## Implementation steps
 1. Add command parser branch for `plan`.

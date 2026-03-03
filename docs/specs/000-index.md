@@ -29,5 +29,5 @@ This folder defines the spec-driven development package for Renamer.
 - `200-cli-plan-command.md` - draft - CLI plan command.
 - `210-cli-apply-command.md` - draft - CLI apply command.
 - `220-serilog-ui-bootstrap.md` - draft - UI operational logging startup.
-- `230-maui-plan-view.md` - draft - UI plan preview rendering.
-- `240-maui-apply-flow.md` - draft - UI apply and report flow.
+- `230-maui-plan-view.md` - draft - Desktop UI plan preview rendering.
+- `240-maui-apply-flow.md` - draft - Desktop UI apply and report flow.

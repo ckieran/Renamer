@@ -7,6 +7,7 @@ Provide a cross-platform desktop experience for renaming photo folders based on 
 - No cloud storage or remote libraries.
 - No photo previews or thumbnails.
 - No custom naming templates beyond the default date-range format.
+- No mobile/tablet app targets (iOS, iPadOS, Android).
 
 ## Primary user
 Photo owners who manage local folders (RAW + JPEG) and want consistent date-based folder names.

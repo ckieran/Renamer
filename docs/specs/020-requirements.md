@@ -17,6 +17,7 @@
 
 ## Non-functional requirements
 - Cross-platform: Windows and macOS.
+- Desktop-only in v1: no iOS, iPadOS, Android, or other mobile/tablet targets.
 - Safe by default: no changes unless user confirms.
 - Errors are actionable: show message and keep log.
 - Core logic testable without UI.
@@ -24,7 +25,7 @@
 ## Constraints and assumptions
 - Only local filesystem paths.
 - Initial support limited to `.nef`, `.jpg`, `.jpeg`.
-- UI uses .NET MAUI.
+- UI uses .NET MAUI desktop targets only (Windows + Mac Catalyst).
 - Execution mode is adaptive-only in v1.
 - Folder rename is the only operation in v1.
 

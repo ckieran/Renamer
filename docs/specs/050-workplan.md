@@ -29,7 +29,7 @@
   - `200-cli-plan-command.md`
   - `210-cli-apply-command.md`
 
-## Phase 3: UI wrapper
+## Phase 3: Desktop UI wrapper
 - Execute slices in order:
   - `220-serilog-ui-bootstrap.md`
   - `230-maui-plan-view.md`
