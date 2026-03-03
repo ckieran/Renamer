@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Renamer.Cli\Renamer.Cli.csproj" />
     <ProjectReference Include="..\Renamer.Core\Renamer.Core.csproj" />
   </ItemGroup>
 
