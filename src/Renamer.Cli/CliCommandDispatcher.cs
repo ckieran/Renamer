@@ -1,45 +1,36 @@
+using Renamer.Cli.Commands;
 using Serilog;
 
 namespace Renamer.Cli;
 
 public static class CliCommandDispatcher
 {
-    public static int Dispatch(string[] args, TextWriter? output = null)
+    public static int Dispatch(string[] args, TextWriter? output = null, ICliCommandHandler? handler = null)
     {
         output ??= Console.Out;
+        handler ??= new CliCommandHandler();
 
-        if (args.Length == 0)
+        var parsedCommand = CliCommandParser.Parse(args);
+        switch (parsedCommand.Type)
         {
-            Log.Warning("No command provided.");
-            WriteHelp(output);
-            return 2;
+            case CliCommandType.Invalid when parsedCommand.ParseError == CliCommandParseError.MissingCommand:
+                Log.Warning("No command provided.");
+                break;
+            case CliCommandType.Invalid:
+                Log.Warning("Unsupported CLI command {Command}.", parsedCommand.CommandText);
+                break;
+            case CliCommandType.Plan:
+            case CliCommandType.Apply:
+                Log.Information("Accepted CLI command {Command}. Command implementation is pending.", parsedCommand.CommandText);
+                break;
         }
 
-        var command = args[0].Trim().ToLowerInvariant();
-        switch (command)
+        var result = handler.Handle(parsedCommand);
+        foreach (var line in result.OutputLines)
         {
-            case "help":
-            case "--help":
-            case "-h":
-                WriteHelp(output);
-                return 0;
-            case "plan":
-            case "apply":
-                Log.Information("Accepted CLI command {Command}. Command implementation is pending.", command);
-                return 0;
-            default:
-                Log.Warning("Unsupported CLI command {Command}.", command);
-                WriteHelp(output);
-                return 2;
+            output.WriteLine(line);
         }
-    }
 
-    private static void WriteHelp(TextWriter output)
-    {
-        output.WriteLine("Renamer CLI");
-        output.WriteLine("Available commands:");
-        output.WriteLine("  help                Show this help.");
-        output.WriteLine("  plan --root <path> --out <path>");
-        output.WriteLine("  apply --plan <path> --out <path>");
+        return (int)result.ExitCode;
     }
 }

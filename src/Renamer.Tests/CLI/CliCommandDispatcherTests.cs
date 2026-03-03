@@ -1,4 +1,5 @@
 using Renamer.Cli;
+using Renamer.Cli.Commands;
 
 namespace Renamer.Tests.CLI;
 
@@ -12,7 +13,7 @@ public sealed class CliCommandDispatcherTests
         var exitCode = CliCommandDispatcher.Dispatch(["help"], writer);
         var text = writer.ToString();
 
-        Assert.Equal(0, exitCode);
+        Assert.Equal((int)ProcessExitCode.Success, exitCode);
         Assert.Contains("Available commands:", text);
         Assert.Contains("plan --root <path> --out <path>", text);
         Assert.Contains("apply --plan <path> --out <path>", text);
@@ -26,7 +27,7 @@ public sealed class CliCommandDispatcherTests
         var exitCode = CliCommandDispatcher.Dispatch(["wat"], writer);
         var text = writer.ToString();
 
-        Assert.Equal(2, exitCode);
+        Assert.Equal((int)ProcessExitCode.ValidationFailure, exitCode);
         Assert.Contains("Available commands:", text);
     }
 }

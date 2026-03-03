@@ -1,3 +1,4 @@
+using Renamer.Cli.Commands;
 using Renamer.Cli.Logging;
 using Renamer.Cli.Runtime;
 using Serilog;
@@ -19,7 +20,7 @@ public static class Program
         catch (Exception ex)
         {
             Log.Fatal(ex, "Unhandled fatal exception in CLI process.");
-            return 6;
+            return (int)ProcessExitCode.UnexpectedRuntimeError;
         }
         finally
         {
