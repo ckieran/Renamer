@@ -27,12 +27,13 @@ Acceptance:
 - Adaptive collision handling is verified with max 10 retries; if unresolved, plan execution aborts and report captures failure.
 - Report entries include `sourcePath` for each operation result.
 
-## Chunk D: MAUI UI (preview + apply)
+## Chunk D: Desktop UI (preview + apply)
 Acceptance:
 - User can select a folder.
 - User can view a list of planned operations.
 - User can apply the plan and see results.
 - Errors surfaced in UI and recorded in log.
+- UI build/test scope is desktop targets only (Windows + macOS Mac Catalyst).
 
 ## Chunk E: Logging + audit
 Acceptance:

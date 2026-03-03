@@ -3,7 +3,7 @@
 ## Project layout (target)
 - `Renamer.Core` - core logic (EXIF, range, rename planning, apply engine, serializers).
 - `Renamer.Cli` - console wrapper for core, testable in isolation.
-- `Renamer.UI` - MAUI UI wrapper over core.
+- `Renamer.UI` - MAUI desktop UI wrapper over core (Windows + Mac Catalyst).
 - `Renamer.Tests` - unit tests for core + CLI integration tests + UI ViewModel tests.
 
 ## Boundaries
@@ -48,6 +48,9 @@
 ## Cross-platform considerations
 - Use `Path` APIs and normalize separators.
 - Avoid OS-specific invalid characters when generating new names.
+- UI target frameworks are desktop-only in v1:
+  - macOS via Mac Catalyst
+  - Windows
 - Default log locations:
   - Windows `%LOCALAPPDATA%/Renamer/logs`
   - macOS `~/Library/Logs/Renamer`

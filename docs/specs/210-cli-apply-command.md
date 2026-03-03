@@ -14,7 +14,7 @@ Implement CLI `apply` command to execute plan and emit report artifact.
 
 ## Out of scope
 - Plan creation logic.
-- MAUI integration.
+- UI integration.
 
 ## Implementation steps
 1. Add command parser branch for `apply`.
