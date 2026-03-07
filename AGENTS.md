@@ -26,6 +26,7 @@
 ## Required context pack (read before implementing a slice)
 - Mandatory baseline for every slice:
   - `docs/checklists/v1.md`
+  - `docs/conventions.md`
   - `docs/specs/040-architecture.md`
   - `docs/specs/050-workplan.md`
   - `docs/specs/060-plan-schema.md`
@@ -88,3 +89,4 @@
 ## Docs
 - Specs live under `docs/specs/`.
 - Delivery checklists live under `docs/checklists/`.
+- Implementation conventions live under `docs/conventions.md`.
