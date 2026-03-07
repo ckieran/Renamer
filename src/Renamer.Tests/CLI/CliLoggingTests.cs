@@ -1,7 +1,6 @@
 using Renamer.Cli;
-using Renamer.Cli.Logging;
 using Renamer.Cli.Runtime;
-using Renamer.Core.Logging;
+using Microsoft.Extensions.Logging;
 using Serilog;
 
 namespace Renamer.Tests.CLI;
@@ -44,15 +43,17 @@ public sealed class CliLoggingTests : IDisposable
     }
 
     [Fact]
-    public void CliLoggerBootstrap_WritesToLogFile()
+    public void SerilogLoggerFactory_WritesToLogFile()
     {
         Directory.CreateDirectory(_tempDirectory);
         var logPath = Path.Combine(_tempDirectory, "renamer-cli.log");
-        ILogPathProvider provider = new FixedLogPathProvider(logPath);
+        using var serilogLogger = new LoggerConfiguration()
+            .WriteTo.File(logPath, shared: true)
+            .CreateLogger();
+        using var loggerFactory = LoggerFactory.Create(builder => builder.AddSerilog(serilogLogger, dispose: false));
+        var logger = loggerFactory.CreateLogger("Renamer.Tests.CLI");
 
-        CliLoggerBootstrap.Configure(provider, "renamer-cli");
-        Log.Information("test log entry");
-        Log.CloseAndFlush();
+        logger.LogInformation("test log entry");
 
         Assert.True(File.Exists(logPath));
         var content = File.ReadAllText(logPath);
@@ -61,8 +62,6 @@ public sealed class CliLoggingTests : IDisposable
 
     public void Dispose()
     {
-        Log.CloseAndFlush();
-
         if (Directory.Exists(_tempDirectory))
         {
             Directory.Delete(_tempDirectory, recursive: true);
@@ -81,8 +80,4 @@ public sealed class CliLoggingTests : IDisposable
         public string? HomeDirectoryPath { get; } = homeDirectoryPath;
     }
 
-    private sealed class FixedLogPathProvider(string logPath) : ILogPathProvider
-    {
-        public string GetLogFilePath(string executableName) => logPath;
-    }
 }
