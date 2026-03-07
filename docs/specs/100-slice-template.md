@@ -23,7 +23,8 @@ One-sentence outcome.
    - `git switch -c codex/XXX-name`
 5. Confirm branch naming matches this slice ID:
    - `git branch --show-current` equals `codex/XXX-name`.
-6. Do not edit code until steps 1-5 are complete.
+6. If a matching GitHub issue exists, move it to `In Progress` and confirm it matches this slice ID.
+7. Do not edit code until steps 1-6 are complete.
 
 ## Implementation steps
 1. Step 1.
@@ -40,8 +41,12 @@ One-sentence outcome.
 1. Branch from current `main` using prefix `codex/` (for example `codex/xxx-slice-name`).
 2. Keep one slice per branch and one branch per PR.
 3. Commit only files related to this slice.
-4. Open PR back into `main` with slice ID in title/body.
-5. Include the slice ID in PR title and body.
+4. If a matching GitHub issue exists, ensure it is `In Progress` before opening the PR.
+5. Open PR back into `main` with slice ID in title/body.
+6. Link the corresponding issue in the PR body:
+   - use `Closes #<issue-number>` when the PR completes the slice
+   - use `Refs #<issue-number>` only for partial work
+7. Include the slice ID in PR title and body.
 
 ## Acceptance checks
 - Observable check 1.
@@ -58,6 +63,7 @@ One-sentence outcome.
 
 ## Exit criteria
 - PR merged with passing tests for this slice only.
+- PR links the corresponding GitHub issue when one exists.
 
 ## Definition of Done
 - Acceptance checks in this slice are satisfied.
@@ -66,3 +72,4 @@ One-sentence outcome.
 - Branch pre-implementation gate completed before first code edit.
 - Branch name follows `codex/` and maps to this slice ID.
 - PR scope is limited to this slice (no unrelated refactors).
+- If a matching GitHub issue exists, it is linked from the PR and moved to `In Progress` when the slice is picked up.
