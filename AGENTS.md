@@ -21,12 +21,14 @@
   3. `git pull --ff-only origin main`.
   4. `git switch -c codex/<slice-id>-<slice-name>`.
   5. Confirm branch name matches the active slice.
-- Only after preflight passes: implement one slice, run slice-required commands/tests, then update `docs/checklists/v1.md`.
+  6. If a matching GitHub issue exists, move it to `In Progress` and confirm it matches the active slice.
+- Only after preflight passes: implement one slice, run slice-required commands/tests, open a PR linked to the corresponding issue, then update `docs/checklists/v1.md`.
 
 ## Required context pack (read before implementing a slice)
 - Mandatory baseline for every slice:
   - `docs/checklists/v1.md`
   - `docs/conventions.md`
+  - `docs/git-workflow.md`
   - `docs/specs/040-architecture.md`
   - `docs/specs/050-workplan.md`
   - `docs/specs/060-plan-schema.md`
@@ -90,3 +92,4 @@
 - Specs live under `docs/specs/`.
 - Delivery checklists live under `docs/checklists/`.
 - Implementation conventions live under `docs/conventions.md`.
+- Git and GitHub workflow guidance lives under `docs/git-workflow.md`.
