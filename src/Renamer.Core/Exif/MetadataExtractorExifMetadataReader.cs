@@ -56,12 +56,12 @@ public sealed class MetadataExtractorExifMetadataReader(
         catch (IOException ex)
         {
             logger.LogWarning(ex, "IO failure while reading EXIF metadata for {FilePath}.", filePath);
-            return ExifMetadataReadResult.Invalid();
+            return ExifMetadataReadResult.IoFailure();
         }
         catch (UnauthorizedAccessException ex)
         {
             logger.LogWarning(ex, "Access denied while reading EXIF metadata for {FilePath}.", filePath);
-            return ExifMetadataReadResult.Invalid();
+            return ExifMetadataReadResult.IoFailure();
         }
     }
 }

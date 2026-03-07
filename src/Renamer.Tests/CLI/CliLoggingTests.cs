@@ -1,7 +1,9 @@
 using Renamer.Cli;
 using Renamer.Cli.Runtime;
+using Renamer.Cli.Commands;
+using Renamer.Core.Exif;
+using Renamer.Core.Logging;
 using Microsoft.Extensions.Logging;
-using Serilog;
 
 namespace Renamer.Tests.CLI;
 
@@ -43,21 +45,67 @@ public sealed class CliLoggingTests : IDisposable
     }
 
     [Fact]
-    public void SerilogLoggerFactory_WritesToLogFile()
+    public void CliApplication_WritesStartupLogToConfiguredLogFile()
     {
         Directory.CreateDirectory(_tempDirectory);
         var logPath = Path.Combine(_tempDirectory, "renamer-cli.log");
-        using var serilogLogger = new LoggerConfiguration()
-            .WriteTo.File(logPath, shared: true)
-            .CreateLogger();
-        using var loggerFactory = LoggerFactory.Create(builder => builder.AddSerilog(serilogLogger, dispose: false));
-        var logger = loggerFactory.CreateLogger("Renamer.Tests.CLI");
+        using var output = new StringWriter();
+        using var errorOutput = new StringWriter();
+        var runtime = new FakeRuntimeEnvironment(RuntimePlatform.MacOS, null, _tempDirectory);
+        var app = new CliApplication(
+            output,
+            errorOutput,
+            runtime,
+            new FixedLogPathProvider(logPath));
 
-        logger.LogInformation("test log entry");
+        var exitCode = app.Run(["help"]);
 
+        Assert.Equal((int)ProcessExitCode.Success, exitCode);
         Assert.True(File.Exists(logPath));
         var content = File.ReadAllText(logPath);
-        Assert.Contains("test log entry", content);
+        Assert.Contains("CLI startup complete.", content);
+    }
+
+    [Fact]
+    public void CliApplication_StartupIoFailure_ReturnsIoExitCode()
+    {
+        using var output = new StringWriter();
+        using var errorOutput = new StringWriter();
+        var runtime = new FakeRuntimeEnvironment(RuntimePlatform.MacOS, null, _tempDirectory);
+        var app = new CliApplication(
+            output,
+            errorOutput,
+            runtime,
+            new ThrowingLogPathProvider(new IOException("disk unavailable")));
+
+        var exitCode = app.Run(["help"]);
+
+        Assert.Equal((int)ProcessExitCode.IoFailure, exitCode);
+        Assert.Contains("disk unavailable", errorOutput.ToString());
+    }
+
+    [Fact]
+    public void CliApplication_UnhandledCommandFailure_ReturnsUnexpectedRuntimeError()
+    {
+        Directory.CreateDirectory(_tempDirectory);
+        var logPath = Path.Combine(_tempDirectory, "renamer-cli.log");
+        using var output = new StringWriter();
+        using var errorOutput = new StringWriter();
+        var runtime = new FakeRuntimeEnvironment(RuntimePlatform.MacOS, null, _tempDirectory);
+        var app = new CliApplication(
+            output,
+            errorOutput,
+            runtime,
+            new FixedLogPathProvider(logPath),
+            new ThrowingCommandHandler(),
+            new FakeExifMetadataReader());
+
+        var exitCode = app.Run(["help"]);
+
+        Assert.Equal((int)ProcessExitCode.UnexpectedRuntimeError, exitCode);
+        Assert.True(File.Exists(logPath));
+        var content = File.ReadAllText(logPath);
+        Assert.Contains("Unhandled fatal exception in CLI process.", content);
     }
 
     public void Dispose()
@@ -78,6 +126,26 @@ public sealed class CliLoggingTests : IDisposable
         public string? LocalApplicationDataPath { get; } = localApplicationDataPath;
 
         public string? HomeDirectoryPath { get; } = homeDirectoryPath;
+    }
+
+    private sealed class FixedLogPathProvider(string logPath) : ILogPathProvider
+    {
+        public string GetLogFilePath(string executableName) => logPath;
+    }
+
+    private sealed class ThrowingLogPathProvider(Exception exception) : ILogPathProvider
+    {
+        public string GetLogFilePath(string executableName) => throw exception;
+    }
+
+    private sealed class ThrowingCommandHandler : ICliCommandHandler
+    {
+        public CommandResult Handle(CliCommand command) => throw new InvalidOperationException("boom");
+    }
+
+    private sealed class FakeExifMetadataReader : IExifMetadataReader
+    {
+        public ExifMetadataReadResult ReadCaptureDate(string filePath) => ExifMetadataReadResult.Missing();
     }
 
 }

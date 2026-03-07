@@ -68,6 +68,20 @@ public sealed class ExifServiceTests
     }
 
     [Fact]
+    public void ReadCaptureDate_ReadFailure_ReturnsDedicatedWarningWithoutMissingExifIncrement()
+    {
+        var metadataReader = new FakeExifMetadataReader(ExifMetadataReadResult.IoFailure());
+        var sut = new ExifService(metadataReader);
+
+        var result = sut.ReadCaptureDate("photo.jpg");
+
+        Assert.True(result.IsSupportedFileType);
+        Assert.Null(result.CaptureDate);
+        Assert.Equal(ExifReadWarning.ReadFailure, result.Warning);
+        Assert.False(result.ShouldIncrementMissingExifCount);
+    }
+
+    [Fact]
     public void ReadCaptureDate_EmptyPath_ThrowsArgumentException()
     {
         var metadataReader = new FakeExifMetadataReader(ExifMetadataReadResult.Missing());

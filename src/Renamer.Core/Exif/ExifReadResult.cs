@@ -37,4 +37,11 @@ public sealed record ExifReadResult
         CaptureDate = null,
         Warning = ExifReadWarning.InvalidExif
     };
+
+    public static ExifReadResult ReadFailure() => new()
+    {
+        IsSupportedFileType = true,
+        CaptureDate = null,
+        Warning = ExifReadWarning.ReadFailure
+    };
 }

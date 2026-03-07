@@ -29,6 +29,7 @@ public sealed class ExifService(IExifMetadataReader metadataReader) : IExifServi
             ExifMetadataReadStatus.Found when metadataResult.CaptureDate is { } captureDate => ExifReadResult.Supported(captureDate),
             ExifMetadataReadStatus.Missing => ExifReadResult.MissingExif(),
             ExifMetadataReadStatus.Invalid => ExifReadResult.InvalidExif(),
+            ExifMetadataReadStatus.IoFailure => ExifReadResult.ReadFailure(),
             _ => ExifReadResult.InvalidExif()
         };
     }

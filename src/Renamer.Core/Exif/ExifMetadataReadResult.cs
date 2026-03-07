@@ -23,11 +23,18 @@ public sealed record ExifMetadataReadResult
         Status = ExifMetadataReadStatus.Invalid,
         CaptureDate = null
     };
+
+    public static ExifMetadataReadResult IoFailure() => new()
+    {
+        Status = ExifMetadataReadStatus.IoFailure,
+        CaptureDate = null
+    };
 }
 
 public enum ExifMetadataReadStatus
 {
     Found,
     Missing,
-    Invalid
+    Invalid,
+    IoFailure
 }
