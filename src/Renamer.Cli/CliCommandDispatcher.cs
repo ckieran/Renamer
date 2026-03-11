@@ -20,6 +20,8 @@ public sealed class CliCommandDispatcher(
                 logger.LogWarning("Unsupported CLI command {Command}.", parsedCommand.CommandText);
                 break;
             case CliCommandType.Plan:
+                logger.LogInformation("Accepted CLI command {Command}.", parsedCommand.CommandText);
+                break;
             case CliCommandType.Apply:
                 logger.LogInformation("Accepted CLI command {Command}. Command implementation is pending.", parsedCommand.CommandText);
                 break;

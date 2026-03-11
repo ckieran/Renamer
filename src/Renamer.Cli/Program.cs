@@ -1,7 +1,11 @@
 using Renamer.Cli.Commands;
 using Renamer.Cli.Runtime;
+using Renamer.Core.Execution;
 using Renamer.Core.Exif;
 using Renamer.Core.Logging;
+using Renamer.Core.Planning;
+using Renamer.Core.Serialization;
+using Renamer.Core.Time;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -79,9 +83,23 @@ public sealed class CliApplication(
         services.AddSingleton(runtimeEnvironment);
         services.AddSingleton(logPathProvider);
         services.AddSingleton(output);
-        services.AddSingleton(commandHandler ?? new CliCommandHandler());
+        services.AddSingleton<IClock, SystemClock>();
         services.AddSingleton(exifMetadataReader ?? new MetadataExtractorExifMetadataReader());
         services.AddSingleton<IExifService, ExifService>();
+        services.AddSingleton<IFolderDateRangeCalculator, FolderDateRangeCalculator>();
+        services.AddSingleton<IFolderNameGenerator, FolderNameGenerator>();
+        services.AddSingleton<IConflictRetryPolicy, ConflictRetryPolicy>();
+        services.AddSingleton<IPlanBuilder, PlanBuilder>();
+        services.AddSingleton<IPlanSerializer, PlanSerializer>();
+        if (commandHandler is not null)
+        {
+            services.AddSingleton(commandHandler);
+            services.AddSingleton<ICliCommandHandler>(commandHandler);
+        }
+        else
+        {
+            services.AddSingleton<ICliCommandHandler, CliCommandHandler>();
+        }
         services.AddSingleton<CliCommandDispatcher>();
         services.AddLogging(builder =>
         {
