@@ -1,6 +1,7 @@
 using Renamer.Cli;
 using Renamer.Cli.Commands;
 using Renamer.Core.Contracts;
+using Renamer.Core.Execution;
 using Renamer.Core.Planning;
 using Renamer.Core.Serialization;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -38,7 +39,7 @@ public sealed class CliCommandDispatcherTests
     }
 
     private static CliCommandHandler CreateHandler() =>
-        new(new StubPlanBuilder(), new StubPlanSerializer());
+        new(new StubPlanBuilder(), new StubPlanSerializer(), new StubApplyEngine(), new StubReportSerializer());
 
     private sealed class StubPlanBuilder : IPlanBuilder
     {
@@ -47,6 +48,18 @@ public sealed class CliCommandDispatcherTests
 
     private sealed class StubPlanSerializer : IPlanSerializer
     {
+        public RenamePlan Read(string inputPath) => throw new NotImplementedException();
+
         public void Write(string outputPath, RenamePlan plan) => throw new NotImplementedException();
+    }
+
+    private sealed class StubApplyEngine : IApplyEngine
+    {
+        public RenameReport Execute(RenamePlan plan) => throw new NotImplementedException();
+    }
+
+    private sealed class StubReportSerializer : IReportSerializer
+    {
+        public void Write(string outputPath, RenameReport report) => throw new NotImplementedException();
     }
 }

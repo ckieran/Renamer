@@ -23,7 +23,7 @@ public sealed class CliCommandDispatcher(
                 logger.LogInformation("Accepted CLI command {Command}.", parsedCommand.CommandText);
                 break;
             case CliCommandType.Apply:
-                logger.LogInformation("Accepted CLI command {Command}. Command implementation is pending.", parsedCommand.CommandText);
+                logger.LogInformation("Accepted CLI command {Command}.", parsedCommand.CommandText);
                 break;
         }
 
