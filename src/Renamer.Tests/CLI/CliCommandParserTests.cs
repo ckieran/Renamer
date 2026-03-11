@@ -34,4 +34,13 @@ public sealed class CliCommandParserTests
         Assert.Equal(CliCommandParseError.UnsupportedCommand, result.ParseError);
         Assert.Equal("wat", result.CommandText);
     }
+
+    [Fact]
+    public void Parse_PlanCommand_PreservesRemainingArguments()
+    {
+        var result = CliCommandParser.Parse(["plan", "--root", "/photos", "--out", "/tmp/rename-plan.json"]);
+
+        Assert.Equal(CliCommandType.Plan, result.Type);
+        Assert.Equal(["--root", "/photos", "--out", "/tmp/rename-plan.json"], result.Arguments);
+    }
 }
