@@ -23,4 +23,10 @@
     <ProjectReference Include="..\Renamer.Core\Renamer.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="..\Renamer.UI\Runtime\IRuntimeEnvironment.cs" Link="UI\Runtime\IRuntimeEnvironment.cs" />
+    <Compile Include="..\Renamer.UI\Runtime\RuntimePlatform.cs" Link="UI\Runtime\RuntimePlatform.cs" />
+    <Compile Include="..\Renamer.UI\UiLogPathProvider.cs" Link="UI\UiLogPathProvider.cs" />
+  </ItemGroup>
+
 </Project>
