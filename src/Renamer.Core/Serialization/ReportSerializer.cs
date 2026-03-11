@@ -44,6 +44,7 @@ public sealed class ReportSerializer : IReportSerializer
 
         return new RenameReport
         {
+            Outcome = report.Outcome,
             SchemaVersion = report.SchemaVersion,
             PlanId = report.PlanId,
             StartedAtUtc = report.StartedAtUtc,
@@ -55,6 +56,11 @@ public sealed class ReportSerializer : IReportSerializer
 
     private static void ValidateReport(RenameReport report, RenameReportSummary summary)
     {
+        if (string.IsNullOrWhiteSpace(report.Outcome))
+        {
+            throw new InvalidOperationException("Invalid report invariant: outcome is required.");
+        }
+
         if (report.Results.Any(result => result.Attempts < 1))
         {
             throw new InvalidOperationException("Invalid report invariant: each result.attempts must be at least 1.");

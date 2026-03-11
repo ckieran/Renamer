@@ -4,6 +4,9 @@ namespace Renamer.Core.Contracts;
 
 public sealed class RenameReport
 {
+    [JsonPropertyName("outcome")]
+    public required string Outcome { get; init; }
+
     [JsonPropertyName("schemaVersion")]
     public required string SchemaVersion { get; init; }
 

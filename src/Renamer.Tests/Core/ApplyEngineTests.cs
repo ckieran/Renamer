@@ -20,6 +20,7 @@ public sealed class ApplyEngineTests
         var report = sut.Execute(plan);
 
         var result = Assert.Single(report.Results);
+        Assert.Equal(ApplyEngine.CompletedOutcome, report.Outcome);
         Assert.Equal("success", result.Status);
         Assert.Equal(1, result.Attempts);
         Assert.Equal(plan.Operations[0].PlannedDestinationPath, result.ActualDestinationPath);
@@ -52,6 +53,7 @@ public sealed class ApplyEngineTests
         var report = sut.Execute(plan);
 
         var result = Assert.Single(report.Results);
+        Assert.Equal(ApplyEngine.CompletedOutcome, report.Outcome);
         Assert.Equal("success", result.Status);
         Assert.Equal(3, result.Attempts);
         Assert.Equal("/photos/2024-06-12 - 2024-06-14 - Trip A (2)", result.ActualDestinationPath);
@@ -79,6 +81,7 @@ public sealed class ApplyEngineTests
         var report = sut.Execute(plan);
 
         var result = Assert.Single(report.Results);
+        Assert.Equal(ApplyEngine.ConflictRetryLimitReachedOutcome, report.Outcome);
         Assert.Equal("failed", result.Status);
         Assert.Equal(11, result.Attempts);
         Assert.Null(result.ActualDestinationPath);

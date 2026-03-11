@@ -151,7 +151,7 @@ public sealed class CliCommandHandler : ICliCommandHandler
             var report = applyEngine.Execute(plan);
             reportSerializer.Write(outputPath, report);
 
-            return IsConflictRetryLimitFailure(report)
+            return string.Equals(report.Outcome, ApplyEngine.ConflictRetryLimitReachedOutcome, StringComparison.Ordinal)
                 ? new CommandResult(ProcessExitCode.ConflictRetryLimitReached, [])
                 : new CommandResult(ProcessExitCode.Success, []);
         }
@@ -164,12 +164,6 @@ public sealed class CliCommandHandler : ICliCommandHandler
             return new CommandResult(ProcessExitCode.UnexpectedRuntimeError, [ex.Message]);
         }
     }
-
-    private static bool IsConflictRetryLimitFailure(RenameReport report) =>
-        report.Results.Any(result =>
-            string.Equals(result.Status, "failed", StringComparison.Ordinal) &&
-            result.Error is not null &&
-            result.Error.Contains("suffix retries", StringComparison.Ordinal));
 
     private static void EnsureWritableOutputPath(string outputPath)
     {

@@ -22,6 +22,7 @@ public sealed class ReportSerializerTests
             using var document = JsonDocument.Parse(json);
 
             var root = document.RootElement;
+            Assert.Equal(report.Outcome, root.GetProperty("outcome").GetString());
             Assert.Equal("1.0", root.GetProperty("schemaVersion").GetString());
             Assert.Equal(report.PlanId, root.GetProperty("planId").GetString());
             Assert.Equal(report.StartedAtUtc, root.GetProperty("startedAtUtc").GetString());
@@ -66,6 +67,7 @@ public sealed class ReportSerializerTests
             var json = File.ReadAllText(outputPath);
             Assert.DoesNotContain("stale", json);
             Assert.Contains("\"schemaVersion\": \"1.0\"", json);
+            Assert.Contains("\"outcome\": \"completed\"", json);
         }
         finally
         {
@@ -84,6 +86,7 @@ public sealed class ReportSerializerTests
         var report = CreateReport();
         report = new RenameReport
         {
+            Outcome = report.Outcome,
             SchemaVersion = report.SchemaVersion,
             PlanId = report.PlanId,
             StartedAtUtc = report.StartedAtUtc,
@@ -126,6 +129,7 @@ public sealed class ReportSerializerTests
         var report = CreateReport();
         report = new RenameReport
         {
+            Outcome = report.Outcome,
             SchemaVersion = report.SchemaVersion,
             PlanId = report.PlanId,
             StartedAtUtc = report.StartedAtUtc,
@@ -165,6 +169,7 @@ public sealed class ReportSerializerTests
     private static RenameReport CreateReport() =>
         new()
         {
+            Outcome = "completed",
             SchemaVersion = "1.0",
             PlanId = "d609111f-4fbb-4de3-8d6c-faf102a6fdb0",
             StartedAtUtc = "2026-03-01T16:11:00Z",

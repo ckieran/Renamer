@@ -31,6 +31,7 @@ public sealed class CliApplyCommandTests : IDisposable
         Assert.Equal(ProcessExitCode.Success, result.ExitCode);
         Assert.True(File.Exists(outputPath));
         using var document = JsonDocument.Parse(File.ReadAllText(outputPath));
+        Assert.Equal("completed", document.RootElement.GetProperty("outcome").GetString());
         Assert.Equal("1.0", document.RootElement.GetProperty("schemaVersion").GetString());
         Assert.Equal(1, document.RootElement.GetProperty("summary").GetProperty("success").GetInt32());
     }
@@ -87,6 +88,7 @@ public sealed class CliApplyCommandTests : IDisposable
         Assert.Equal(ProcessExitCode.ConflictRetryLimitReached, result.ExitCode);
         Assert.True(File.Exists(outputPath));
         using var document = JsonDocument.Parse(File.ReadAllText(outputPath));
+        Assert.Equal("conflictRetryLimitReached", document.RootElement.GetProperty("outcome").GetString());
         Assert.Equal(1, document.RootElement.GetProperty("summary").GetProperty("failed").GetInt32());
         Assert.Equal("failed", document.RootElement.GetProperty("results")[0].GetProperty("status").GetString());
     }
@@ -140,6 +142,7 @@ public sealed class CliApplyCommandTests : IDisposable
     private static RenameReport CreateSuccessReport() =>
         new()
         {
+            Outcome = "completed",
             SchemaVersion = "1.0",
             PlanId = "d609111f-4fbb-4de3-8d6c-faf102a6fdb0",
             StartedAtUtc = "2026-03-01T16:11:00Z",
@@ -170,6 +173,7 @@ public sealed class CliApplyCommandTests : IDisposable
     private static RenameReport CreateRetryLimitFailureReport() =>
         new()
         {
+            Outcome = "conflictRetryLimitReached",
             SchemaVersion = "1.0",
             PlanId = "d609111f-4fbb-4de3-8d6c-faf102a6fdb0",
             StartedAtUtc = "2026-03-01T16:11:00Z",
