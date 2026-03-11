@@ -120,6 +120,114 @@ public sealed class PlanSerializerTests
         }
     }
 
+    [Fact]
+    public void Read_WhenPlanIsValid_ReturnsPlan()
+    {
+        var serializer = new PlanSerializer();
+        var outputPath = Path.Combine(Path.GetTempPath(), $"rename-plan-{Guid.NewGuid():N}.json");
+
+        try
+        {
+            var expected = CreatePlan();
+            serializer.Write(outputPath, expected);
+
+            var actual = serializer.Read(outputPath);
+
+            Assert.Equal(expected.SchemaVersion, actual.SchemaVersion);
+            Assert.Equal(expected.PlanId, actual.PlanId);
+            Assert.Equal(expected.RootPath, actual.RootPath);
+            Assert.Equal(expected.Summary.OperationCount, actual.Summary.OperationCount);
+            Assert.Single(actual.Operations);
+        }
+        finally
+        {
+            if (File.Exists(outputPath))
+            {
+                File.Delete(outputPath);
+            }
+        }
+    }
+
+    [Fact]
+    public void Read_WhenSchemaVersionIsUnsupported_Throws()
+    {
+        var serializer = new PlanSerializer();
+        var outputPath = Path.Combine(Path.GetTempPath(), $"rename-plan-{Guid.NewGuid():N}.json");
+
+        try
+        {
+            File.WriteAllText(outputPath, """
+                {
+                  "schemaVersion": "2.0",
+                  "planId": "d609111f-4fbb-4de3-8d6c-faf102a6fdb0",
+                  "createdAtUtc": "2026-03-01T16:10:00Z",
+                  "rootPath": "/photos",
+                  "operations": [],
+                  "summary": {
+                    "operationCount": 0,
+                    "warnings": 0
+                  }
+                }
+                """);
+
+            var exception = Assert.Throws<NotSupportedException>(() => serializer.Read(outputPath));
+            Assert.Contains("schemaVersion", exception.Message);
+        }
+        finally
+        {
+            if (File.Exists(outputPath))
+            {
+                File.Delete(outputPath);
+            }
+        }
+    }
+
+    [Fact]
+    public void Read_WhenOperationHasEmptySourcePath_Throws()
+    {
+        var serializer = new PlanSerializer();
+        var outputPath = Path.Combine(Path.GetTempPath(), $"rename-plan-{Guid.NewGuid():N}.json");
+
+        try
+        {
+            File.WriteAllText(outputPath, """
+                {
+                  "schemaVersion": "1.0",
+                  "planId": "d609111f-4fbb-4de3-8d6c-faf102a6fdb0",
+                  "createdAtUtc": "2026-03-01T16:10:00Z",
+                  "rootPath": "/photos",
+                  "operations": [
+                    {
+                      "opId": "7c730a84-4b07-4f56-8758-9906cf488e6b",
+                      "sourcePath": "",
+                      "plannedDestinationPath": "/photos/2024-06-12 - 2024-06-14 - Trip A",
+                      "reason": {
+                        "startDate": "2024-06-12",
+                        "endDate": "2024-06-14",
+                        "filesConsidered": 120,
+                        "filesSkippedMissingExif": 3
+                      }
+                    }
+                  ],
+                  "summary": {
+                    "operationCount": 1,
+                    "warnings": 3
+                  }
+                }
+                """);
+
+            var exception = Assert.Throws<InvalidDataException>(() => serializer.Read(outputPath));
+            Assert.Contains("sourcePath", exception.Message);
+        }
+        finally
+        {
+            if (File.Exists(outputPath))
+            {
+                File.Delete(outputPath);
+            }
+        }
+    }
+
     private static RenamePlan CreatePlan()
     {
         return new RenamePlan

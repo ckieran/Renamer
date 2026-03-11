@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Renamer.Cli.Commands;
 using Renamer.Core.Contracts;
+using Renamer.Core.Execution;
 using Renamer.Core.Planning;
 using Renamer.Core.Serialization;
 
@@ -17,7 +18,11 @@ public sealed class CliPlanCommandTests : IDisposable
         var rootPath = Path.Combine(tempDirectory, "root");
         Directory.CreateDirectory(rootPath);
         var outputPath = Path.Combine(tempDirectory, "out", "rename-plan.json");
-        var handler = new CliCommandHandler(new FakePlanBuilder(CreatePlan(rootPath)), new PlanSerializer());
+        var handler = new CliCommandHandler(
+            new FakePlanBuilder(CreatePlan(rootPath)),
+            new PlanSerializer(),
+            new StubApplyEngine(),
+            new StubReportSerializer());
 
         var result = handler.Handle(new CliCommand(
             CliCommandType.Plan,
@@ -33,7 +38,11 @@ public sealed class CliPlanCommandTests : IDisposable
     [Fact]
     public void Handle_PlanWhenRootPathIsMissing_ReturnsIoFailure()
     {
-        var handler = new CliCommandHandler(new FakePlanBuilder(CreatePlan("/unused")), new PlanSerializer());
+        var handler = new CliCommandHandler(
+            new FakePlanBuilder(CreatePlan("/unused")),
+            new PlanSerializer(),
+            new StubApplyEngine(),
+            new StubReportSerializer());
 
         var result = handler.Handle(new CliCommand(
             CliCommandType.Plan,
@@ -49,7 +58,11 @@ public sealed class CliPlanCommandTests : IDisposable
         Directory.CreateDirectory(tempDirectory);
         var rootPath = Path.Combine(tempDirectory, "root");
         Directory.CreateDirectory(rootPath);
-        var handler = new CliCommandHandler(new ThrowingPlanBuilder(), new PlanSerializer());
+        var handler = new CliCommandHandler(
+            new ThrowingPlanBuilder(),
+            new PlanSerializer(),
+            new StubApplyEngine(),
+            new StubReportSerializer());
 
         var result = handler.Handle(new CliCommand(
             CliCommandType.Plan,
@@ -105,5 +118,15 @@ public sealed class CliPlanCommandTests : IDisposable
     private sealed class ThrowingPlanBuilder : IPlanBuilder
     {
         public RenamePlan Build(string rootPath) => throw new InvalidOperationException("boom");
+    }
+
+    private sealed class StubApplyEngine : IApplyEngine
+    {
+        public RenameReport Execute(RenamePlan plan) => throw new NotImplementedException();
+    }
+
+    private sealed class StubReportSerializer : IReportSerializer
+    {
+        public void Write(string outputPath, RenameReport report) => throw new NotImplementedException();
     }
 }

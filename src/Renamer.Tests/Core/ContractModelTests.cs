@@ -60,6 +60,7 @@ public sealed class CoreContractModelsTests
     {
         var report = new RenameReport
         {
+            Outcome = "conflictRetryLimitReached",
             SchemaVersion = "1.0",
             PlanId = "d609111f-4fbb-4de3-8d6c-faf102a6fdb0",
             StartedAtUtc = "2026-03-01T16:11:00Z",
@@ -92,8 +93,10 @@ public sealed class CoreContractModelsTests
 
         Assert.Contains("\"actualDestinationPath\":null", json);
         Assert.Contains("\"error\":null", json);
+        Assert.Contains("\"outcome\":\"conflictRetryLimitReached\"", json);
         Assert.Contains("\"status\":\"failed\"", json);
         Assert.NotNull(roundTripped);
+        Assert.Equal(report.Outcome, roundTripped.Outcome);
         Assert.Null(roundTripped.Results[0].ActualDestinationPath);
         Assert.Null(roundTripped.Results[0].Error);
         Assert.Equal(report.Summary.Failed, roundTripped.Summary.Failed);

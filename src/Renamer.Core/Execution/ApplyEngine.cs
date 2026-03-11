@@ -6,6 +6,9 @@ namespace Renamer.Core.Execution;
 
 public sealed class ApplyEngine : IApplyEngine
 {
+    public const string CompletedOutcome = "completed";
+    public const string ConflictRetryLimitReachedOutcome = "conflictRetryLimitReached";
+
     private const string SchemaVersion = "1.0";
     private const string SuccessStatus = "success";
     private const string FailedStatus = "failed";
@@ -48,6 +51,9 @@ public sealed class ApplyEngine : IApplyEngine
 
         return new RenameReport
         {
+            Outcome = results.Any(result => result.Status == FailedStatus)
+                ? ConflictRetryLimitReachedOutcome
+                : CompletedOutcome,
             SchemaVersion = SchemaVersion,
             PlanId = plan.PlanId,
             StartedAtUtc = FormatUtc(startedAtUtc),

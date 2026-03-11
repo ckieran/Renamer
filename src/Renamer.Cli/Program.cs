@@ -2,6 +2,7 @@ using Renamer.Cli.Commands;
 using Renamer.Cli.Runtime;
 using Renamer.Core.Execution;
 using Renamer.Core.Exif;
+using Renamer.Core.IO;
 using Renamer.Core.Logging;
 using Renamer.Core.Planning;
 using Renamer.Core.Serialization;
@@ -91,6 +92,9 @@ public sealed class CliApplication(
         services.AddSingleton<IConflictRetryPolicy, ConflictRetryPolicy>();
         services.AddSingleton<IPlanBuilder, PlanBuilder>();
         services.AddSingleton<IPlanSerializer, PlanSerializer>();
+        services.AddSingleton<IDirectoryMover, DirectoryMover>();
+        services.AddSingleton<IApplyEngine, ApplyEngine>();
+        services.AddSingleton<IReportSerializer, ReportSerializer>();
         if (commandHandler is not null)
         {
             services.AddSingleton(commandHandler);
