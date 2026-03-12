@@ -1,23 +1,22 @@
-﻿namespace Renamer.UI;
+﻿using Renamer.UI.Plans;
+
+namespace Renamer.UI;
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
+	private readonly IPlanViewModel viewModel;
 
-	public MainPage()
+	public MainPage(IPlanViewModel viewModel)
 	{
+		this.viewModel = viewModel;
 		InitializeComponent();
+		BindingContext = viewModel;
 	}
 
-	private void OnCounterClicked(object? sender, EventArgs e)
+	private async void OnBrowseClicked(object? sender, EventArgs e)
 	{
-		count++;
-
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
-
-		SemanticScreenReader.Announce(CounterBtn.Text);
+		await viewModel.BrowseAsync();
 	}
+
+	private async void OnLoadClicked(object? sender, EventArgs e) => await viewModel.LoadAsync();
 }

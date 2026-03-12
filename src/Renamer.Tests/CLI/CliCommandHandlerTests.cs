@@ -33,6 +33,7 @@ public sealed class CliCommandHandlerTests
         var result = CreateHandler().Handle(new CliCommand(CliCommandType.Plan, "plan", Arguments: ["--root", "/tmp/root"]));
 
         Assert.Equal(ProcessExitCode.ValidationFailure, result.ExitCode);
+        Assert.Contains(result.OutputLines, line => line.Contains("Missing required arguments for 'plan'", StringComparison.Ordinal));
         Assert.Contains("Available commands:", result.OutputLines);
     }
 
@@ -42,6 +43,7 @@ public sealed class CliCommandHandlerTests
         var result = CreateHandler().Handle(new CliCommand(CliCommandType.Apply, "apply", Arguments: ["--plan", "/tmp/plan.json"]));
 
         Assert.Equal(ProcessExitCode.ValidationFailure, result.ExitCode);
+        Assert.Contains(result.OutputLines, line => line.Contains("Missing required arguments for 'apply'", StringComparison.Ordinal));
         Assert.Contains("Available commands:", result.OutputLines);
     }
 
