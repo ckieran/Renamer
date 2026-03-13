@@ -1,6 +1,7 @@
 using Renamer.Core.Contracts;
 using Renamer.Core.Serialization;
 using Renamer.UI.Plans;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Renamer.Tests.UI;
 
@@ -11,7 +12,8 @@ public sealed class PlanViewModelTests
     {
         var viewModel = new PlanViewModel(
             new FakePlanSerializer(CreatePlan()),
-            new FakePlanFilePicker(null))
+            new FakePlanFilePicker(null),
+            NullLogger<PlanViewModel>.Instance)
         {
             PlanPath = "/tmp/rename-plan.json"
         };
@@ -32,7 +34,8 @@ public sealed class PlanViewModelTests
     {
         var viewModel = new PlanViewModel(
             new FakePlanSerializer(CreatePlan()),
-            new FakePlanFilePicker(null));
+            new FakePlanFilePicker(null),
+            NullLogger<PlanViewModel>.Instance);
 
         await viewModel.LoadAsync();
 
@@ -47,7 +50,8 @@ public sealed class PlanViewModelTests
     {
         var viewModel = new PlanViewModel(
             new ThrowingPlanSerializer(new InvalidDataException("broken plan")),
-            new FakePlanFilePicker(null))
+            new FakePlanFilePicker(null),
+            NullLogger<PlanViewModel>.Instance)
         {
             PlanPath = "/tmp/broken-plan.json"
         };
@@ -65,7 +69,8 @@ public sealed class PlanViewModelTests
     {
         var viewModel = new PlanViewModel(
             new FakePlanSerializer(CreatePlan()),
-            new FakePlanFilePicker("/tmp/picked-plan.json"));
+            new FakePlanFilePicker("/tmp/picked-plan.json"),
+            NullLogger<PlanViewModel>.Instance);
 
         await viewModel.BrowseAsync();
 
@@ -78,7 +83,8 @@ public sealed class PlanViewModelTests
     {
         var viewModel = new PlanViewModel(
             new FakePlanSerializer(CreatePlan()),
-            new ThrowingPlanFilePicker(new InvalidOperationException("picker unavailable")));
+            new ThrowingPlanFilePicker(new InvalidOperationException("picker unavailable")),
+            NullLogger<PlanViewModel>.Instance);
 
         await viewModel.BrowseAsync();
 

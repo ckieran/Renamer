@@ -15,6 +15,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		var runtimeEnvironment = new RuntimeEnvironment();
 		var logPathProvider = new UiLogPathProvider(runtimeEnvironment);
+		var uiLogFilePath = logPathProvider.GetLogFilePath("renamer-ui");
 		var loggingBootstrap = new UiLoggingBootstrap(logPathProvider);
 		var logger = loggingBootstrap.CreateLogger();
 
@@ -26,6 +27,8 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
+		builder.Logging.ClearProviders();
+
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
@@ -36,12 +39,12 @@ public static class MauiProgram
 		builder.Services.AddSingleton<IPlanFilePicker, PlanFilePicker>();
 		builder.Services.AddSingleton<IPlanViewModel, PlanViewModel>();
 		builder.Services.AddSingleton<MainPage>();
-		builder.Logging.ClearProviders();
 		builder.Logging.AddSerilog(logger, dispose: true);
 
 		var app = builder.Build();
 		var appLogger = app.Services.GetRequiredService<ILoggerFactory>().CreateLogger("Renamer.UI.MauiProgram");
 		loggingBootstrap.RegisterUnhandledExceptionLogging(appLogger);
+		appLogger.LogInformation("UI log file path resolved to {LogFilePath}.", uiLogFilePath);
 		appLogger.LogInformation("UI startup complete.");
 		return app;
 	}

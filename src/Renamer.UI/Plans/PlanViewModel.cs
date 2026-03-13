@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Renamer.Core.Contracts;
 using Renamer.Core.Serialization;
+using Microsoft.Extensions.Logging;
 
 namespace Renamer.UI.Plans;
 
@@ -10,16 +11,21 @@ public sealed class PlanViewModel : IPlanViewModel
 {
     private readonly IPlanFilePicker planFilePicker;
     private readonly IPlanSerializer planSerializer;
+    private readonly ILogger<PlanViewModel> logger;
 
     private string planPath = string.Empty;
     private string statusMessage = "Select a rename-plan.json file to preview planned operations.";
     private string? errorMessage;
     private PlanViewState state = PlanViewState.Idle;
 
-    public PlanViewModel(IPlanSerializer planSerializer, IPlanFilePicker planFilePicker)
+    public PlanViewModel(
+        IPlanSerializer planSerializer,
+        IPlanFilePicker planFilePicker,
+        ILogger<PlanViewModel> logger)
     {
         this.planSerializer = planSerializer ?? throw new ArgumentNullException(nameof(planSerializer));
         this.planFilePicker = planFilePicker ?? throw new ArgumentNullException(nameof(planFilePicker));
+        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -64,11 +70,15 @@ public sealed class PlanViewModel : IPlanViewModel
 
     public async Task BrowseAsync(CancellationToken cancellationToken = default)
     {
+        logger.LogInformation("Plan browse requested.");
+        StatusMessage = "Opening plan file picker...";
+
         try
         {
             var selectedPath = await planFilePicker.PickPlanPathAsync(cancellationToken);
             if (string.IsNullOrWhiteSpace(selectedPath))
             {
+                logger.LogInformation("Plan selection canceled.");
                 StatusMessage = "Plan selection canceled.";
                 return;
             }
@@ -76,9 +86,11 @@ public sealed class PlanViewModel : IPlanViewModel
             PlanPath = selectedPath;
             ErrorMessage = null;
             StatusMessage = $"Selected plan artifact: {Path.GetFileName(selectedPath)}";
+            logger.LogInformation("Plan artifact selected: {PlanPath}", selectedPath);
         }
         catch (Exception ex) when (ex is InvalidOperationException or NotSupportedException or IOException)
         {
+            logger.LogError(ex, "Plan selection failed.");
             SetErrorState($"Unable to select a plan artifact: {ex.Message}");
         }
     }
@@ -87,10 +99,12 @@ public sealed class PlanViewModel : IPlanViewModel
     {
         if (string.IsNullOrWhiteSpace(PlanPath))
         {
+            logger.LogWarning("Plan load requested without a selected path.");
             SetErrorState("Select a plan artifact path to load.");
             return;
         }
 
+        logger.LogInformation("Loading plan preview from {PlanPath}.", PlanPath);
         SetState(PlanViewState.Loading);
         ErrorMessage = null;
         StatusMessage = "Loading plan preview...";
@@ -101,9 +115,11 @@ public sealed class PlanViewModel : IPlanViewModel
         {
             var plan = await Task.Run(() => planSerializer.Read(PlanPath), cancellationToken);
             PopulateLoadedState(plan);
+            logger.LogInformation("Loaded plan preview with {OperationCount} operations.", plan.Operations.Count);
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException or NotSupportedException)
         {
+            logger.LogError(ex, "Unable to load plan preview from {PlanPath}.", PlanPath);
             SetErrorState($"Unable to load plan artifact: {ex.Message}");
         }
     }
