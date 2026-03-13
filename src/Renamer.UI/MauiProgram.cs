@@ -1,4 +1,5 @@
-﻿using Renamer.Core.Logging;
+﻿using Renamer.Core.Execution;
+using Renamer.Core.Logging;
 using Renamer.Core.Serialization;
 using Renamer.UI.Plans;
 using Renamer.UI.Runtime;
@@ -36,6 +37,7 @@ public static class MauiProgram
 		builder.Services.AddSingleton<ILogPathProvider>(logPathProvider);
 		builder.Services.AddSingleton(loggingBootstrap);
 		builder.Services.AddSingleton<IPlanSerializer, PlanSerializer>();
+		builder.Services.AddSingleton<IApplyEngine, ApplyEngine>();
 		builder.Services.AddSingleton<IPlanFilePicker, PlanFilePicker>();
 		builder.Services.AddSingleton<IRootPathOpener, RootPathOpener>();
 		builder.Services.AddSingleton<IPlanViewModel, PlanViewModel>();
