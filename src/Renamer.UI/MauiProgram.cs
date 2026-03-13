@@ -37,6 +37,7 @@ public static class MauiProgram
 		builder.Services.AddSingleton(loggingBootstrap);
 		builder.Services.AddSingleton<IPlanSerializer, PlanSerializer>();
 		builder.Services.AddSingleton<IPlanFilePicker, PlanFilePicker>();
+		builder.Services.AddSingleton<IRootPathOpener, RootPathOpener>();
 		builder.Services.AddSingleton<IPlanViewModel, PlanViewModel>();
 		builder.Services.AddSingleton<MainPage>();
 		builder.Logging.AddSerilog(logger, dispose: true);

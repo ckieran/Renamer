@@ -1,7 +1,8 @@
+using System.Globalization;
+using Microsoft.Extensions.Logging.Abstractions;
 using Renamer.Core.Contracts;
 using Renamer.Core.Serialization;
 using Renamer.UI.Plans;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Renamer.Tests.UI;
 
@@ -13,6 +14,7 @@ public sealed class PlanViewModelTests
         var viewModel = new PlanViewModel(
             new FakePlanSerializer(CreatePlan()),
             new FakePlanFilePicker(null),
+            new FakeRootPathOpener(),
             NullLogger<PlanViewModel>.Instance)
         {
             PlanPath = "/tmp/rename-plan.json"
@@ -23,8 +25,16 @@ public sealed class PlanViewModelTests
         Assert.True(viewModel.IsLoaded);
         Assert.False(viewModel.HasError);
         Assert.Equal("Loaded 1 planned operation(s).", viewModel.StatusMessage);
-        Assert.Equal(5, viewModel.SummaryItems.Count);
+        Assert.Equal("/photos", viewModel.RootPath);
+        Assert.Equal("1", viewModel.OperationCountText);
+        Assert.Equal("1", viewModel.WarningCountText);
+        Assert.Equal(
+            DateTimeOffset.Parse("2026-03-01T16:10:00Z", CultureInfo.InvariantCulture).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss zzz", CultureInfo.InvariantCulture),
+            viewModel.CreatedAtDisplay);
+
         var operation = Assert.Single(viewModel.Operations);
+        Assert.Equal("Trip A", operation.SourceName);
+        Assert.Equal("2024-06-12 - 2024-06-14 - Trip A", operation.DestinationName);
         Assert.Equal("/photos/Trip A", operation.SourcePath);
         Assert.Equal("2024-06-12 to 2024-06-14", operation.DateRangeText);
     }
@@ -35,13 +45,14 @@ public sealed class PlanViewModelTests
         var viewModel = new PlanViewModel(
             new FakePlanSerializer(CreatePlan()),
             new FakePlanFilePicker(null),
+            new FakeRootPathOpener(),
             NullLogger<PlanViewModel>.Instance);
 
         await viewModel.LoadAsync();
 
         Assert.True(viewModel.HasError);
         Assert.Equal("Select a plan artifact path to load.", viewModel.ErrorMessage);
-        Assert.Empty(viewModel.SummaryItems);
+        Assert.Equal(string.Empty, viewModel.RootPath);
         Assert.Empty(viewModel.Operations);
     }
 
@@ -51,6 +62,7 @@ public sealed class PlanViewModelTests
         var viewModel = new PlanViewModel(
             new ThrowingPlanSerializer(new InvalidDataException("broken plan")),
             new FakePlanFilePicker(null),
+            new FakeRootPathOpener(),
             NullLogger<PlanViewModel>.Instance)
         {
             PlanPath = "/tmp/broken-plan.json"
@@ -70,6 +82,7 @@ public sealed class PlanViewModelTests
         var viewModel = new PlanViewModel(
             new FakePlanSerializer(CreatePlan()),
             new FakePlanFilePicker("/tmp/picked-plan.json"),
+            new FakeRootPathOpener(),
             NullLogger<PlanViewModel>.Instance);
 
         await viewModel.BrowseAsync();
@@ -84,12 +97,33 @@ public sealed class PlanViewModelTests
         var viewModel = new PlanViewModel(
             new FakePlanSerializer(CreatePlan()),
             new ThrowingPlanFilePicker(new InvalidOperationException("picker unavailable")),
+            new FakeRootPathOpener(),
             NullLogger<PlanViewModel>.Instance);
 
         await viewModel.BrowseAsync();
 
         Assert.True(viewModel.HasError);
         Assert.Contains("picker unavailable", viewModel.ErrorMessage);
+    }
+
+    [Fact]
+    public async Task OpenRootPathAsync_WhenPlanLoaded_UsesRootPathOpener()
+    {
+        var rootPathOpener = new FakeRootPathOpener();
+        var viewModel = new PlanViewModel(
+            new FakePlanSerializer(CreatePlan()),
+            new FakePlanFilePicker(null),
+            rootPathOpener,
+            NullLogger<PlanViewModel>.Instance)
+        {
+            PlanPath = "/tmp/rename-plan.json"
+        };
+
+        await viewModel.LoadAsync();
+        await viewModel.OpenRootPathAsync();
+
+        Assert.Equal("/photos", rootPathOpener.OpenedPath);
+        Assert.Equal("Opened root folder.", viewModel.StatusMessage);
     }
 
     private static RenamePlan CreatePlan() =>
@@ -146,5 +180,16 @@ public sealed class PlanViewModelTests
     {
         public Task<string?> PickPlanPathAsync(CancellationToken cancellationToken = default) =>
             throw exception;
+    }
+
+    private sealed class FakeRootPathOpener : IRootPathOpener
+    {
+        public string? OpenedPath { get; private set; }
+
+        public Task OpenAsync(string directoryPath, CancellationToken cancellationToken = default)
+        {
+            OpenedPath = directoryPath;
+            return Task.CompletedTask;
+        }
     }
 }

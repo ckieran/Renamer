@@ -27,4 +27,10 @@ public partial class MainPage : ContentPage
         logger.LogInformation("Load preview button clicked.");
         await viewModel.LoadAsync();
     }
+
+    private async void OnOpenRootPathTapped(object? sender, TappedEventArgs e)
+    {
+        logger.LogInformation("Root path tapped.");
+        await viewModel.OpenRootPathAsync();
+    }
 }

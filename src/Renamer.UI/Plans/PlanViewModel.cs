@@ -1,9 +1,10 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Logging;
 using Renamer.Core.Contracts;
 using Renamer.Core.Serialization;
-using Microsoft.Extensions.Logging;
 
 namespace Renamer.UI.Plans;
 
@@ -11,20 +12,27 @@ public sealed class PlanViewModel : IPlanViewModel
 {
     private readonly IPlanFilePicker planFilePicker;
     private readonly IPlanSerializer planSerializer;
+    private readonly IRootPathOpener rootPathOpener;
     private readonly ILogger<PlanViewModel> logger;
 
     private string planPath = string.Empty;
     private string statusMessage = "Select a rename-plan.json file to preview planned operations.";
     private string? errorMessage;
+    private string rootPath = string.Empty;
+    private string createdAtDisplay = "No plan loaded";
+    private string operationCountText = "0";
+    private string warningCountText = "0";
     private PlanViewState state = PlanViewState.Idle;
 
     public PlanViewModel(
         IPlanSerializer planSerializer,
         IPlanFilePicker planFilePicker,
+        IRootPathOpener rootPathOpener,
         ILogger<PlanViewModel> logger)
     {
         this.planSerializer = planSerializer ?? throw new ArgumentNullException(nameof(planSerializer));
         this.planFilePicker = planFilePicker ?? throw new ArgumentNullException(nameof(planFilePicker));
+        this.rootPathOpener = rootPathOpener ?? throw new ArgumentNullException(nameof(rootPathOpener));
         this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
@@ -64,7 +72,37 @@ public sealed class PlanViewModel : IPlanViewModel
 
     public bool HasError => state == PlanViewState.Error;
 
-    public ObservableCollection<PlanSummaryItem> SummaryItems { get; } = [];
+    public string RootPath
+    {
+        get => rootPath;
+        private set
+        {
+            if (SetProperty(ref rootPath, value))
+            {
+                OnPropertyChanged(nameof(CanOpenRootPath));
+            }
+        }
+    }
+
+    public string CreatedAtDisplay
+    {
+        get => createdAtDisplay;
+        private set => SetProperty(ref createdAtDisplay, value);
+    }
+
+    public string OperationCountText
+    {
+        get => operationCountText;
+        private set => SetProperty(ref operationCountText, value);
+    }
+
+    public string WarningCountText
+    {
+        get => warningCountText;
+        private set => SetProperty(ref warningCountText, value);
+    }
+
+    public bool CanOpenRootPath => !string.IsNullOrWhiteSpace(RootPath);
 
     public ObservableCollection<PlanOperationItem> Operations { get; } = [];
 
@@ -95,6 +133,28 @@ public sealed class PlanViewModel : IPlanViewModel
         }
     }
 
+    public async Task OpenRootPathAsync(CancellationToken cancellationToken = default)
+    {
+        if (!CanOpenRootPath)
+        {
+            logger.LogWarning("Root path open requested without a loaded plan.");
+            return;
+        }
+
+        logger.LogInformation("Opening plan root path {RootPath}.", RootPath);
+
+        try
+        {
+            await rootPathOpener.OpenAsync(RootPath, cancellationToken);
+            StatusMessage = "Opened root folder.";
+        }
+        catch (Exception ex) when (ex is IOException or InvalidOperationException or NotSupportedException or UnauthorizedAccessException)
+        {
+            logger.LogError(ex, "Unable to open plan root path {RootPath}.", RootPath);
+            SetErrorState($"Unable to open root folder: {ex.Message}");
+        }
+    }
+
     public async Task LoadAsync(CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(PlanPath))
@@ -108,7 +168,7 @@ public sealed class PlanViewModel : IPlanViewModel
         SetState(PlanViewState.Loading);
         ErrorMessage = null;
         StatusMessage = "Loading plan preview...";
-        SummaryItems.Clear();
+        ClearLoadedData();
         Operations.Clear();
 
         try
@@ -126,19 +186,20 @@ public sealed class PlanViewModel : IPlanViewModel
 
     private void PopulateLoadedState(RenamePlan plan)
     {
-        SummaryItems.Add(new PlanSummaryItem("Plan ID", plan.PlanId));
-        SummaryItems.Add(new PlanSummaryItem("Root Path", plan.RootPath));
-        SummaryItems.Add(new PlanSummaryItem("Created At UTC", plan.CreatedAtUtc));
-        SummaryItems.Add(new PlanSummaryItem("Operation Count", plan.Summary.OperationCount.ToString()));
-        SummaryItems.Add(new PlanSummaryItem("Warnings", plan.Summary.Warnings.ToString()));
+        RootPath = plan.RootPath;
+        CreatedAtDisplay = FormatCreatedAt(plan.CreatedAtUtc);
+        OperationCountText = plan.Summary.OperationCount.ToString(CultureInfo.InvariantCulture);
+        WarningCountText = plan.Summary.Warnings.ToString(CultureInfo.InvariantCulture);
 
         foreach (var operation in plan.Operations)
         {
             Operations.Add(new PlanOperationItem(
                 operation.OpId,
+                Path.GetFileName(operation.SourcePath),
+                Path.GetFileName(operation.PlannedDestinationPath),
                 operation.SourcePath,
                 operation.PlannedDestinationPath,
-                $"{operation.Reason.StartDate} to {operation.Reason.EndDate}",
+                FormatDateRange(operation.Reason.StartDate, operation.Reason.EndDate),
                 $"{operation.Reason.FilesConsidered} files, {operation.Reason.FilesSkippedMissingExif} missing EXIF"));
         }
 
@@ -152,8 +213,16 @@ public sealed class PlanViewModel : IPlanViewModel
         SetState(PlanViewState.Error);
         ErrorMessage = message;
         StatusMessage = "Plan preview unavailable.";
-        SummaryItems.Clear();
+        ClearLoadedData();
         Operations.Clear();
+    }
+
+    private void ClearLoadedData()
+    {
+        RootPath = string.Empty;
+        CreatedAtDisplay = "No plan loaded";
+        OperationCountText = "0";
+        WarningCountText = "0";
     }
 
     private void SetState(PlanViewState nextState)
@@ -184,4 +253,21 @@ public sealed class PlanViewModel : IPlanViewModel
 
     private void OnPropertyChanged([CallerMemberName] string? propertyName = null) =>
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+    private static string FormatCreatedAt(string createdAtUtc)
+    {
+        if (!DateTimeOffset.TryParse(
+                createdAtUtc,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+                out var createdAt))
+        {
+            return createdAtUtc;
+        }
+
+        return createdAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss zzz", CultureInfo.InvariantCulture);
+    }
+
+    private static string FormatDateRange(string startDate, string endDate) =>
+        startDate == endDate ? startDate : $"{startDate} to {endDate}";
 }
