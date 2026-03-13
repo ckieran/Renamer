@@ -1,23 +1,36 @@
-﻿namespace Renamer.UI;
+﻿using Renamer.UI.Plans;
+using Microsoft.Extensions.Logging;
+
+namespace Renamer.UI;
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
+	private readonly IPlanViewModel viewModel;
+    private readonly ILogger<MainPage> logger;
 
-	public MainPage()
+	public MainPage(IPlanViewModel viewModel, ILogger<MainPage> logger)
 	{
+		this.viewModel = viewModel;
+        this.logger = logger;
 		InitializeComponent();
+		BindingContext = viewModel;
 	}
 
-	private void OnCounterClicked(object? sender, EventArgs e)
+	private async void OnBrowseClicked(object? sender, EventArgs e)
 	{
-		count++;
-
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
-
-		SemanticScreenReader.Announce(CounterBtn.Text);
+        logger.LogInformation("Browse button clicked.");
+		await viewModel.BrowseAsync();
 	}
+
+	private async void OnLoadClicked(object? sender, EventArgs e)
+    {
+        logger.LogInformation("Load preview button clicked.");
+        await viewModel.LoadAsync();
+    }
+
+    private async void OnOpenRootPathTapped(object? sender, TappedEventArgs e)
+    {
+        logger.LogInformation("Root path tapped.");
+        await viewModel.OpenRootPathAsync();
+    }
 }

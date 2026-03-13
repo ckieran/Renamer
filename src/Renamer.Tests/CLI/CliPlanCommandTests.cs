@@ -72,6 +72,29 @@ public sealed class CliPlanCommandTests : IDisposable
         Assert.Equal(ProcessExitCode.UnexpectedRuntimeError, result.ExitCode);
     }
 
+    [Fact]
+    public void Handle_PlanWhenOutputPathIsDirectory_ReturnsIoFailureWithHelpfulMessage()
+    {
+        Directory.CreateDirectory(tempDirectory);
+        var rootPath = Path.Combine(tempDirectory, "root");
+        Directory.CreateDirectory(rootPath);
+        var outputDirectory = Path.Combine(tempDirectory, "out");
+        Directory.CreateDirectory(outputDirectory);
+        var handler = new CliCommandHandler(
+            new FakePlanBuilder(CreatePlan(rootPath)),
+            new PlanSerializer(),
+            new StubApplyEngine(),
+            new StubReportSerializer());
+
+        var result = handler.Handle(new CliCommand(
+            CliCommandType.Plan,
+            "plan",
+            Arguments: ["--root", rootPath, "--out", outputDirectory]));
+
+        Assert.Equal(ProcessExitCode.IoFailure, result.ExitCode);
+        Assert.Contains(result.OutputLines, line => line.Contains("must be a file path, not a directory", StringComparison.Ordinal));
+    }
+
     public void Dispose()
     {
         if (Directory.Exists(tempDirectory))

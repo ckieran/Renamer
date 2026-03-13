@@ -5,8 +5,10 @@ Run apply from UI and present execution report results.
 
 ## In scope
 - Trigger apply for selected plan artifact.
-- Display progress and final report summary.
+- pre-requisiste - an existing plan has to have already been selected with the plan file uri present and available in the current context.
+- DUring execution, display progress and final report summary.
 - Surface abort/failure outcomes clearly.
+- when applying, if the rename operation appears to already have been completed just skip over with logging to allow for continuation of previous plans that had to stop early - don't treat this as an error.  We want to allow idempotent re-runs.
 - Map CLI/apply exit outcomes into UI error states.
 - Desktop targets only (Windows + macOS Mac Catalyst).
 

@@ -26,6 +26,12 @@
   <ItemGroup>
     <Compile Include="..\Renamer.UI\Runtime\IRuntimeEnvironment.cs" Link="UI\Runtime\IRuntimeEnvironment.cs" />
     <Compile Include="..\Renamer.UI\Runtime\RuntimePlatform.cs" Link="UI\Runtime\RuntimePlatform.cs" />
+    <Compile Include="..\Renamer.UI\Plans\IPlanFilePicker.cs" Link="UI\Plans\IPlanFilePicker.cs" />
+    <Compile Include="..\Renamer.UI\Plans\IRootPathOpener.cs" Link="UI\Plans\IRootPathOpener.cs" />
+    <Compile Include="..\Renamer.UI\Plans\IPlanViewModel.cs" Link="UI\Plans\IPlanViewModel.cs" />
+    <Compile Include="..\Renamer.UI\Plans\PlanOperationItem.cs" Link="UI\Plans\PlanOperationItem.cs" />
+    <Compile Include="..\Renamer.UI\Plans\PlanViewModel.cs" Link="UI\Plans\PlanViewModel.cs" />
+    <Compile Include="..\Renamer.UI\Plans\PlanViewState.cs" Link="UI\Plans\PlanViewState.cs" />
     <Compile Include="..\Renamer.UI\UiLogPathProvider.cs" Link="UI\UiLogPathProvider.cs" />
   </ItemGroup>
 

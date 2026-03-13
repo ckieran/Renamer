@@ -52,12 +52,18 @@ public sealed class CliCommandHandler : ICliCommandHandler
         if (!TryGetOptionValue(arguments, "--root", out var rootPath) ||
             !TryGetOptionValue(arguments, "--out", out var outputPath))
         {
-            return new CommandResult(ProcessExitCode.ValidationFailure, HelpLines);
+            return CreateValidationFailure(
+                "Error: Missing required arguments for 'plan'. Expected --root <path> and --out <path>.");
         }
 
         if (!Directory.Exists(rootPath))
         {
             return new CommandResult(ProcessExitCode.IoFailure, [$"Root path '{rootPath}' does not exist or is not a directory."]);
+        }
+
+        if (IsDirectoryPath(outputPath))
+        {
+            return new CommandResult(ProcessExitCode.IoFailure, [$"Output path '{outputPath}' must be a file path, not a directory."]);
         }
 
         try
@@ -106,7 +112,8 @@ public sealed class CliCommandHandler : ICliCommandHandler
         if (!TryGetOptionValue(arguments, "--plan", out var planPath) ||
             !TryGetOptionValue(arguments, "--out", out var outputPath))
         {
-            return new CommandResult(ProcessExitCode.ValidationFailure, HelpLines);
+            return CreateValidationFailure(
+                "Error: Missing required arguments for 'apply'. Expected --plan <path> and --out <path>.");
         }
 
         if (!File.Exists(planPath))
@@ -135,6 +142,11 @@ public sealed class CliCommandHandler : ICliCommandHandler
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             return new CommandResult(ProcessExitCode.IoFailure, [ex.Message]);
+        }
+
+        if (IsDirectoryPath(outputPath))
+        {
+            return new CommandResult(ProcessExitCode.IoFailure, [$"Output path '{outputPath}' must be a file path, not a directory."]);
         }
 
         try
@@ -182,4 +194,19 @@ public sealed class CliCommandHandler : ICliCommandHandler
         File.WriteAllText(probePath, string.Empty);
         File.Delete(probePath);
     }
+
+    private static bool IsDirectoryPath(string outputPath)
+    {
+        var fullOutputPath = Path.GetFullPath(outputPath);
+        if (Directory.Exists(fullOutputPath))
+        {
+            return true;
+        }
+
+        return outputPath.EndsWith(Path.DirectorySeparatorChar) ||
+               outputPath.EndsWith(Path.AltDirectorySeparatorChar);
+    }
+
+    private static CommandResult CreateValidationFailure(string message) =>
+        new(ProcessExitCode.ValidationFailure, [message, .. HelpLines]);
 }
