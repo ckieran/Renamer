@@ -5,19 +5,29 @@ using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 using Renamer.Core.Contracts;
 using Renamer.Core.Execution;
+using Renamer.Core.Planning;
 using Renamer.Core.Serialization;
 
 namespace Renamer.UI.Plans;
 
 public sealed class PlanViewModel : IPlanViewModel
 {
-    private readonly IPlanFilePicker planFilePicker;
+    private readonly IPlanBuilder planBuilder;
     private readonly IPlanSerializer planSerializer;
+    private readonly IPlanFilePicker planFilePicker;
+    private readonly IFolderPathPicker folderPathPicker;
     private readonly IRootPathOpener rootPathOpener;
     private readonly IApplyEngine applyEngine;
     private readonly ILogger<PlanViewModel> logger;
 
     private RenamePlan? loadedPlan;
+    private string generationRootPath = string.Empty;
+    private string generationOutputDirectoryPath = string.Empty;
+    private string planFileName = "rename-plan.json";
+    private string generationStatusMessage = "Select a root folder and output location to generate a plan.";
+    private string? generationErrorTitle;
+    private string? generationErrorMessage;
+    private bool isGenerating;
     private string planPath = string.Empty;
     private string statusMessage = "Select a rename-plan.json file to preview planned operations.";
     private string? errorMessage;
@@ -40,20 +50,108 @@ public sealed class PlanViewModel : IPlanViewModel
     private bool hasApplyReport;
 
     public PlanViewModel(
+        IPlanBuilder planBuilder,
         IPlanSerializer planSerializer,
         IPlanFilePicker planFilePicker,
+        IFolderPathPicker folderPathPicker,
         IRootPathOpener rootPathOpener,
         IApplyEngine applyEngine,
         ILogger<PlanViewModel> logger)
     {
+        this.planBuilder = planBuilder ?? throw new ArgumentNullException(nameof(planBuilder));
         this.planSerializer = planSerializer ?? throw new ArgumentNullException(nameof(planSerializer));
         this.planFilePicker = planFilePicker ?? throw new ArgumentNullException(nameof(planFilePicker));
+        this.folderPathPicker = folderPathPicker ?? throw new ArgumentNullException(nameof(folderPathPicker));
         this.rootPathOpener = rootPathOpener ?? throw new ArgumentNullException(nameof(rootPathOpener));
         this.applyEngine = applyEngine ?? throw new ArgumentNullException(nameof(applyEngine));
         this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
+
+    public string GenerationRootPath
+    {
+        get => generationRootPath;
+        set
+        {
+            if (SetProperty(ref generationRootPath, value))
+            {
+                OnPropertyChanged(nameof(CanGenerate));
+            }
+        }
+    }
+
+    public string GenerationOutputDirectoryPath
+    {
+        get => generationOutputDirectoryPath;
+        set
+        {
+            if (SetProperty(ref generationOutputDirectoryPath, value))
+            {
+                OnPropertyChanged(nameof(GeneratedPlanPathPreview));
+                OnPropertyChanged(nameof(CanGenerate));
+            }
+        }
+    }
+
+    public string PlanFileName
+    {
+        get => planFileName;
+        set
+        {
+            if (SetProperty(ref planFileName, value))
+            {
+                OnPropertyChanged(nameof(GeneratedPlanPathPreview));
+                OnPropertyChanged(nameof(CanGenerate));
+            }
+        }
+    }
+
+    public string GeneratedPlanPathPreview => BuildGeneratedPlanPathPreview();
+
+    public string GenerationStatusMessage
+    {
+        get => generationStatusMessage;
+        private set => SetProperty(ref generationStatusMessage, value);
+    }
+
+    public string? GenerationErrorTitle
+    {
+        get => generationErrorTitle;
+        private set => SetProperty(ref generationErrorTitle, value);
+    }
+
+    public string? GenerationErrorMessage
+    {
+        get => generationErrorMessage;
+        private set
+        {
+            if (SetProperty(ref generationErrorMessage, value))
+            {
+                OnPropertyChanged(nameof(HasGenerationError));
+            }
+        }
+    }
+
+    public bool HasGenerationError => !string.IsNullOrWhiteSpace(GenerationErrorMessage);
+
+    public bool IsGenerating
+    {
+        get => isGenerating;
+        private set
+        {
+            if (SetProperty(ref isGenerating, value))
+            {
+                OnPropertyChanged(nameof(CanGenerate));
+            }
+        }
+    }
+
+    public bool CanGenerate =>
+        !IsGenerating &&
+        !string.IsNullOrWhiteSpace(GenerationRootPath) &&
+        !string.IsNullOrWhiteSpace(GenerationOutputDirectoryPath) &&
+        !string.IsNullOrWhiteSpace(PlanFileName);
 
     public string PlanPath
     {
@@ -213,6 +311,107 @@ public sealed class PlanViewModel : IPlanViewModel
     }
 
     public ObservableCollection<ApplyResultItem> ApplyResults { get; } = [];
+
+    public async Task BrowseGenerationRootPathAsync(CancellationToken cancellationToken = default)
+    {
+        var selectedPath = await folderPathPicker.PickFolderPathAsync("Select photo root folder", cancellationToken);
+        if (string.IsNullOrWhiteSpace(selectedPath))
+        {
+            GenerationStatusMessage = "Root folder selection canceled.";
+            return;
+        }
+
+        GenerationRootPath = selectedPath;
+        ClearGenerationError();
+        GenerationStatusMessage = $"Selected root folder: {Path.GetFileName(selectedPath)}";
+    }
+
+    public async Task BrowseGenerationOutputDirectoryAsync(CancellationToken cancellationToken = default)
+    {
+        var selectedPath = await folderPathPicker.PickFolderPathAsync("Select output folder for rename-plan.json", cancellationToken);
+        if (string.IsNullOrWhiteSpace(selectedPath))
+        {
+            GenerationStatusMessage = "Output folder selection canceled.";
+            return;
+        }
+
+        GenerationOutputDirectoryPath = selectedPath;
+        ClearGenerationError();
+        GenerationStatusMessage = $"Selected output folder: {Path.GetFileName(selectedPath)}";
+    }
+
+    public async Task GeneratePlanAsync(CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(GenerationRootPath))
+        {
+            SetGenerationError("Plan generation requires a root folder", "Select a source root folder before generating a plan.");
+            return;
+        }
+
+        if (!Directory.Exists(GenerationRootPath))
+        {
+            SetGenerationError("Plan generation requires a valid root folder", $"Root folder '{GenerationRootPath}' does not exist.");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(GenerationOutputDirectoryPath))
+        {
+            SetGenerationError("Plan generation requires an output folder", "Select an output folder for rename-plan.json.");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(PlanFileName))
+        {
+            SetGenerationError("Plan generation requires a file name", "Enter a file name for the generated plan artifact.");
+            return;
+        }
+
+        string outputPath;
+        try
+        {
+            outputPath = Path.Combine(GenerationOutputDirectoryPath, NormalizePlanFileName(PlanFileName));
+        }
+        catch (Exception ex) when (ex is ArgumentException or NotSupportedException)
+        {
+            SetGenerationError("Plan file name is invalid", ex.Message);
+            return;
+        }
+
+        logger.LogInformation("Generating plan from root {RootPath} to {OutputPath}.", GenerationRootPath, outputPath);
+        IsGenerating = true;
+        ClearGenerationError();
+        GenerationStatusMessage = "Generating rename plan...";
+
+        try
+        {
+            var plan = await Task.Run(() => planBuilder.Build(GenerationRootPath), cancellationToken);
+            await Task.Run(() => planSerializer.Write(outputPath, plan), cancellationToken);
+
+            loadedPlan = plan;
+            SetGeneratedPlanPath(outputPath);
+            ErrorMessage = null;
+            Operations.Clear();
+            ClearLoadedData();
+            ResetApplyState();
+            PopulateLoadedState(plan);
+            GenerationStatusMessage = $"Plan generated: {Path.GetFileName(outputPath)}";
+            logger.LogInformation("Generated plan with {OperationCount} operations at {OutputPath}.", plan.Operations.Count, outputPath);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            logger.LogError(ex, "Plan generation failed due to file system access.");
+            SetGenerationError("Plan generation failed due to file system error", ex.Message);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Plan generation failed unexpectedly.");
+            SetGenerationError("Plan generation failed unexpectedly", ex.Message);
+        }
+        finally
+        {
+            IsGenerating = false;
+        }
+    }
 
     public async Task BrowseAsync(CancellationToken cancellationToken = default)
     {
@@ -470,6 +669,19 @@ public sealed class PlanViewModel : IPlanViewModel
         ApplyStatusMessage = "Apply unavailable.";
     }
 
+    private void SetGenerationError(string title, string message)
+    {
+        GenerationErrorTitle = title;
+        GenerationErrorMessage = message;
+        GenerationStatusMessage = "Plan generation unavailable.";
+    }
+
+    private void ClearGenerationError()
+    {
+        GenerationErrorTitle = null;
+        GenerationErrorMessage = null;
+    }
+
     private void LogSkippedResults(RenameReport report)
     {
         foreach (var result in report.Results.Where(result => string.Equals(result.Status, "skipped", StringComparison.Ordinal)))
@@ -480,6 +692,18 @@ public sealed class PlanViewModel : IPlanViewModel
                 result.SourcePath,
                 result.ActualDestinationPath ?? result.PlannedDestinationPath);
         }
+    }
+
+    private void SetGeneratedPlanPath(string outputPath)
+    {
+        if (string.Equals(planPath, outputPath, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        planPath = outputPath;
+        OnPropertyChanged(nameof(PlanPath));
+        OnPropertyChanged(nameof(HasPlanPath));
     }
 
     private void SetState(PlanViewState nextState)
@@ -528,4 +752,32 @@ public sealed class PlanViewModel : IPlanViewModel
 
     private static string FormatDateRange(string startDate, string endDate) =>
         startDate == endDate ? startDate : $"{startDate} to {endDate}";
+
+    private static string NormalizePlanFileName(string value)
+    {
+        var trimmed = value.Trim();
+        if (trimmed.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
+        {
+            throw new ArgumentException($"Plan file name '{value}' contains invalid characters.");
+        }
+
+        return Path.HasExtension(trimmed) ? trimmed : $"{trimmed}.json";
+    }
+
+    private string BuildGeneratedPlanPathPreview()
+    {
+        if (string.IsNullOrWhiteSpace(GenerationOutputDirectoryPath) || string.IsNullOrWhiteSpace(PlanFileName))
+        {
+            return string.Empty;
+        }
+
+        try
+        {
+            return Path.Combine(GenerationOutputDirectoryPath, NormalizePlanFileName(PlanFileName));
+        }
+        catch (Exception)
+        {
+            return string.Empty;
+        }
+    }
 }

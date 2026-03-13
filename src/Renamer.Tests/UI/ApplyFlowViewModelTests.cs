@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using Renamer.Core.Contracts;
 using Renamer.Core.Execution;
+using Renamer.Core.Planning;
 using Renamer.Core.Serialization;
 using Renamer.UI.Plans;
 
@@ -13,8 +14,10 @@ public sealed class ApplyFlowViewModelTests
     {
         var plan = CreatePlan();
         var viewModel = new PlanViewModel(
+            new FakePlanBuilder(plan),
             new FakePlanSerializer(plan),
             new FakePlanFilePicker(null),
+            new FakeFolderPathPicker(null),
             new FakeRootPathOpener(),
             new FakeApplyEngine(CreateCompletedReport()),
             NullLogger<PlanViewModel>.Instance)
@@ -45,8 +48,10 @@ public sealed class ApplyFlowViewModelTests
     {
         var plan = CreatePlan();
         var viewModel = new PlanViewModel(
+            new FakePlanBuilder(plan),
             new FakePlanSerializer(plan),
             new FakePlanFilePicker(null),
+            new FakeFolderPathPicker(null),
             new FakeRootPathOpener(),
             new FakeApplyEngine(CreateRetryAbortReport()),
             NullLogger<PlanViewModel>.Instance)
@@ -70,8 +75,10 @@ public sealed class ApplyFlowViewModelTests
     {
         var serializer = new TwoStagePlanSerializer(CreatePlan(), new InvalidDataException("unsupported schema"));
         var viewModel = new PlanViewModel(
+            new FakePlanBuilder(CreatePlan()),
             serializer,
             new FakePlanFilePicker(null),
+            new FakeFolderPathPicker(null),
             new FakeRootPathOpener(),
             new FakeApplyEngine(CreateCompletedReport()),
             NullLogger<PlanViewModel>.Instance)
@@ -93,8 +100,10 @@ public sealed class ApplyFlowViewModelTests
     {
         var plan = CreatePlan();
         var viewModel = new PlanViewModel(
+            new FakePlanBuilder(plan),
             new FakePlanSerializer(plan),
             new FakePlanFilePicker(null),
+            new FakeFolderPathPicker(null),
             new FakeRootPathOpener(),
             new ThrowingApplyEngine(new DirectoryNotFoundException("source directory missing")),
             NullLogger<PlanViewModel>.Instance)
@@ -214,6 +223,11 @@ public sealed class ApplyFlowViewModelTests
         public RenameReport Execute(RenamePlan plan) => report;
     }
 
+    private sealed class FakePlanBuilder(RenamePlan plan) : IPlanBuilder
+    {
+        public RenamePlan Build(string rootPath) => plan;
+    }
+
     private sealed class TwoStagePlanSerializer(RenamePlan plan, Exception applyException) : IPlanSerializer
     {
         private int readCount;
@@ -240,6 +254,12 @@ public sealed class ApplyFlowViewModelTests
     private sealed class FakePlanFilePicker(string? selectedPath) : IPlanFilePicker
     {
         public Task<string?> PickPlanPathAsync(CancellationToken cancellationToken = default) =>
+            Task.FromResult(selectedPath);
+    }
+
+    private sealed class FakeFolderPathPicker(string? selectedPath) : IFolderPathPicker
+    {
+        public Task<string?> PickFolderPathAsync(string title, CancellationToken cancellationToken = default) =>
             Task.FromResult(selectedPath);
     }
 

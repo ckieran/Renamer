@@ -4,6 +4,26 @@ namespace Renamer.UI.Plans;
 
 public interface IPlanViewModel : INotifyPropertyChanged
 {
+    string GenerationRootPath { get; set; }
+
+    string GenerationOutputDirectoryPath { get; set; }
+
+    string PlanFileName { get; set; }
+
+    string GeneratedPlanPathPreview { get; }
+
+    string GenerationStatusMessage { get; }
+
+    string? GenerationErrorTitle { get; }
+
+    string? GenerationErrorMessage { get; }
+
+    bool HasGenerationError { get; }
+
+    bool IsGenerating { get; }
+
+    bool CanGenerate { get; }
+
     string PlanPath { get; set; }
 
     string StatusMessage { get; }
@@ -59,6 +79,12 @@ public interface IPlanViewModel : INotifyPropertyChanged
     System.Collections.ObjectModel.ObservableCollection<PlanOperationItem> Operations { get; }
 
     System.Collections.ObjectModel.ObservableCollection<ApplyResultItem> ApplyResults { get; }
+
+    Task BrowseGenerationRootPathAsync(CancellationToken cancellationToken = default);
+
+    Task BrowseGenerationOutputDirectoryAsync(CancellationToken cancellationToken = default);
+
+    Task GeneratePlanAsync(CancellationToken cancellationToken = default);
 
     Task BrowseAsync(CancellationToken cancellationToken = default);
 
