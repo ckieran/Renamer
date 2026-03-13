@@ -1,6 +1,12 @@
-﻿using Renamer.Core.Execution;
+﻿using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.Storage;
+using Renamer.Core.Execution;
+using Renamer.Core.Exif;
+using Renamer.Core.IO;
 using Renamer.Core.Logging;
+using Renamer.Core.Planning;
 using Renamer.Core.Serialization;
+using Renamer.Core.Time;
 using Renamer.UI.Plans;
 using Renamer.UI.Runtime;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +28,7 @@ public static class MauiProgram
 
 		builder
 			.UseMauiApp<App>()
+			.UseMauiCommunityToolkit()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -36,8 +43,18 @@ public static class MauiProgram
 		builder.Services.AddSingleton<IRuntimeEnvironment>(runtimeEnvironment);
 		builder.Services.AddSingleton<ILogPathProvider>(logPathProvider);
 		builder.Services.AddSingleton(loggingBootstrap);
+		builder.Services.AddSingleton<IClock, SystemClock>();
+		builder.Services.AddSingleton<IExifMetadataReader, MetadataExtractorExifMetadataReader>();
+		builder.Services.AddSingleton<IExifService, ExifService>();
+		builder.Services.AddSingleton<IFolderDateRangeCalculator, FolderDateRangeCalculator>();
+		builder.Services.AddSingleton<IFolderNameGenerator, FolderNameGenerator>();
+		builder.Services.AddSingleton<IConflictRetryPolicy, ConflictRetryPolicy>();
+		builder.Services.AddSingleton<IPlanBuilder, PlanBuilder>();
 		builder.Services.AddSingleton<IPlanSerializer, PlanSerializer>();
+		builder.Services.AddSingleton<IDirectoryMover, DirectoryMover>();
 		builder.Services.AddSingleton<IApplyEngine, ApplyEngine>();
+		builder.Services.AddSingleton<IFolderPicker>(FolderPicker.Default);
+		builder.Services.AddSingleton<IFolderPathPicker, FolderPathPicker>();
 		builder.Services.AddSingleton<IPlanFilePicker, PlanFilePicker>();
 		builder.Services.AddSingleton<IRootPathOpener, RootPathOpener>();
 		builder.Services.AddSingleton<IPlanViewModel, PlanViewModel>();

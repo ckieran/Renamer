@@ -2,6 +2,7 @@ using System.Globalization;
 using Microsoft.Extensions.Logging.Abstractions;
 using Renamer.Core.Contracts;
 using Renamer.Core.Execution;
+using Renamer.Core.Planning;
 using Renamer.Core.Serialization;
 using Renamer.UI.Plans;
 
@@ -13,8 +14,10 @@ public sealed class PlanViewModelTests
     public async Task LoadAsync_WithValidPlan_PopulatesSummaryAndOperations()
     {
         var viewModel = new PlanViewModel(
+            new FakePlanBuilder(CreatePlan()),
             new FakePlanSerializer(CreatePlan()),
             new FakePlanFilePicker(null),
+            new FakeFolderPathPicker(null),
             new FakeRootPathOpener(),
             new FakeApplyEngine(),
             NullLogger<PlanViewModel>.Instance)
@@ -45,8 +48,10 @@ public sealed class PlanViewModelTests
     public async Task LoadAsync_WithMissingPath_SetsActionableErrorState()
     {
         var viewModel = new PlanViewModel(
+            new FakePlanBuilder(CreatePlan()),
             new FakePlanSerializer(CreatePlan()),
             new FakePlanFilePicker(null),
+            new FakeFolderPathPicker(null),
             new FakeRootPathOpener(),
             new FakeApplyEngine(),
             NullLogger<PlanViewModel>.Instance);
@@ -63,8 +68,10 @@ public sealed class PlanViewModelTests
     public async Task LoadAsync_WhenSerializerThrows_ShowsInlineErrorState()
     {
         var viewModel = new PlanViewModel(
+            new FakePlanBuilder(CreatePlan()),
             new ThrowingPlanSerializer(new InvalidDataException("broken plan")),
             new FakePlanFilePicker(null),
+            new FakeFolderPathPicker(null),
             new FakeRootPathOpener(),
             new FakeApplyEngine(),
             NullLogger<PlanViewModel>.Instance)
@@ -84,8 +91,10 @@ public sealed class PlanViewModelTests
     public async Task BrowseAsync_WhenPickerReturnsPath_UpdatesPlanPath()
     {
         var viewModel = new PlanViewModel(
+            new FakePlanBuilder(CreatePlan()),
             new FakePlanSerializer(CreatePlan()),
             new FakePlanFilePicker("/tmp/picked-plan.json"),
+            new FakeFolderPathPicker(null),
             new FakeRootPathOpener(),
             new FakeApplyEngine(),
             NullLogger<PlanViewModel>.Instance);
@@ -100,8 +109,10 @@ public sealed class PlanViewModelTests
     public async Task BrowseAsync_WhenPickerThrows_ShowsErrorState()
     {
         var viewModel = new PlanViewModel(
+            new FakePlanBuilder(CreatePlan()),
             new FakePlanSerializer(CreatePlan()),
             new ThrowingPlanFilePicker(new InvalidOperationException("picker unavailable")),
+            new FakeFolderPathPicker(null),
             new FakeRootPathOpener(),
             new FakeApplyEngine(),
             NullLogger<PlanViewModel>.Instance);
@@ -117,8 +128,10 @@ public sealed class PlanViewModelTests
     {
         var rootPathOpener = new FakeRootPathOpener();
         var viewModel = new PlanViewModel(
+            new FakePlanBuilder(CreatePlan()),
             new FakePlanSerializer(CreatePlan()),
             new FakePlanFilePicker(null),
+            new FakeFolderPathPicker(null),
             rootPathOpener,
             new FakeApplyEngine(),
             NullLogger<PlanViewModel>.Instance)
@@ -189,6 +202,12 @@ public sealed class PlanViewModelTests
             throw exception;
     }
 
+    private sealed class FakeFolderPathPicker(string? selectedPath) : IFolderPathPicker
+    {
+        public Task<string?> PickFolderPathAsync(string title, CancellationToken cancellationToken = default) =>
+            Task.FromResult(selectedPath);
+    }
+
     private sealed class FakeRootPathOpener : IRootPathOpener
     {
         public string? OpenedPath { get; private set; }
@@ -203,5 +222,10 @@ public sealed class PlanViewModelTests
     private sealed class FakeApplyEngine : IApplyEngine
     {
         public RenameReport Execute(RenamePlan plan) => throw new NotImplementedException();
+    }
+
+    private sealed class FakePlanBuilder(RenamePlan plan) : IPlanBuilder
+    {
+        public RenamePlan Build(string rootPath) => plan;
     }
 }

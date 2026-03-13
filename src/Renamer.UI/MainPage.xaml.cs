@@ -39,4 +39,22 @@ public partial class MainPage : ContentPage
         logger.LogInformation("Apply button clicked.");
         await viewModel.ApplyAsync();
     }
+
+    private async void OnBrowseGenerationRootClicked(object? sender, EventArgs e)
+    {
+        logger.LogInformation("Generation root browse button clicked.");
+        await viewModel.BrowseGenerationRootPathAsync();
+    }
+
+    private async void OnBrowseGenerationOutputDirectoryClicked(object? sender, EventArgs e)
+    {
+        logger.LogInformation("Generation output directory browse button clicked.");
+        await viewModel.BrowseGenerationOutputDirectoryAsync();
+    }
+
+    private async void OnGeneratePlanClicked(object? sender, EventArgs e)
+    {
+        logger.LogInformation("Generate plan button clicked.");
+        await viewModel.GeneratePlanAsync();
+    }
 }

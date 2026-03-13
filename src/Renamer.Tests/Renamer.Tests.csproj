@@ -27,6 +27,7 @@
     <Compile Include="..\Renamer.UI\Runtime\IRuntimeEnvironment.cs" Link="UI\Runtime\IRuntimeEnvironment.cs" />
     <Compile Include="..\Renamer.UI\Runtime\RuntimePlatform.cs" Link="UI\Runtime\RuntimePlatform.cs" />
     <Compile Include="..\Renamer.UI\Plans\IPlanFilePicker.cs" Link="UI\Plans\IPlanFilePicker.cs" />
+    <Compile Include="..\Renamer.UI\Plans\IFolderPathPicker.cs" Link="UI\Plans\IFolderPathPicker.cs" />
     <Compile Include="..\Renamer.UI\Plans\IRootPathOpener.cs" Link="UI\Plans\IRootPathOpener.cs" />
     <Compile Include="..\Renamer.UI\Plans\IPlanViewModel.cs" Link="UI\Plans\IPlanViewModel.cs" />
     <Compile Include="..\Renamer.UI\Plans\ApplyResultItem.cs" Link="UI\Plans\ApplyResultItem.cs" />

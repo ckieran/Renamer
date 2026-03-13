@@ -7,20 +7,93 @@
           Padding="24"
           RowSpacing="18">
         <VerticalStackLayout Spacing="6">
-            <Label Text="Plan Preview"
+            <Label Text="Plan Generation, Preview, and Apply"
                    FontSize="32"
                    FontAttributes="Bold"
                    SemanticProperties.HeadingLevel="Level1" />
-            <Label Text="Load a rename-plan.json artifact to review operations, then run apply and inspect the report."
+            <Label Text="Generate a rename plan from a root folder, review the planned operations, then apply and inspect the report."
                    FontSize="14"
                    TextColor="{AppThemeBinding Light=#5C5C5C, Dark=#B8B8B8}" />
         </VerticalStackLayout>
 
         <Grid Grid.Row="1"
-              ColumnDefinitions="380,*"
+              ColumnDefinitions="400,*"
               ColumnSpacing="18">
             <ScrollView>
                 <VerticalStackLayout Spacing="16">
+                    <Border StrokeThickness="1"
+                            Padding="16">
+                        <VerticalStackLayout Spacing="12">
+                            <Label Text="Generate Plan"
+                                   FontSize="18"
+                                   FontAttributes="Bold" />
+                            <Label Text="Select the source root folder and destination folder for the generated plan artifact."
+                                   FontSize="13" />
+
+                            <VerticalStackLayout Spacing="6">
+                                <Label Text="Root Folder"
+                                       FontAttributes="Bold" />
+                                <Entry Text="{Binding GenerationRootPath}"
+                                       Placeholder="/path/to/photo-root"
+                                       ClearButtonVisibility="WhileEditing" />
+                                <Button Text="Browse Root Folder"
+                                        Clicked="OnBrowseGenerationRootClicked" />
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Spacing="6">
+                                <Label Text="Output Folder"
+                                       FontAttributes="Bold" />
+                                <Entry Text="{Binding GenerationOutputDirectoryPath}"
+                                       Placeholder="/path/to/output-folder"
+                                       ClearButtonVisibility="WhileEditing" />
+                                <Button Text="Browse Output Folder"
+                                        Clicked="OnBrowseGenerationOutputDirectoryClicked" />
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Spacing="6">
+                                <Label Text="Plan File Name"
+                                       FontAttributes="Bold" />
+                                <Entry Text="{Binding PlanFileName}"
+                                       Placeholder="rename-plan.json"
+                                       ClearButtonVisibility="WhileEditing" />
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Generated Plan Path"
+                                       FontAttributes="Bold" />
+                                <Label Text="{Binding GeneratedPlanPathPreview}"
+                                       FontSize="12"
+                                       LineBreakMode="WordWrap"
+                                       TextColor="{AppThemeBinding Light=#0F4C81, Dark=#8CC8FF}" />
+                            </VerticalStackLayout>
+
+                            <HorizontalStackLayout Spacing="10">
+                                <Button Text="Generate and Load"
+                                        Clicked="OnGeneratePlanClicked"
+                                        IsEnabled="{Binding CanGenerate}" />
+                                <ActivityIndicator IsRunning="{Binding IsGenerating}"
+                                                   IsVisible="{Binding IsGenerating}"
+                                                   VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+
+                            <Label Text="{Binding GenerationStatusMessage}"
+                                   FontSize="13" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border StrokeThickness="1"
+                            Padding="16"
+                            IsVisible="{Binding HasGenerationError}">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="{Binding GenerationErrorTitle}"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#9A3412" />
+                            <Label Text="{Binding GenerationErrorMessage}"
+                                   FontSize="13" />
+                        </VerticalStackLayout>
+                    </Border>
+
                     <Border StrokeThickness="1"
                             Padding="16">
                         <VerticalStackLayout Spacing="12">
