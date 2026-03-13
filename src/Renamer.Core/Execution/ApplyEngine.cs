@@ -12,6 +12,7 @@ public sealed class ApplyEngine : IApplyEngine
     private const string SchemaVersion = "1.0";
     private const string SuccessStatus = "success";
     private const string FailedStatus = "failed";
+    private const string SkippedStatus = "skipped";
 
     private readonly IClock clock;
     private readonly IDirectoryMover directoryMover;
@@ -63,7 +64,7 @@ public sealed class ApplyEngine : IApplyEngine
             {
                 Success = results.Count(result => result.Status == SuccessStatus),
                 Failed = results.Count(result => result.Status == FailedStatus),
-                Skipped = 0,
+                Skipped = results.Count(result => result.Status == SkippedStatus),
                 Drifted = results.Count(result =>
                     result.Status == SuccessStatus &&
                     !string.Equals(result.PlannedDestinationPath, result.ActualDestinationPath, StringComparison.Ordinal))
@@ -74,6 +75,29 @@ public sealed class ApplyEngine : IApplyEngine
     private RenameReportResult ExecuteOperation(RenamePlanOperation operation)
     {
         var candidatePaths = conflictRetryPolicy.GetCandidatePaths(operation.PlannedDestinationPath);
+        if (!directoryMover.Exists(operation.SourcePath))
+        {
+            var existingDestinationPath = candidatePaths.FirstOrDefault(directoryMover.Exists);
+            if (!string.IsNullOrWhiteSpace(existingDestinationPath))
+            {
+                return new RenameReportResult
+                {
+                    OpId = operation.OpId,
+                    SourcePath = operation.SourcePath,
+                    PlannedDestinationPath = operation.PlannedDestinationPath,
+                    ActualDestinationPath = existingDestinationPath,
+                    Status = SkippedStatus,
+                    Attempts = 1,
+                    Warnings =
+                    [
+                        string.Equals(existingDestinationPath, operation.PlannedDestinationPath, StringComparison.Ordinal)
+                            ? "Source path no longer exists; operation appears already completed."
+                            : $"Source path no longer exists; operation appears already completed at{existingDestinationPath[operation.PlannedDestinationPath.Length..]}."
+                    ],
+                    Error = null
+                };
+            }
+        }
 
         for (var index = 0; index < candidatePaths.Count; index++)
         {

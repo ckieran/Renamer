@@ -1,6 +1,7 @@
 using System.Globalization;
 using Microsoft.Extensions.Logging.Abstractions;
 using Renamer.Core.Contracts;
+using Renamer.Core.Execution;
 using Renamer.Core.Serialization;
 using Renamer.UI.Plans;
 
@@ -15,6 +16,7 @@ public sealed class PlanViewModelTests
             new FakePlanSerializer(CreatePlan()),
             new FakePlanFilePicker(null),
             new FakeRootPathOpener(),
+            new FakeApplyEngine(),
             NullLogger<PlanViewModel>.Instance)
         {
             PlanPath = "/tmp/rename-plan.json"
@@ -46,6 +48,7 @@ public sealed class PlanViewModelTests
             new FakePlanSerializer(CreatePlan()),
             new FakePlanFilePicker(null),
             new FakeRootPathOpener(),
+            new FakeApplyEngine(),
             NullLogger<PlanViewModel>.Instance);
 
         await viewModel.LoadAsync();
@@ -63,6 +66,7 @@ public sealed class PlanViewModelTests
             new ThrowingPlanSerializer(new InvalidDataException("broken plan")),
             new FakePlanFilePicker(null),
             new FakeRootPathOpener(),
+            new FakeApplyEngine(),
             NullLogger<PlanViewModel>.Instance)
         {
             PlanPath = "/tmp/broken-plan.json"
@@ -83,6 +87,7 @@ public sealed class PlanViewModelTests
             new FakePlanSerializer(CreatePlan()),
             new FakePlanFilePicker("/tmp/picked-plan.json"),
             new FakeRootPathOpener(),
+            new FakeApplyEngine(),
             NullLogger<PlanViewModel>.Instance);
 
         await viewModel.BrowseAsync();
@@ -98,6 +103,7 @@ public sealed class PlanViewModelTests
             new FakePlanSerializer(CreatePlan()),
             new ThrowingPlanFilePicker(new InvalidOperationException("picker unavailable")),
             new FakeRootPathOpener(),
+            new FakeApplyEngine(),
             NullLogger<PlanViewModel>.Instance);
 
         await viewModel.BrowseAsync();
@@ -114,6 +120,7 @@ public sealed class PlanViewModelTests
             new FakePlanSerializer(CreatePlan()),
             new FakePlanFilePicker(null),
             rootPathOpener,
+            new FakeApplyEngine(),
             NullLogger<PlanViewModel>.Instance)
         {
             PlanPath = "/tmp/rename-plan.json"
@@ -191,5 +198,10 @@ public sealed class PlanViewModelTests
             OpenedPath = directoryPath;
             return Task.CompletedTask;
         }
+    }
+
+    private sealed class FakeApplyEngine : IApplyEngine
+    {
+        public RenameReport Execute(RenamePlan plan) => throw new NotImplementedException();
     }
 }

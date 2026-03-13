@@ -37,4 +37,4 @@ TestResults/
 secrets.json
 # Images and generated files
 src/**/Resources/Raw/
-samples/TestPhotos/
+plan.json

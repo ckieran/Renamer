@@ -10,7 +10,11 @@ public sealed class ApplyEngineTests
     [Fact]
     public void Execute_WhenPlannedDestinationIsAvailable_RenamesSuccessfullyOnFirstAttempt()
     {
-        var directoryMover = new FakeDirectoryMover();
+        var directoryMover = new FakeDirectoryMover(
+            existingPaths:
+            [
+                "/photos/Trip A"
+            ]);
         var clock = new FakeClock(
             new DateTimeOffset(2026, 3, 11, 10, 0, 0, TimeSpan.Zero),
             new DateTimeOffset(2026, 3, 11, 10, 0, 1, TimeSpan.Zero));
@@ -41,6 +45,7 @@ public sealed class ApplyEngineTests
         var directoryMover = new FakeDirectoryMover(
             existingPaths:
             [
+                "/photos/Trip A",
                 "/photos/2024-06-12 - 2024-06-14 - Trip A",
                 "/photos/2024-06-12 - 2024-06-14 - Trip A (1)"
             ]);
@@ -65,7 +70,12 @@ public sealed class ApplyEngineTests
     [Fact]
     public void Execute_WhenRetryLimitIsExceeded_FailsCurrentOperationAndAbortsPlan()
     {
-        var existingPaths = new List<string> { "/photos/2024-06-12 - 2024-06-14 - Trip A" };
+        var existingPaths = new List<string>
+        {
+            "/photos/Trip A",
+            "/photos/2024-06-15 - Trip B",
+            "/photos/2024-06-12 - 2024-06-14 - Trip A"
+        };
         for (var suffix = 1; suffix <= 10; suffix++)
         {
             existingPaths.Add($"/photos/2024-06-12 - 2024-06-14 - Trip A ({suffix})");
@@ -90,6 +100,36 @@ public sealed class ApplyEngineTests
         Assert.Empty(directoryMover.MoveCalls);
         Assert.Equal(0, report.Summary.Success);
         Assert.Equal(1, report.Summary.Failed);
+        Assert.Equal(0, report.Summary.Drifted);
+    }
+
+    [Fact]
+    public void Execute_WhenSourceIsMissingButDestinationAlreadyExists_SkipsOperationAsAlreadyCompleted()
+    {
+        var directoryMover = new FakeDirectoryMover(
+            existingPaths:
+            [
+                "/photos/2024-06-12 - 2024-06-14 - Trip A (1)"
+            ]);
+        var clock = new FakeClock(
+            new DateTimeOffset(2026, 3, 11, 10, 0, 0, TimeSpan.Zero),
+            new DateTimeOffset(2026, 3, 11, 10, 0, 1, TimeSpan.Zero));
+        var sut = new ApplyEngine(new ConflictRetryPolicy(), directoryMover, clock);
+        var plan = CreatePlan();
+
+        var report = sut.Execute(plan);
+
+        var result = Assert.Single(report.Results);
+        Assert.Equal(ApplyEngine.CompletedOutcome, report.Outcome);
+        Assert.Equal("skipped", result.Status);
+        Assert.Equal(1, result.Attempts);
+        Assert.Equal("/photos/2024-06-12 - 2024-06-14 - Trip A (1)", result.ActualDestinationPath);
+        Assert.Equal(["Source path no longer exists; operation appears already completed at (1)."], result.Warnings);
+        Assert.Null(result.Error);
+        Assert.Empty(directoryMover.MoveCalls);
+        Assert.Equal(0, report.Summary.Success);
+        Assert.Equal(0, report.Summary.Failed);
+        Assert.Equal(1, report.Summary.Skipped);
         Assert.Equal(0, report.Summary.Drifted);
     }
 

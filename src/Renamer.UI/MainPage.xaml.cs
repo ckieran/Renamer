@@ -33,4 +33,10 @@ public partial class MainPage : ContentPage
         logger.LogInformation("Root path tapped.");
         await viewModel.OpenRootPathAsync();
     }
+
+    private async void OnApplyClicked(object? sender, EventArgs e)
+    {
+        logger.LogInformation("Apply button clicked.");
+        await viewModel.ApplyAsync();
+    }
 }
