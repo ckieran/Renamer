@@ -6,7 +6,7 @@
 
 ## Entry criteria before implementation
 - Specs are approved through `080-cli-contract.md`.
-- Slice docs `110` to `240` include concrete runbook sections:
+- Slice docs `110` to `250` include concrete runbook sections:
   - implementation steps
   - commands to run
   - test scope
@@ -34,6 +34,7 @@
   - `220-serilog-ui-bootstrap.md`
   - `230-maui-plan-view.md`
   - `240-maui-apply-flow.md`
+  - `250-maui-plan-generation-flow.md`
 
 ## Phase 4: Polish
 - Cross-platform validation on Windows/macOS.
