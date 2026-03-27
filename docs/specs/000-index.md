@@ -31,3 +31,7 @@ This folder defines the spec-driven development package for Renamer.
 - `220-serilog-ui-bootstrap.md` - draft - UI operational logging startup.
 - `230-maui-plan-view.md` - draft - Desktop UI plan preview rendering.
 - `240-maui-apply-flow.md` - draft - Desktop UI apply and report flow.
+- `250-maui-plan-generation-flow.md` - draft - Desktop UI plan generation flow.
+- `260-maui-stepper-shell.md` - draft - Desktop UI step-navigation shell and active workspace layout.
+- `270-maui-preview-workspace.md` - draft - Desktop UI preview workspace with summary breakout and operations list.
+- `280-maui-apply-workspace.md` - draft - Desktop UI apply workspace with inline results and generated-plan handoff.
