@@ -57,4 +57,22 @@ public partial class MainPage : ContentPage
         logger.LogInformation("Generate plan button clicked.");
         await viewModel.GeneratePlanAsync();
     }
+
+    private void OnGenerateStepTapped(object? sender, TappedEventArgs e)
+    {
+        logger.LogInformation("Generate step selected.");
+        viewModel.SelectStep(PlanWorkflowStep.GeneratePlan);
+    }
+
+    private void OnPreviewStepTapped(object? sender, TappedEventArgs e)
+    {
+        logger.LogInformation("Preview step selected.");
+        viewModel.SelectStep(PlanWorkflowStep.PreviewPlan);
+    }
+
+    private void OnApplyStepTapped(object? sender, TappedEventArgs e)
+    {
+        logger.LogInformation("Apply step selected.");
+        viewModel.SelectStep(PlanWorkflowStep.ApplyPlan);
+    }
 }

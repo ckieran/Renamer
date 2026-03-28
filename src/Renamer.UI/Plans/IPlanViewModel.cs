@@ -4,6 +4,20 @@ namespace Renamer.UI.Plans;
 
 public interface IPlanViewModel : INotifyPropertyChanged
 {
+    PlanWorkflowStep ActiveStep { get; }
+
+    PlanWorkflowStepItem GenerateStep { get; }
+
+    PlanWorkflowStepItem PreviewStep { get; }
+
+    PlanWorkflowStepItem ApplyStep { get; }
+
+    bool IsGenerateStepActive { get; }
+
+    bool IsPreviewStepActive { get; }
+
+    bool IsApplyStepActive { get; }
+
     string GenerationRootPath { get; set; }
 
     string GenerationOutputDirectoryPath { get; set; }
@@ -93,4 +107,6 @@ public interface IPlanViewModel : INotifyPropertyChanged
     Task OpenRootPathAsync(CancellationToken cancellationToken = default);
 
     Task ApplyAsync(CancellationToken cancellationToken = default);
+
+    void SelectStep(PlanWorkflowStep step);
 }
