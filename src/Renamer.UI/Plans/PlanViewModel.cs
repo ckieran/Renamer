@@ -19,8 +19,12 @@ public sealed class PlanViewModel : IPlanViewModel
     private readonly IRootPathOpener rootPathOpener;
     private readonly IApplyEngine applyEngine;
     private readonly ILogger<PlanViewModel> logger;
+    private readonly PlanWorkflowStepItem generateStep;
+    private readonly PlanWorkflowStepItem previewStep;
+    private readonly PlanWorkflowStepItem applyStep;
 
     private RenamePlan? loadedPlan;
+    private bool hasGeneratedPlan;
     private string generationRootPath = string.Empty;
     private string generationOutputDirectoryPath = string.Empty;
     private string planFileName = "rename-plan.json";
@@ -45,6 +49,7 @@ public sealed class PlanViewModel : IPlanViewModel
     private string applyFailedCountText = "0";
     private string applySkippedCountText = "0";
     private string applyDriftedCountText = "0";
+    private PlanWorkflowStep activeStep = PlanWorkflowStep.GeneratePlan;
     private PlanViewState state = PlanViewState.Idle;
     private bool isApplying;
     private bool hasApplyReport;
@@ -65,9 +70,36 @@ public sealed class PlanViewModel : IPlanViewModel
         this.rootPathOpener = rootPathOpener ?? throw new ArgumentNullException(nameof(rootPathOpener));
         this.applyEngine = applyEngine ?? throw new ArgumentNullException(nameof(applyEngine));
         this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        generateStep = new PlanWorkflowStepItem(
+            PlanWorkflowStep.GeneratePlan,
+            "Generate Plan",
+            "Create a folder rename plan starting from a source folder");
+        previewStep = new PlanWorkflowStepItem(
+            PlanWorkflowStep.PreviewPlan,
+            "Preview Plan",
+            "Load a plan artifact and inspect the planned operations.");
+        applyStep = new PlanWorkflowStepItem(
+            PlanWorkflowStep.ApplyPlan,
+            "Apply Plan",
+            "Execute the loaded plan and review the resulting report.");
+        RefreshShellState();
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
+
+    public PlanWorkflowStep ActiveStep => activeStep;
+
+    public PlanWorkflowStepItem GenerateStep => generateStep;
+
+    public PlanWorkflowStepItem PreviewStep => previewStep;
+
+    public PlanWorkflowStepItem ApplyStep => applyStep;
+
+    public bool IsGenerateStepActive => ActiveStep == PlanWorkflowStep.GeneratePlan;
+
+    public bool IsPreviewStepActive => ActiveStep == PlanWorkflowStep.PreviewPlan;
+
+    public bool IsApplyStepActive => ActiveStep == PlanWorkflowStep.ApplyPlan;
 
     public string GenerationRootPath
     {
@@ -387,6 +419,7 @@ public sealed class PlanViewModel : IPlanViewModel
             var plan = await Task.Run(() => planBuilder.Build(GenerationRootPath), cancellationToken);
             await Task.Run(() => planSerializer.Write(outputPath, plan), cancellationToken);
 
+            hasGeneratedPlan = true;
             loadedPlan = plan;
             SetGeneratedPlanPath(outputPath);
             ErrorMessage = null;
@@ -552,6 +585,21 @@ public sealed class PlanViewModel : IPlanViewModel
         }
     }
 
+    public void SelectStep(PlanWorkflowStep step)
+    {
+        if (activeStep == step)
+        {
+            return;
+        }
+
+        activeStep = step;
+        RefreshShellState();
+        OnPropertyChanged(nameof(ActiveStep));
+        OnPropertyChanged(nameof(IsGenerateStepActive));
+        OnPropertyChanged(nameof(IsPreviewStepActive));
+        OnPropertyChanged(nameof(IsApplyStepActive));
+    }
+
     private void PopulateLoadedState(RenamePlan plan)
     {
         RootPath = plan.RootPath;
@@ -574,6 +622,7 @@ public sealed class PlanViewModel : IPlanViewModel
         SetState(PlanViewState.Loaded);
         ErrorMessage = null;
         StatusMessage = $"Loaded {plan.Operations.Count} planned operation(s).";
+        RefreshShellState();
     }
 
     private void PopulateApplyState(RenameReport report)
@@ -600,6 +649,7 @@ public sealed class PlanViewModel : IPlanViewModel
         }
 
         HasApplyReport = true;
+        RefreshShellState();
     }
 
     private void SetErrorState(string message)
@@ -611,6 +661,7 @@ public sealed class PlanViewModel : IPlanViewModel
         Operations.Clear();
         loadedPlan = null;
         ResetApplyState();
+        RefreshShellState();
     }
 
     private void ClearLoadedData()
@@ -636,6 +687,7 @@ public sealed class PlanViewModel : IPlanViewModel
         StatusMessage = HasPlanPath
             ? "Plan path updated. Load preview to refresh."
             : "Select a rename-plan.json file to preview planned operations.";
+        RefreshShellState();
     }
 
     private void ResetApplyState()
@@ -649,6 +701,7 @@ public sealed class PlanViewModel : IPlanViewModel
         HasApplyReport = false;
         IsApplying = false;
         ResetApplySummary();
+        RefreshShellState();
     }
 
     private void ResetApplySummary()
@@ -667,6 +720,7 @@ public sealed class PlanViewModel : IPlanViewModel
         ApplyErrorTitle = title;
         ApplyErrorMessage = message;
         ApplyStatusMessage = "Apply unavailable.";
+        RefreshShellState();
     }
 
     private void SetGenerationError(string title, string message)
@@ -674,12 +728,14 @@ public sealed class PlanViewModel : IPlanViewModel
         GenerationErrorTitle = title;
         GenerationErrorMessage = message;
         GenerationStatusMessage = "Plan generation unavailable.";
+        RefreshShellState();
     }
 
     private void ClearGenerationError()
     {
         GenerationErrorTitle = null;
         GenerationErrorMessage = null;
+        RefreshShellState();
     }
 
     private void LogSkippedResults(RenameReport report)
@@ -719,6 +775,48 @@ public sealed class PlanViewModel : IPlanViewModel
         OnPropertyChanged(nameof(IsLoaded));
         OnPropertyChanged(nameof(HasError));
         OnPropertyChanged(nameof(CanApply));
+        RefreshShellState();
+    }
+
+    private void RefreshShellState()
+    {
+        generateStep.IsSelected = ActiveStep == PlanWorkflowStep.GeneratePlan;
+        previewStep.IsSelected = ActiveStep == PlanWorkflowStep.PreviewPlan;
+        applyStep.IsSelected = ActiveStep == PlanWorkflowStep.ApplyPlan;
+
+        generateStep.Status = GetGenerateStepStatus();
+        previewStep.Status = GetPreviewStepStatus();
+        applyStep.Status = GetApplyStepStatus();
+    }
+
+    private PlanWorkflowStepStatus GetGenerateStepStatus()
+    {
+        if (HasGenerationError)
+        {
+            return PlanWorkflowStepStatus.Error;
+        }
+
+        return hasGeneratedPlan ? PlanWorkflowStepStatus.Done : PlanWorkflowStepStatus.NeedsInfo;
+    }
+
+    private PlanWorkflowStepStatus GetPreviewStepStatus()
+    {
+        if (HasError)
+        {
+            return PlanWorkflowStepStatus.Error;
+        }
+
+        return IsLoaded ? PlanWorkflowStepStatus.Done : PlanWorkflowStepStatus.NeedsInfo;
+    }
+
+    private PlanWorkflowStepStatus GetApplyStepStatus()
+    {
+        if (HasApplyError)
+        {
+            return PlanWorkflowStepStatus.Error;
+        }
+
+        return HasApplyReport ? PlanWorkflowStepStatus.Done : PlanWorkflowStepStatus.NeedsInfo;
     }
 
     private bool SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)

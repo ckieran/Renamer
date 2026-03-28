@@ -32,6 +32,9 @@
     <Compile Include="..\Renamer.UI\Plans\IPlanViewModel.cs" Link="UI\Plans\IPlanViewModel.cs" />
     <Compile Include="..\Renamer.UI\Plans\ApplyResultItem.cs" Link="UI\Plans\ApplyResultItem.cs" />
     <Compile Include="..\Renamer.UI\Plans\PlanOperationItem.cs" Link="UI\Plans\PlanOperationItem.cs" />
+    <Compile Include="..\Renamer.UI\Plans\PlanWorkflowStep.cs" Link="UI\Plans\PlanWorkflowStep.cs" />
+    <Compile Include="..\Renamer.UI\Plans\PlanWorkflowStepItem.cs" Link="UI\Plans\PlanWorkflowStepItem.cs" />
+    <Compile Include="..\Renamer.UI\Plans\PlanWorkflowStepStatus.cs" Link="UI\Plans\PlanWorkflowStepStatus.cs" />
     <Compile Include="..\Renamer.UI\Plans\PlanViewModel.cs" Link="UI\Plans\PlanViewModel.cs" />
     <Compile Include="..\Renamer.UI\Plans\PlanViewState.cs" Link="UI\Plans\PlanViewState.cs" />
     <Compile Include="..\Renamer.UI\UiLogPathProvider.cs" Link="UI\UiLogPathProvider.cs" />
