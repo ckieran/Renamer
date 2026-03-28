@@ -18,10 +18,11 @@
 
         <Grid Grid.Row="1"
               ColumnDefinitions="280,*"
-              ColumnSpacing="18">
+              ColumnSpacing="0">
             <ScrollView>
                 <VerticalStackLayout Spacing="16">
                     <Border Padding="16"
+                            Margin="0,0,18,0"
                             Background="{AppThemeBinding Light=#F8FAFC, Dark=#111827}">
                         <VerticalStackLayout Spacing="8">
                             <Label Text="Workflow"
@@ -33,7 +34,13 @@
                         </VerticalStackLayout>
                     </Border>
 
-                    <Border Padding="14">
+                    <Border Padding="14" Margin="0,0,18,0"
+                            Stroke="{AppThemeBinding Light=#CBD5E1, Dark=#475569}"
+                            Background="{AppThemeBinding Light=#F8FAFC, Dark=#111827}"
+                            ZIndex="2">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8" />
+                        </Border.StrokeShape>
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnGenerateStepTapped" />
                         </Border.GestureRecognizers>
@@ -41,8 +48,14 @@
                             <DataTrigger TargetType="Border"
                                          Binding="{Binding GenerateStep.IsSelected}"
                                          Value="True">
-                                <Setter Property="Stroke" Value="#0F4C81" />
-                                <Setter Property="Background" Value="{AppThemeBinding Light=#E0F2FE, Dark=#1E3A5F}" />
+                                <Setter Property="Margin" Value="0,0,-1,0" />
+                                <Setter Property="Padding" Value="14,14,33,14" />
+                                <Setter Property="Stroke" Value="{AppThemeBinding Light=#CBD5E1, Dark=#475569}" />
+                                <Setter Property="StrokeThickness" Value="1" />
+                                <Setter Property="Background" Value="{AppThemeBinding Light=#FFFFFF, Dark=#0F172A}" />
+                                <Setter Property="StrokeShape">
+                                    <RoundRectangle CornerRadius="8,0,8,0" />
+                                </Setter>
                             </DataTrigger>
                         </Border.Triggers>
                         <VerticalStackLayout Spacing="10">
@@ -67,7 +80,13 @@
                         </VerticalStackLayout>
                     </Border>
 
-                    <Border Padding="14">
+                    <Border Padding="14" Margin="0,0,18,0" 
+                            Stroke="{AppThemeBinding Light=#CBD5E1, Dark=#475569}"
+                            Background="{AppThemeBinding Light=#F8FAFC, Dark=#111827}"
+                            ZIndex="2">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8" />
+                        </Border.StrokeShape>
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnPreviewStepTapped" />
                         </Border.GestureRecognizers>
@@ -75,8 +94,14 @@
                             <DataTrigger TargetType="Border"
                                          Binding="{Binding PreviewStep.IsSelected}"
                                          Value="True">
-                                <Setter Property="Stroke" Value="#0F4C81" />
-                                <Setter Property="Background" Value="{AppThemeBinding Light=#E0F2FE, Dark=#1E3A5F}" />
+                                <Setter Property="Margin" Value="0,0,-1,0" />
+                                <Setter Property="Padding" Value="14,14,33,14" />
+                                <Setter Property="Stroke" Value="{AppThemeBinding Light=#CBD5E1, Dark=#475569}" />
+                                <Setter Property="StrokeThickness" Value="1" />
+                                <Setter Property="Background" Value="{AppThemeBinding Light=#FFFFFF, Dark=#0F172A}" />
+                                <Setter Property="StrokeShape">
+                                    <RoundRectangle CornerRadius="8,0,8,0" />
+                                </Setter>
                             </DataTrigger>
                         </Border.Triggers>
                         <VerticalStackLayout Spacing="10">
@@ -101,7 +126,13 @@
                         </VerticalStackLayout>
                     </Border>
 
-                    <Border Padding="14">
+                    <Border Padding="14" Margin="0,0,18,0"
+                            Stroke="{AppThemeBinding Light=#CBD5E1, Dark=#475569}"
+                            Background="{AppThemeBinding Light=#F8FAFC, Dark=#111827}"
+                            ZIndex="2">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8" />
+                        </Border.StrokeShape>
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnApplyStepTapped" />
                         </Border.GestureRecognizers>
@@ -109,8 +140,14 @@
                             <DataTrigger TargetType="Border"
                                          Binding="{Binding ApplyStep.IsSelected}"
                                          Value="True">
-                                <Setter Property="Stroke" Value="#0F4C81" />
-                                <Setter Property="Background" Value="{AppThemeBinding Light=#E0F2FE, Dark=#1E3A5F}" />
+                                <Setter Property="Margin" Value="0,0,-1,0" />
+                                <Setter Property="Padding" Value="14,14,33,14" />
+                                <Setter Property="Stroke" Value="{AppThemeBinding Light=#CBD5E1, Dark=#475569}" />
+                                <Setter Property="StrokeThickness" Value="1" />
+                                <Setter Property="Background" Value="{AppThemeBinding Light=#FFFFFF, Dark=#0F172A}" />
+                                <Setter Property="StrokeShape">
+                                    <RoundRectangle CornerRadius="8,0,8,0" />
+                                </Setter>
                             </DataTrigger>
                         </Border.Triggers>
                         <VerticalStackLayout Spacing="10">
@@ -137,10 +174,13 @@
                 </VerticalStackLayout>
             </ScrollView>
 
-            <Border Grid.Column="1"
-                    Padding="16">
-                <ScrollView>
-                    <Grid>
+            <Grid Grid.Column="1"
+                  ZIndex="1">
+                <Border Padding="16"
+                        Background="{AppThemeBinding Light=#FFFFFF, Dark=#0F172A}"
+                        Stroke="{AppThemeBinding Light=#CBD5E1, Dark=#475569}">
+                    <ScrollView>
+                        <Grid>
                         <VerticalStackLayout Spacing="18"
                                              IsVisible="{Binding IsGenerateStepActive}">
                             <VerticalStackLayout Spacing="4">
@@ -164,7 +204,7 @@
                                         <Label Text="Root Folder"
                                                FontAttributes="Bold" />
                                         <Entry Text="{Binding GenerationRootPath}"
-                                               Placeholder="/path/to/photo-root"
+                                               Placeholder="/path/to/photo-folder"
                                                ClearButtonVisibility="WhileEditing" />
                                         <Button Text="Browse Root Folder"
                                                 Clicked="OnBrowseGenerationRootClicked" />
@@ -569,9 +609,18 @@
                                 </CollectionView>
                             </VerticalStackLayout>
                         </VerticalStackLayout>
-                    </Grid>
-                </ScrollView>
-            </Border>
+                        </Grid>
+                    </ScrollView>
+                </Border>
+
+                <BoxView WidthRequest="2"
+                         Margin="-1,0,0,0"
+                         HorizontalOptions="Start"
+                         VerticalOptions="Fill"
+                         BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#0F172A}"
+                         InputTransparent="True"
+                         ZIndex="2" />
+            </Grid>
         </Grid>
     </Grid>
 </ContentPage>

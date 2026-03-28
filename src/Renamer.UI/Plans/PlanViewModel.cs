@@ -73,7 +73,7 @@ public sealed class PlanViewModel : IPlanViewModel
         generateStep = new PlanWorkflowStepItem(
             PlanWorkflowStep.GeneratePlan,
             "Generate Plan",
-            "Create a rename plan from a source root and output folder.");
+            "Create a folder rename plan starting from a source folder");
         previewStep = new PlanWorkflowStepItem(
             PlanWorkflowStep.PreviewPlan,
             "Preview Plan",
