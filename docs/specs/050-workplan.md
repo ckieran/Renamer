@@ -35,6 +35,9 @@
   - `230-maui-plan-view.md`
   - `240-maui-apply-flow.md`
   - `250-maui-plan-generation-flow.md`
+  - `260-maui-stepper-shell.md`
+  - `270-maui-preview-workspace.md`
+  - `280-maui-apply-workspace.md`
 
 ## Phase 4: Polish
 - Cross-platform validation on Windows/macOS.

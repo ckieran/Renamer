@@ -5,24 +5,24 @@ namespace Renamer.UI;
 
 public partial class MainPage : ContentPage
 {
-	private readonly IPlanViewModel viewModel;
+    private readonly IPlanViewModel viewModel;
     private readonly ILogger<MainPage> logger;
 
-	public MainPage(IPlanViewModel viewModel, ILogger<MainPage> logger)
-	{
-		this.viewModel = viewModel;
+    public MainPage(IPlanViewModel viewModel, ILogger<MainPage> logger)
+    {
+        this.viewModel = viewModel;
         this.logger = logger;
-		InitializeComponent();
-		BindingContext = viewModel;
-	}
+        InitializeComponent();
+        BindingContext = viewModel;
+    }
 
-	private async void OnBrowseClicked(object? sender, EventArgs e)
-	{
+    private async void OnBrowseClicked(object? sender, EventArgs e)
+    {
         logger.LogInformation("Browse button clicked.");
-		await viewModel.BrowseAsync();
-	}
+        await viewModel.BrowseAsync();
+    }
 
-	private async void OnLoadClicked(object? sender, EventArgs e)
+    private async void OnLoadClicked(object? sender, EventArgs e)
     {
         logger.LogInformation("Load preview button clicked.");
         await viewModel.LoadAsync();

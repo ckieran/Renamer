@@ -17,55 +17,55 @@ namespace Renamer.UI;
 
 public static class MauiProgram
 {
-	public static MauiApp CreateMauiApp()
-	{
-		var builder = MauiApp.CreateBuilder();
-		var runtimeEnvironment = new RuntimeEnvironment();
-		var logPathProvider = new UiLogPathProvider(runtimeEnvironment);
-		var uiLogFilePath = logPathProvider.GetLogFilePath("renamer-ui");
-		var loggingBootstrap = new UiLoggingBootstrap(logPathProvider);
-		var logger = loggingBootstrap.CreateLogger();
+    public static MauiApp CreateMauiApp()
+    {
+        var builder = MauiApp.CreateBuilder();
+        var runtimeEnvironment = new RuntimeEnvironment();
+        var logPathProvider = new UiLogPathProvider(runtimeEnvironment);
+        var uiLogFilePath = logPathProvider.GetLogFilePath("renamer-ui");
+        var loggingBootstrap = new UiLoggingBootstrap(logPathProvider);
+        var logger = loggingBootstrap.CreateLogger();
 
-		builder
-			.UseMauiApp<App>()
-			.UseMauiCommunityToolkit()
-			.ConfigureFonts(fonts =>
-			{
-				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			});
+        builder
+            .UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+            });
 
-		builder.Logging.ClearProviders();
+        builder.Logging.ClearProviders();
 
 #if DEBUG
-		builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
-		builder.Services.AddSingleton<IRuntimeEnvironment>(runtimeEnvironment);
-		builder.Services.AddSingleton<ILogPathProvider>(logPathProvider);
-		builder.Services.AddSingleton(loggingBootstrap);
-		builder.Services.AddSingleton<IClock, SystemClock>();
-		builder.Services.AddSingleton<IExifMetadataReader, MetadataExtractorExifMetadataReader>();
-		builder.Services.AddSingleton<IExifService, ExifService>();
-		builder.Services.AddSingleton<IFolderDateRangeCalculator, FolderDateRangeCalculator>();
-		builder.Services.AddSingleton<IFolderNameGenerator, FolderNameGenerator>();
-		builder.Services.AddSingleton<IConflictRetryPolicy, ConflictRetryPolicy>();
-		builder.Services.AddSingleton<IPlanBuilder, PlanBuilder>();
-		builder.Services.AddSingleton<IPlanSerializer, PlanSerializer>();
-		builder.Services.AddSingleton<IDirectoryMover, DirectoryMover>();
-		builder.Services.AddSingleton<IApplyEngine, ApplyEngine>();
-		builder.Services.AddSingleton<IFolderPicker>(FolderPicker.Default);
-		builder.Services.AddSingleton<IFolderPathPicker, FolderPathPicker>();
-		builder.Services.AddSingleton<IPlanFilePicker, PlanFilePicker>();
-		builder.Services.AddSingleton<IRootPathOpener, RootPathOpener>();
-		builder.Services.AddSingleton<IPlanViewModel, PlanViewModel>();
-		builder.Services.AddSingleton<MainPage>();
-		builder.Logging.AddSerilog(logger, dispose: true);
+        builder.Services.AddSingleton<IRuntimeEnvironment>(runtimeEnvironment);
+        builder.Services.AddSingleton<ILogPathProvider>(logPathProvider);
+        builder.Services.AddSingleton(loggingBootstrap);
+        builder.Services.AddSingleton<IClock, SystemClock>();
+        builder.Services.AddSingleton<IExifMetadataReader, MetadataExtractorExifMetadataReader>();
+        builder.Services.AddSingleton<IExifService, ExifService>();
+        builder.Services.AddSingleton<IFolderDateRangeCalculator, FolderDateRangeCalculator>();
+        builder.Services.AddSingleton<IFolderNameGenerator, FolderNameGenerator>();
+        builder.Services.AddSingleton<IConflictRetryPolicy, ConflictRetryPolicy>();
+        builder.Services.AddSingleton<IPlanBuilder, PlanBuilder>();
+        builder.Services.AddSingleton<IPlanSerializer, PlanSerializer>();
+        builder.Services.AddSingleton<IDirectoryMover, DirectoryMover>();
+        builder.Services.AddSingleton<IApplyEngine, ApplyEngine>();
+        builder.Services.AddSingleton<IFolderPicker>(FolderPicker.Default);
+        builder.Services.AddSingleton<IFolderPathPicker, FolderPathPicker>();
+        builder.Services.AddSingleton<IPlanFilePicker, PlanFilePicker>();
+        builder.Services.AddSingleton<IRootPathOpener, RootPathOpener>();
+        builder.Services.AddSingleton<IPlanViewModel, PlanViewModel>();
+        builder.Services.AddSingleton<MainPage>();
+        builder.Logging.AddSerilog(logger, dispose: true);
 
-		var app = builder.Build();
-		var appLogger = app.Services.GetRequiredService<ILoggerFactory>().CreateLogger("Renamer.UI.MauiProgram");
-		loggingBootstrap.RegisterUnhandledExceptionLogging(appLogger);
-		appLogger.LogInformation("UI log file path resolved to {LogFilePath}.", uiLogFilePath);
-		appLogger.LogInformation("UI startup complete.");
-		return app;
-	}
+        var app = builder.Build();
+        var appLogger = app.Services.GetRequiredService<ILoggerFactory>().CreateLogger("Renamer.UI.MauiProgram");
+        loggingBootstrap.RegisterUnhandledExceptionLogging(appLogger);
+        appLogger.LogInformation("UI log file path resolved to {LogFilePath}.", uiLogFilePath);
+        appLogger.LogInformation("UI startup complete.");
+        return app;
+    }
 }
