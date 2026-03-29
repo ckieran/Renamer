@@ -58,3 +58,54 @@ Define shared execution standards for every implementation slice so PRs are cons
 - Prefer unit tests in early slices.
 - Add CLI integration tests for `plan`/`apply` slices.
 - For UI, prefer ViewModel/service-level tests plus targeted smoke checks.
+
+## Conventional Commits
+
+All commits in this repository must follow the [Conventional Commits v1.0.0](https://www.conventionalcommits.org/en/v1.0.0/) specification.
+
+### Commit message format
+
+```
+<type>(<scope>): <short description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+- The **type** and **short description** are mandatory.
+- The **scope** is optional but recommended; use the project layer (`core`, `cli`, `ui`, `tests`) or a short noun identifying the affected area.
+- The **short description** is lowercase, imperative mood, no trailing period.
+- The **body** is free prose explaining *why*, not *what*. Wrap at 72 characters.
+- Breaking changes must include `BREAKING CHANGE: <description>` in the footer, or `!` after the type: `feat!: ...`.
+
+### Type vocabulary
+
+| Type | When to use |
+|---|---|
+| `feat` | A new feature or capability visible to the user |
+| `fix` | A bug fix |
+| `refactor` | Code restructuring with no behaviour change (e.g. extracting strings to resources) |
+| `docs` | Documentation-only changes |
+| `test` | Adding or correcting tests with no production code change |
+| `build` | Build system, project file, or dependency changes |
+| `ci` | CI/CD pipeline configuration |
+| `chore` | Housekeeping that fits no other type (e.g. updating `.gitignore`) |
+| `perf` | Performance improvement with no behaviour change |
+| `style` | Formatting, whitespace — no logic change |
+
+### Branch naming
+
+Branches must use the conventional commit type as a prefix, followed by the slice ID and a short description:
+
+```
+<type>/<slice-id>-<short-description>
+```
+
+Examples:
+- `feat/130-exif-reader`
+- `refactor/290-string-resources`
+- `fix/160-conflict-retry-off-by-one`
+- `docs/040-architecture-update`
+
+The branch type must match the primary commit type used in that branch. Agent-created branches (e.g. prefixed `claude/`) are permitted for exploration and spec work but implementation branches must follow this convention before the first code commit.

@@ -51,9 +51,9 @@ The `.resx` approach is chosen over a plain constants class because it solves bo
 3. Update local `main` from origin:
    - `git pull --ff-only origin main`
 4. Create the slice branch from `main` with required prefix:
-   - `git switch -c codex/290-string-resources`
+   - `git switch -c refactor/290-string-resources`
 5. Confirm branch naming matches this slice ID:
-   - `git branch --show-current` equals `codex/290-string-resources`.
+   - `git branch --show-current` equals `refactor/290-string-resources`.
 6. If a matching GitHub issue exists, move it to `In Progress` and confirm it matches this slice ID.
 7. Do not edit code until steps 1-6 are complete.
 
@@ -313,7 +313,7 @@ Catch-block to resource key mapping:
 ## Git/PR workflow
 
 0. Setup - change to `main` branch and pull latest from origin to prepare for new work.
-1. Branch from current `main` using prefix `codex/` — `codex/290-string-resources`.
+1. Branch from current `main` using the conventional commit type as prefix — `refactor/290-string-resources`.
 2. Keep one slice per branch and one branch per PR.
 3. Commit only files related to this slice.
 4. If a matching GitHub issue exists, ensure it is `In Progress` before opening the PR.
@@ -395,6 +395,6 @@ A future slice could introduce Option B: a narrow `RenamerException` type in `Re
 - Tests listed in this slice pass locally.
 - Checklist item for this slice is updated.
 - Branch pre-implementation gate completed before first code edit.
-- Branch name follows `codex/` and maps to this slice ID.
+- Branch name follows `<type>/` (conventional commit type) and maps to this slice ID.
 - PR scope is limited to this slice (no unrelated refactors).
 - If a matching GitHub issue exists, it is linked from the PR and moved to `In Progress` when the slice is picked up.

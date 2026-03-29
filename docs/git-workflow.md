@@ -11,8 +11,10 @@ Complete these steps before editing code for a new slice:
    - `git branch --show-current`
 3. Fast-forward local `main`:
    - `git pull --ff-only origin main`
-4. Create the slice branch from `main`:
-   - `git switch -c feature/<slice-id>-<slice-name>`
+4. Create the slice branch from `main` using the conventional commit type as prefix:
+   - `git switch -c <type>/<slice-id>-<short-description>`
+   - e.g. `git switch -c feat/150-name-generation` or `git switch -c refactor/290-string-resources`
+   - See `docs/specs/070-engineering-contract.md` for the full type vocabulary and branch naming rules.
 5. Confirm branch name matches the active slice:
    - `git branch --show-current`
 6. If a matching GitHub issue exists for the slice:
@@ -24,6 +26,7 @@ Complete these steps before editing code for a new slice:
 - One branch per PR.
 - Keep commits scoped to the active slice only.
 - Do not mix unrelated cleanup or refactors into slice branches.
+- All commit messages must follow Conventional Commits — see `docs/specs/070-engineering-contract.md`.
 
 ## PR close-out
 When opening a PR for a slice:

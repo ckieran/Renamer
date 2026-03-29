@@ -19,10 +19,11 @@ One-sentence outcome.
    - `git branch --show-current` returns `main`.
 3. Update local `main` from origin:
    - `git pull --ff-only origin main`
-4. Create the slice branch from `main` with required prefix:
-   - `git switch -c codex/XXX-name`
+4. Create the slice branch from `main` using the conventional commit type as prefix:
+   - `git switch -c <type>/XXX-name`
+   - Choose the type that matches this slice: `feat`, `fix`, `refactor`, `docs`, `test`, `build`, `ci`, or `chore` — see `docs/specs/070-engineering-contract.md` for the full vocabulary.
 5. Confirm branch naming matches this slice ID:
-   - `git branch --show-current` equals `codex/XXX-name`.
+   - `git branch --show-current` equals `<type>/XXX-name`.
 6. If a matching GitHub issue exists, move it to `In Progress` and confirm it matches this slice ID.
 7. Do not edit code until steps 1-6 are complete.
 
@@ -38,7 +39,7 @@ One-sentence outcome.
 
 ## Git/PR workflow
 0. Setup - change to `main` branch and pull latest from origin to prepare for new work.
-1. Branch from current `main` using prefix `codex/` (for example `codex/xxx-slice-name`).
+1. Branch from current `main` using the conventional commit type as prefix (for example `feat/xxx-slice-name` or `refactor/xxx-slice-name`). See `docs/specs/070-engineering-contract.md` for type vocabulary and branch naming rules.
 2. Keep one slice per branch and one branch per PR.
 3. Commit only files related to this slice.
 4. If a matching GitHub issue exists, ensure it is `In Progress` before opening the PR.
@@ -70,6 +71,6 @@ One-sentence outcome.
 - Tests listed in this slice are implemented and pass locally.
 - Checklist item for this slice is updated.
 - Branch pre-implementation gate completed before first code edit.
-- Branch name follows `codex/` and maps to this slice ID.
+- Branch name follows `<type>/` (conventional commit type) and maps to this slice ID.
 - PR scope is limited to this slice (no unrelated refactors).
 - If a matching GitHub issue exists, it is linked from the PR and moved to `In Progress` when the slice is picked up.
