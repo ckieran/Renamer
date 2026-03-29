@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using Microsoft.Extensions.Logging;
 using Renamer.Core.Contracts;
 using Renamer.Core.Execution;
@@ -82,6 +83,14 @@ public sealed class PlanViewModel : IPlanViewModel
             PlanWorkflowStep.ApplyPlan,
             "Apply Plan",
             "Execute the loaded plan and review the resulting report.");
+        BrowseGenerationRootCommand = new AsyncCommand(BrowseGenerationRootPathAsync);
+        BrowseGenerationOutputDirectoryCommand = new AsyncCommand(BrowseGenerationOutputDirectoryAsync);
+        GeneratePlanCommand = new AsyncCommand(GeneratePlanAsync);
+        BrowsePlanCommand = new AsyncCommand(BrowseAsync);
+        LoadPreviewCommand = new AsyncCommand(LoadAsync);
+        OpenRootPathCommand = new AsyncCommand(OpenRootPathAsync);
+        ApplyCommand = new AsyncCommand(ApplyAsync);
+        SelectStepCommand = new DelegateCommand<PlanWorkflowStep>(SelectStep);
         RefreshShellState();
     }
 
@@ -255,6 +264,22 @@ public sealed class PlanViewModel : IPlanViewModel
     public bool CanApply => IsLoaded && !IsApplying;
 
     public ObservableCollection<PlanOperationItem> Operations { get; } = [];
+
+    public ICommand BrowseGenerationRootCommand { get; }
+
+    public ICommand BrowseGenerationOutputDirectoryCommand { get; }
+
+    public ICommand GeneratePlanCommand { get; }
+
+    public ICommand BrowsePlanCommand { get; }
+
+    public ICommand LoadPreviewCommand { get; }
+
+    public ICommand OpenRootPathCommand { get; }
+
+    public ICommand ApplyCommand { get; }
+
+    public ICommand SelectStepCommand { get; }
 
     public bool IsApplying
     {

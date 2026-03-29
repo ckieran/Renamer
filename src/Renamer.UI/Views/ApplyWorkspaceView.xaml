@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:Renamer.UI.Plans"
+             xmlns:plans="clr-namespace:Renamer.UI.Plans"
+             x:Class="Renamer.UI.Views.ApplyWorkspaceView"
+             x:DataType="plans:IPlanViewModel">
+    <VerticalStackLayout Spacing="18">
+        <VerticalStackLayout Spacing="4">
+            <Label Text="Apply Plan"
+                   FontSize="24"
+                   FontAttributes="Bold" />
+            <Label Text="Run the loaded plan and inspect the resulting report summary and per-operation outcomes."
+                   FontSize="13"
+                   TextColor="{AppThemeBinding Light=#475569, Dark=#CBD5E1}" />
+        </VerticalStackLayout>
+
+        <Border Padding="16">
+            <VerticalStackLayout Spacing="12">
+                <Label Text="Apply"
+                       FontSize="18"
+                       FontAttributes="Bold" />
+                <Label Text="Apply uses the loaded plan artifact and writes the execution outcome into the report panel."
+                       FontSize="13" />
+                <HorizontalStackLayout Spacing="10">
+                    <Button Text="Run Apply"
+                            Command="{Binding ApplyCommand}"
+                            IsEnabled="{Binding CanApply}" />
+                    <ActivityIndicator IsRunning="{Binding IsApplying}"
+                                       IsVisible="{Binding IsApplying}"
+                                       VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <Label Text="{Binding ApplyStatusMessage}"
+                       FontSize="13" />
+            </VerticalStackLayout>
+        </Border>
+
+        <Border Padding="16"
+                IsVisible="{Binding HasApplyError}">
+            <VerticalStackLayout Spacing="8">
+                <Label Text="{Binding ApplyErrorTitle}"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       TextColor="#9A3412" />
+                <Label Text="{Binding ApplyErrorMessage}"
+                       FontSize="13" />
+            </VerticalStackLayout>
+        </Border>
+
+        <Border Padding="16">
+            <VerticalStackLayout Spacing="14">
+                <Label Text="Apply Summary"
+                       FontSize="18"
+                       FontAttributes="Bold" />
+
+                <Grid ColumnDefinitions="*,*"
+                      ColumnSpacing="16">
+                    <VerticalStackLayout Grid.Column="0"
+                                         Spacing="4">
+                        <Label Text="Outcome"
+                               FontAttributes="Bold" />
+                        <Label Text="{Binding ApplyOutcomeText}" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="1"
+                                         Spacing="4">
+                        <Label Text="Drifted"
+                               FontAttributes="Bold" />
+                        <Label Text="{Binding ApplyDriftedCountText}" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <Grid ColumnDefinitions="*,*"
+                      ColumnSpacing="16">
+                    <VerticalStackLayout Grid.Column="0"
+                                         Spacing="4">
+                        <Label Text="Started"
+                               FontAttributes="Bold" />
+                        <Label Text="{Binding ApplyStartedAtDisplay}" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="1"
+                                         Spacing="4">
+                        <Label Text="Finished"
+                               FontAttributes="Bold" />
+                        <Label Text="{Binding ApplyFinishedAtDisplay}" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <Grid ColumnDefinitions="*,*,*"
+                      ColumnSpacing="16">
+                    <VerticalStackLayout Grid.Column="0"
+                                         Spacing="4">
+                        <Label Text="Success"
+                               FontAttributes="Bold" />
+                        <Label Text="{Binding ApplySuccessCountText}" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="1"
+                                         Spacing="4">
+                        <Label Text="Skipped"
+                               FontAttributes="Bold" />
+                        <Label Text="{Binding ApplySkippedCountText}" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="2"
+                                         Spacing="4">
+                        <Label Text="Failed"
+                               FontAttributes="Bold" />
+                        <Label Text="{Binding ApplyFailedCountText}" />
+                    </VerticalStackLayout>
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+
+        <VerticalStackLayout Spacing="12">
+            <Label Text="Apply Results"
+                   FontSize="18"
+                   FontAttributes="Bold" />
+            <VerticalStackLayout Spacing="0"
+                                 IsVisible="{Binding HasApplyReport}"
+                                 BindableLayout.ItemsSource="{Binding ApplyResults}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="model:ApplyResultItem">
+                        <Border Padding="14"
+                                Margin="0,0,0,10">
+                            <VerticalStackLayout Spacing="8">
+                                <Grid ColumnDefinitions="*,Auto"
+                                      ColumnSpacing="12">
+                                    <VerticalStackLayout Spacing="2">
+                                        <Label Text="{Binding SourceName}"
+                                               FontSize="16"
+                                               FontAttributes="Bold" />
+                                        <Label Text="{Binding SourcePath}"
+                                               FontSize="12"
+                                               LineBreakMode="WordWrap"
+                                               TextColor="{AppThemeBinding Light=#5C5C5C, Dark=#B8B8B8}" />
+                                    </VerticalStackLayout>
+                                    <Label Grid.Column="1"
+                                           Text="{Binding StatusText}"
+                                           FontSize="12"
+                                           HorizontalTextAlignment="End" />
+                                </Grid>
+
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="Planned Destination"
+                                           FontAttributes="Bold"
+                                           FontSize="12" />
+                                    <Label Text="{Binding PlannedDestinationPath}"
+                                           FontSize="12"
+                                           LineBreakMode="WordWrap" />
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="Actual Destination"
+                                           FontAttributes="Bold"
+                                           FontSize="12" />
+                                    <Label Text="{Binding ActualDestinationPathText}"
+                                           FontSize="12"
+                                           LineBreakMode="WordWrap" />
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="Warnings"
+                                           FontAttributes="Bold"
+                                           FontSize="12" />
+                                    <Label Text="{Binding WarningText}"
+                                           FontSize="12"
+                                           LineBreakMode="WordWrap" />
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="Error"
+                                           FontAttributes="Bold"
+                                           FontSize="12" />
+                                    <Label Text="{Binding ErrorText}"
+                                           FontSize="12"
+                                           LineBreakMode="WordWrap" />
+                                </VerticalStackLayout>
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </VerticalStackLayout>
+</ContentView>

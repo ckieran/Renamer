@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:plans="clr-namespace:Renamer.UI.Plans"
+             x:Class="Renamer.UI.Views.GenerateWorkspaceView"
+             x:DataType="plans:IPlanViewModel">
+    <VerticalStackLayout Spacing="18">
+        <VerticalStackLayout Spacing="4">
+            <Label Text="Generate Plan"
+                   FontSize="24"
+                   FontAttributes="Bold" />
+            <Label Text="Pick the source root and output folder, then generate a plan artifact for the rest of the workflow."
+                   FontSize="13"
+                   TextColor="{AppThemeBinding Light=#475569, Dark=#CBD5E1}" />
+        </VerticalStackLayout>
+
+        <Border Padding="16">
+            <VerticalStackLayout Spacing="12">
+                <Label Text="Generate Plan"
+                       FontSize="18"
+                       FontAttributes="Bold" />
+                <Label Text="Select the source root folder and destination folder for the generated plan artifact."
+                       FontSize="13" />
+
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Root Folder"
+                           FontAttributes="Bold" />
+                    <Entry Text="{Binding GenerationRootPath}"
+                           Placeholder="/path/to/photo-folder"
+                           ClearButtonVisibility="WhileEditing" />
+                    <Button Text="Browse Root Folder"
+                            Command="{Binding BrowseGenerationRootCommand}" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Output Folder"
+                           FontAttributes="Bold" />
+                    <Entry Text="{Binding GenerationOutputDirectoryPath}"
+                           Placeholder="/path/to/output-folder"
+                           ClearButtonVisibility="WhileEditing" />
+                    <Button Text="Browse Output Folder"
+                            Command="{Binding BrowseGenerationOutputDirectoryCommand}" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Plan File Name"
+                           FontAttributes="Bold" />
+                    <Entry Text="{Binding PlanFileName}"
+                           Placeholder="rename-plan.json"
+                           ClearButtonVisibility="WhileEditing" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Generated Plan Path"
+                           FontAttributes="Bold" />
+                    <Label Text="{Binding GeneratedPlanPathPreview}"
+                           FontSize="12"
+                           LineBreakMode="WordWrap"
+                           TextColor="{AppThemeBinding Light=#0F4C81, Dark=#8CC8FF}" />
+                </VerticalStackLayout>
+
+                <HorizontalStackLayout Spacing="10">
+                    <Button Text="Generate and Load"
+                            Command="{Binding GeneratePlanCommand}"
+                            IsEnabled="{Binding CanGenerate}" />
+                    <ActivityIndicator IsRunning="{Binding IsGenerating}"
+                                       IsVisible="{Binding IsGenerating}"
+                                       VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <Label Text="{Binding GenerationStatusMessage}"
+                       FontSize="13" />
+            </VerticalStackLayout>
+        </Border>
+
+        <Border Padding="16"
+                IsVisible="{Binding HasGenerationError}">
+            <VerticalStackLayout Spacing="8">
+                <Label Text="{Binding GenerationErrorTitle}"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       TextColor="#9A3412" />
+                <Label Text="{Binding GenerationErrorMessage}"
+                       FontSize="13" />
+            </VerticalStackLayout>
+        </Border>
+    </VerticalStackLayout>
+</ContentView>

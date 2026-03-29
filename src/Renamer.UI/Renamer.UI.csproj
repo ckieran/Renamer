@@ -21,7 +21,7 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>Renamer.UI</ApplicationTitle>
+		<ApplicationTitle>Renamer</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.renamer.ui</ApplicationId>
