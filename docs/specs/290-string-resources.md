@@ -112,7 +112,9 @@ The file must cover the following string categories. Key names use `PascalCase` 
 - `GenerateErrorNoFileNameMessage` — "Enter a file name for the generated plan artifact."
 - `GenerateErrorInvalidFileNameTitle` — "Plan file name is invalid"
 - `GenerateErrorFileSystemTitle` — "Plan generation failed due to file system error"
+- `GenerateErrorFileSystemMessage` — "A file system error prevented plan generation. Check the application log for details."
 - `GenerateErrorUnexpectedTitle` — "Plan generation failed unexpectedly"
+- `GenerateErrorUnexpectedMessage` — "An unexpected error occurred. Check the application log for details."
 
 **Generate folder picker dialog titles (passed to `IFolderPathPicker.PickFolderPathAsync`):**
 - `GenerateFolderPickerRootTitle` — "Select photo root folder"
@@ -147,12 +149,12 @@ The file must cover the following string categories. Key names use `PascalCase` 
 - `PreviewStatusBrowseOpening` — "Opening plan file picker..."
 - `PreviewStatusBrowseCanceled` — "Plan selection canceled."
 - `PreviewStatusBrowseSelected` — "Selected plan artifact: {0}"
-- `PreviewStatusBrowseError` — "Unable to select a plan artifact: {0}"
+- `PreviewStatusBrowseError` — "Unable to select a plan artifact. Check the application log for details."
 - `PreviewStatusRootOpened` — "Opened root folder."
-- `PreviewStatusRootError` — "Unable to open root folder: {0}"
+- `PreviewStatusRootError` — "Unable to open root folder. Check the application log for details."
 - `PreviewStatusNoPath` — "Select a plan artifact path to load."
 - `PreviewStatusLoading` — "Loading plan preview..."
-- `PreviewStatusLoadError` — "Unable to load plan artifact: {0}"
+- `PreviewStatusLoadError` — "Unable to load plan artifact. Check the application log for details."
 - `PreviewStatusLoaded` — "Loaded {0} planned operation(s)."
 - `PreviewStatusUnavailable` — "Plan preview unavailable."
 
@@ -200,8 +202,9 @@ The file must cover the following string categories. Key names use `PascalCase` 
 
 **Apply error message bodies (set on `ApplyErrorMessage` ViewModel property):**
 - `ApplyErrorMessageValidation` — "Select and load a valid plan artifact before apply."
-- `ApplyErrorMessageInvalidPlan` — "Unable to apply the selected plan artifact: {0}"
-- `ApplyErrorMessageFileSystem` — "Unable to complete apply: {0}"
+- `ApplyErrorMessageInvalidPlan` — "The plan artifact could not be read. Check the application log for details."
+- `ApplyErrorMessageFileSystem` — "A file system error prevented apply from completing. Check the application log for details."
+- `ApplyErrorMessageUnexpected` — "An unexpected error occurred. Check the application log for details."
 
 **Main page:**
 - `MainPageHeading` — "Plan Generation, Preview, and Apply"
@@ -222,14 +225,20 @@ Create `src/Renamer.Cli/Resources/CliStrings.resx` with build action `EmbeddedRe
 - `PlanErrorMissingArgs` — "Error: Missing required arguments for 'plan'. Expected --root <path> and --out <path>."
 - `PlanErrorRootNotFound` — "Root path '{0}' does not exist or is not a directory."
 - `PlanErrorOutputIsDirectory` — "Output path '{0}' must be a file path, not a directory."
-- `PlanErrorOutputNotWritable` — "Output path '{0}' is not writable: {1}"
+- `PlanErrorOutputNotWritable` — "Output path '{0}' is not writable. Check the application log for details."
+- `PlanErrorBuildFileSystem` — "Plan generation failed due to a file system error. Check the application log for details."
+- `PlanErrorBuildUnexpected` — "An unexpected error occurred during plan generation. Check the application log for details."
 
 **Apply command errors:**
 - `ApplyErrorMissingArgs` — "Error: Missing required arguments for 'apply'. Expected --plan <path> and --out <path>."
 - `ApplyErrorPlanNotFound` — "Plan path '{0}' does not exist."
-- `ApplyErrorPlanNotReadable` — "Plan path '{0}' is not readable: {1}"
+- `ApplyErrorPlanNotReadable` — "Plan path '{0}' is not readable. Check the application log for details."
+- `ApplyErrorInvalidSchema` — "The plan artifact uses an unsupported format or schema. Check the application log for details."
+- `ApplyErrorReadFileSystem` — "A file system error prevented the plan from being read. Check the application log for details."
 - `ApplyErrorOutputIsDirectory` — "Output path '{0}' must be a file path, not a directory."
-- `ApplyErrorOutputNotWritable` — "Output path '{0}' is not writable: {1}"
+- `ApplyErrorOutputNotWritable` — "Output path '{0}' is not writable. Check the application log for details."
+- `ApplyErrorEngineFileSystem` — "A file system error prevented apply from completing. Check the application log for details."
+- `ApplyErrorEngineUnexpected` — "An unexpected error occurred during apply. Check the application log for details."
 
 ### 3. Update XAML files to use `{x:Static}` bindings
 
@@ -263,9 +272,33 @@ Replace all string literals used for:
 
 Use `AppStrings.KeyName` directly. For dynamic messages with embedded values, use `string.Format(AppStrings.KeyName, value)`.
 
+**`ex.Message` must not appear in any string passed to `SetGenerationError`, `SetApplyError`, or `SetErrorState`.** Every catch block that currently forwards `ex.Message` to the user must be changed to use a static resource string. The exception detail belongs in the log, which is already present for most catch blocks. For any catch block that does not already log, add a `logger.LogError(ex, ...)` call before setting the error state.
+
+Example transformation:
+```csharp
+// Before
+SetGenerationError("Plan generation failed due to file system error", ex.Message);
+
+// After
+logger.LogError(ex, "Plan generation failed due to file system access.");
+SetGenerationError(AppStrings.GenerateErrorFileSystemTitle, AppStrings.GenerateErrorFileSystemMessage);
+```
+
 ### 5. Update `CliCommandHandler.cs` to use `CliStrings`
 
 Replace the static help text array and all error output strings with references to `CliStrings.KeyName`.
+
+**`ex.Message` must not appear in any `CommandResult` message string.** Catch blocks that currently pass `ex.Message` directly or embed it in a format string must be replaced with the appropriate static resource key. The exception detail is already available in the structured log via Serilog.
+
+Catch-block to resource key mapping:
+| Location | Exception type | Resource key |
+|---|---|---|
+| `plan` — `planBuilder.Build` / `planSerializer.Write` | `IOException`, `UnauthorizedAccessException` | `PlanErrorBuildFileSystem` |
+| `plan` — `planBuilder.Build` / `planSerializer.Write` | catch-all | `PlanErrorBuildUnexpected` |
+| `apply` — `planSerializer.Read` | `InvalidDataException`, `JsonException`, `NotSupportedException` | `ApplyErrorInvalidSchema` |
+| `apply` — `planSerializer.Read` | `IOException`, `UnauthorizedAccessException` | `ApplyErrorReadFileSystem` |
+| `apply` — `applyEngine.Execute` | `IOException`, `UnauthorizedAccessException` | `ApplyErrorEngineFileSystem` |
+| `apply` — `applyEngine.Execute` | catch-all | `ApplyErrorEngineUnexpected` |
 
 ### 6. Update the index
 
@@ -302,6 +335,7 @@ Replace the static help text array and all error output strings with references 
 - Structured logging templates in `.Core`, `.Cli`, and `.UI` remain unchanged in source code (not extracted to resources).
 - Internal exception message strings (e.g. in `PlanSerializer.cs`, `PlanBuilder.cs`, `RootPathOpener.cs`, `CliLogPathProvider.cs`) remain in source code.
 - `AppStrings.resx` and `CliStrings.resx` each contain only the strings listed in this spec and no others.
+- No call to `SetGenerationError`, `SetApplyError`, `SetErrorState`, or `CommandResult` construction passes `ex.Message` as a user-facing string — exception detail goes only to the log.
 
 ## Tests
 
@@ -333,7 +367,9 @@ Replace the static help text array and all error output strings with references 
 - `src/Renamer.Cli/Commands/CliCommandHandler.cs` updated — string literals replaced with resource accessors
 - `docs/specs/000-index.md` updated
 
-## Future i18n path
+## Future paths
+
+### Adding a second language
 
 Once this slice is merged, adding a second language requires only:
 1. Create `AppStrings.fr.resx` (or the appropriate culture code) alongside `AppStrings.resx`.
@@ -341,6 +377,12 @@ Once this slice is merged, adding a second language requires only:
 3. The generated `ResourceManager` will automatically resolve the correct language at runtime.
 
 No code changes to ViewModels, XAML, or CLI command handlers are required.
+
+### Option B — typed exceptions in Core (future slice)
+
+This slice uses Option A: the ViewModel and CLI own the mapping from exception type to user-friendly string, and exception detail is never surfaced to the UI. This is sufficient for full i18n.
+
+A future slice could introduce Option B: a narrow `RenamerException` type in `Renamer.Core` carrying a stable error *code* (not a raw message string). The ViewModel would catch `RenamerException` and map the code to a resource string, enabling richer, context-specific error detail (e.g. surfacing which schema version was unsupported) while keeping user-facing text fully localizable. This is a Core-layer change and warrants its own spec slice. It is not a prerequisite for i18n.
 
 ## Exit criteria
 
