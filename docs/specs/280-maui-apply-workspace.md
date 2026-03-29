@@ -25,9 +25,9 @@ Give the apply step a dedicated right-panel workspace that combines plan selecti
 3. Update local `main` from origin:
    - `git pull --ff-only origin main`
 4. Create the slice branch from `main` with required prefix:
-   - `git switch -c codex/280-maui-apply-workspace`
+   - `git switch -c feature/280-maui-apply-workspace`
 5. Confirm branch naming matches this slice ID:
-   - `git branch --show-current` equals `codex/280-maui-apply-workspace`.
+   - `git branch --show-current` equals `feature/280-maui-apply-workspace`.
 6. If a matching GitHub issue exists, move it to `In Progress` and confirm it matches this slice ID.
 7. Do not edit code until steps 1-6 are complete.
 
@@ -45,7 +45,7 @@ Give the apply step a dedicated right-panel workspace that combines plan selecti
 
 ## Git/PR workflow
 0. Setup - change to `main` branch and pull latest from origin to prepare for new work.
-1. Branch from current `main` using prefix `codex/` (for example `codex/280-maui-apply-workspace`).
+1. Branch from current `main` using prefix `feature/` (for example `feature/280-maui-apply-workspace`).
 2. Keep one slice per branch and one branch per PR.
 3. Commit only files related to this slice.
 4. If a matching GitHub issue exists, ensure it is `In Progress` before opening the PR.
@@ -81,6 +81,6 @@ Give the apply step a dedicated right-panel workspace that combines plan selecti
 - Tests listed in this slice are implemented and pass locally.
 - Checklist item for this slice is updated.
 - Branch pre-implementation gate completed before first code edit.
-- Branch name follows `codex/` and maps to this slice ID.
+- Branch name follows `feature/` and maps to this slice ID.
 - PR scope is limited to this slice (no unrelated refactors).
 - If a matching GitHub issue exists, it is linked from the PR and moved to `In Progress` when the slice is picked up.
