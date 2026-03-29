@@ -31,6 +31,7 @@
     <Compile Include="..\Renamer.UI\Plans\IRootPathOpener.cs" Link="UI\Plans\IRootPathOpener.cs" />
     <Compile Include="..\Renamer.UI\Plans\IPlanViewModel.cs" Link="UI\Plans\IPlanViewModel.cs" />
     <Compile Include="..\Renamer.UI\Plans\ApplyResultItem.cs" Link="UI\Plans\ApplyResultItem.cs" />
+    <Compile Include="..\Renamer.UI\Plans\DelegateCommand.cs" Link="UI\Plans\DelegateCommand.cs" />
     <Compile Include="..\Renamer.UI\Plans\PlanOperationItem.cs" Link="UI\Plans\PlanOperationItem.cs" />
     <Compile Include="..\Renamer.UI\Plans\PlanWorkflowStep.cs" Link="UI\Plans\PlanWorkflowStep.cs" />
     <Compile Include="..\Renamer.UI\Plans\PlanWorkflowStepItem.cs" Link="UI\Plans\PlanWorkflowStepItem.cs" />

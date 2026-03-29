@@ -65,6 +65,34 @@ public sealed class PlanViewModelTests
     }
 
     [Fact]
+    public async Task LoadAsync_WhileSerializerIsRunning_ExposesLoadingState()
+    {
+        var serializer = new BlockingPlanSerializer(CreatePlan());
+        var viewModel = new PlanViewModel(
+            new FakePlanBuilder(CreatePlan()),
+            serializer,
+            new FakePlanFilePicker(null),
+            new FakeFolderPathPicker(null),
+            new FakeRootPathOpener(),
+            new FakeApplyEngine(),
+            NullLogger<PlanViewModel>.Instance)
+        {
+            PlanPath = "/tmp/rename-plan.json"
+        };
+
+        var loadTask = viewModel.LoadAsync();
+        await serializer.WaitForReadAsync();
+
+        Assert.True(viewModel.IsLoading);
+        Assert.False(viewModel.IsLoaded);
+        Assert.False(viewModel.HasError);
+        Assert.Equal("Loading plan preview...", viewModel.StatusMessage);
+
+        serializer.Release();
+        await loadTask;
+    }
+
+    [Fact]
     public async Task LoadAsync_WhenSerializerThrows_ShowsInlineErrorState()
     {
         var viewModel = new PlanViewModel(
@@ -146,6 +174,34 @@ public sealed class PlanViewModelTests
         Assert.Equal("Opened root folder.", viewModel.StatusMessage);
     }
 
+    [Fact]
+    public async Task PlanPathChange_AfterLoad_ReturnsPreviewToIdleState()
+    {
+        var viewModel = new PlanViewModel(
+            new FakePlanBuilder(CreatePlan()),
+            new FakePlanSerializer(CreatePlan()),
+            new FakePlanFilePicker(null),
+            new FakeFolderPathPicker(null),
+            new FakeRootPathOpener(),
+            new FakeApplyEngine(),
+            NullLogger<PlanViewModel>.Instance)
+        {
+            PlanPath = "/tmp/rename-plan.json"
+        };
+
+        await viewModel.LoadAsync();
+        viewModel.PlanPath = "/tmp/updated-plan.json";
+
+        Assert.True(viewModel.IsIdle);
+        Assert.False(viewModel.IsLoaded);
+        Assert.False(viewModel.HasError);
+        Assert.Equal("Plan path updated. Load preview to refresh.", viewModel.StatusMessage);
+        Assert.Equal(string.Empty, viewModel.RootPath);
+        Assert.Equal("0", viewModel.OperationCountText);
+        Assert.Equal("0", viewModel.WarningCountText);
+        Assert.Empty(viewModel.Operations);
+    }
+
     private static RenamePlan CreatePlan() =>
         new()
         {
@@ -188,6 +244,25 @@ public sealed class PlanViewModelTests
         public RenamePlan Read(string inputPath) => throw exception;
 
         public void Write(string outputPath, RenamePlan plan) => throw new NotImplementedException();
+    }
+
+    private sealed class BlockingPlanSerializer(RenamePlan plan) : IPlanSerializer
+    {
+        private readonly TaskCompletionSource readStarted = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly ManualResetEventSlim releaseRead = new(false);
+
+        public RenamePlan Read(string inputPath)
+        {
+            readStarted.TrySetResult();
+            releaseRead.Wait();
+            return plan;
+        }
+
+        public void Write(string outputPath, RenamePlan plan) => throw new NotImplementedException();
+
+        public Task WaitForReadAsync() => readStarted.Task;
+
+        public void Release() => releaseRead.Set();
     }
 
     private sealed class FakePlanFilePicker(string? selectedPath) : IPlanFilePicker

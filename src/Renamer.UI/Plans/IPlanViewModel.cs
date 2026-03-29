@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Windows.Input;
 
 namespace Renamer.UI.Plans;
 
@@ -93,6 +94,22 @@ public interface IPlanViewModel : INotifyPropertyChanged
     System.Collections.ObjectModel.ObservableCollection<PlanOperationItem> Operations { get; }
 
     System.Collections.ObjectModel.ObservableCollection<ApplyResultItem> ApplyResults { get; }
+
+    ICommand BrowseGenerationRootCommand { get; }
+
+    ICommand BrowseGenerationOutputDirectoryCommand { get; }
+
+    ICommand GeneratePlanCommand { get; }
+
+    ICommand BrowsePlanCommand { get; }
+
+    ICommand LoadPreviewCommand { get; }
+
+    ICommand OpenRootPathCommand { get; }
+
+    ICommand ApplyCommand { get; }
+
+    ICommand SelectStepCommand { get; }
 
     Task BrowseGenerationRootPathAsync(CancellationToken cancellationToken = default);
 
