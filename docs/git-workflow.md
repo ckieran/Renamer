@@ -12,7 +12,7 @@ Complete these steps before editing code for a new slice:
 3. Fast-forward local `main`:
    - `git pull --ff-only origin main`
 4. Create the slice branch from `main`:
-   - `git switch -c codex/<slice-id>-<slice-name>`
+   - `git switch -c feature/<slice-id>-<slice-name>`
 5. Confirm branch name matches the active slice:
    - `git branch --show-current`
 6. If a matching GitHub issue exists for the slice:

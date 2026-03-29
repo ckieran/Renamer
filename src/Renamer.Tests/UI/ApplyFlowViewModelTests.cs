@@ -119,6 +119,71 @@ public sealed class ApplyFlowViewModelTests
         Assert.Contains("source directory missing", viewModel.ApplyErrorMessage);
     }
 
+    [Fact]
+    public async Task ApplyAsync_WithoutLoadedPlan_ShowsValidationError()
+    {
+        var plan = CreatePlan();
+        var viewModel = new PlanViewModel(
+            new FakePlanBuilder(plan),
+            new FakePlanSerializer(plan),
+            new FakePlanFilePicker(null),
+            new FakeFolderPathPicker(null),
+            new FakeRootPathOpener(),
+            new FakeApplyEngine(CreateCompletedReport()),
+            NullLogger<PlanViewModel>.Instance);
+
+        await viewModel.ApplyAsync();
+
+        Assert.True(viewModel.HasApplyError);
+        Assert.Equal("Apply validation failed", viewModel.ApplyErrorTitle);
+        Assert.Contains("Select and load a valid plan artifact", viewModel.ApplyErrorMessage);
+    }
+
+    [Fact]
+    public async Task LoadAsync_WithValidPath_PopulatesStatusAndEnablesApply()
+    {
+        var plan = CreatePlan();
+        var viewModel = new PlanViewModel(
+            new FakePlanBuilder(plan),
+            new FakePlanSerializer(plan),
+            new FakePlanFilePicker(null),
+            new FakeFolderPathPicker(null),
+            new FakeRootPathOpener(),
+            new FakeApplyEngine(CreateCompletedReport()),
+            NullLogger<PlanViewModel>.Instance)
+        {
+            PlanPath = "/tmp/rename-plan.json"
+        };
+
+        await viewModel.LoadAsync();
+
+        Assert.True(viewModel.IsLoaded);
+        Assert.True(viewModel.CanApply);
+        Assert.Equal("Loaded 1 planned operation(s).", viewModel.StatusMessage);
+    }
+
+    [Fact]
+    public async Task LoadAsync_WhenSerializerThrowsIOException_ShowsErrorState()
+    {
+        var viewModel = new PlanViewModel(
+            new FakePlanBuilder(CreatePlan()),
+            new ThrowingOnReadPlanSerializer(new IOException("file not found")),
+            new FakePlanFilePicker(null),
+            new FakeFolderPathPicker(null),
+            new FakeRootPathOpener(),
+            new FakeApplyEngine(CreateCompletedReport()),
+            NullLogger<PlanViewModel>.Instance)
+        {
+            PlanPath = "/tmp/rename-plan.json"
+        };
+
+        await viewModel.LoadAsync();
+
+        Assert.True(viewModel.HasError);
+        Assert.False(viewModel.CanApply);
+        Assert.Contains("file not found", viewModel.ErrorMessage);
+    }
+
     private static RenamePlan CreatePlan() =>
         new()
         {
@@ -249,6 +314,13 @@ public sealed class ApplyFlowViewModelTests
     private sealed class ThrowingApplyEngine(Exception exception) : IApplyEngine
     {
         public RenameReport Execute(RenamePlan plan) => throw exception;
+    }
+
+    private sealed class ThrowingOnReadPlanSerializer(Exception exception) : IPlanSerializer
+    {
+        public RenamePlan Read(string inputPath) => throw exception;
+
+        public void Write(string outputPath, RenamePlan plan) => throw new NotImplementedException();
     }
 
     private sealed class FakePlanFilePicker(string? selectedPath) : IPlanFilePicker

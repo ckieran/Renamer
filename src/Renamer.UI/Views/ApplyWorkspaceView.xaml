@@ -10,17 +10,53 @@
             <Label Text="Apply Plan"
                    FontSize="24"
                    FontAttributes="Bold" />
-            <Label Text="Run the loaded plan and inspect the resulting report summary and per-operation outcomes."
+            <Label Text="Load a plan artifact, then run apply and inspect the resulting report summary and per-operation outcomes."
                    FontSize="13"
                    TextColor="{AppThemeBinding Light=#475569, Dark=#CBD5E1}" />
         </VerticalStackLayout>
 
         <Border Padding="16">
             <VerticalStackLayout Spacing="12">
+                <Label Text="Plan Artifact"
+                       FontSize="18"
+                       FontAttributes="Bold" />
+                <Label Text="Select or paste a path to a rename-plan.json file. The most recently generated plan is prepopulated automatically."
+                       FontSize="13" />
+                <Entry Text="{Binding PlanPath}"
+                       Placeholder="/path/to/rename-plan.json"
+                       ClearButtonVisibility="WhileEditing" />
+                <HorizontalStackLayout Spacing="10">
+                    <Button Text="Browse"
+                            Command="{Binding BrowsePlanCommand}" />
+                    <Button Text="Load Plan"
+                            Command="{Binding LoadPreviewCommand}" />
+                    <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                       IsVisible="{Binding IsLoading}"
+                                       VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <Label Text="{Binding StatusMessage}"
+                       FontSize="13" />
+            </VerticalStackLayout>
+        </Border>
+
+        <Border Padding="16"
+                IsVisible="{Binding HasError}">
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Unable To Load Plan"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       TextColor="#9A3412" />
+                <Label Text="{Binding ErrorMessage}"
+                       FontSize="13" />
+            </VerticalStackLayout>
+        </Border>
+
+        <Border Padding="16">
+            <VerticalStackLayout Spacing="12">
                 <Label Text="Apply"
                        FontSize="18"
                        FontAttributes="Bold" />
-                <Label Text="Apply uses the loaded plan artifact and writes the execution outcome into the report panel."
+                <Label Text="Run apply against the loaded plan artifact. Results appear inline below."
                        FontSize="13" />
                 <HorizontalStackLayout Spacing="10">
                     <Button Text="Run Apply"
