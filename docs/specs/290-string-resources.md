@@ -101,6 +101,7 @@ The file must cover the following string categories. Key names use `PascalCase` 
 - `GenerateStatusOutputSelected` — "Selected output folder: {0}"
 - `GenerateStatusInProgress` — "Generating rename plan..."
 - `GenerateStatusSuccess` — "Plan generated: {0}"
+- `GenerateStatusUnavailable` — "Plan generation unavailable."
 - `GenerateErrorNoRootTitle` — "Plan generation requires a root folder"
 - `GenerateErrorNoRootMessage` — "Select a source root folder before generating a plan."
 - `GenerateErrorInvalidRootTitle` — "Plan generation requires a valid root folder"
@@ -112,6 +113,10 @@ The file must cover the following string categories. Key names use `PascalCase` 
 - `GenerateErrorInvalidFileNameTitle` — "Plan file name is invalid"
 - `GenerateErrorFileSystemTitle` — "Plan generation failed due to file system error"
 - `GenerateErrorUnexpectedTitle` — "Plan generation failed unexpectedly"
+
+**Generate folder picker dialog titles (passed to `IFolderPathPicker.PickFolderPathAsync`):**
+- `GenerateFolderPickerRootTitle` — "Select photo root folder"
+- `GenerateFolderPickerOutputTitle` — "Select output folder for rename-plan.json"
 
 **Preview workspace:**
 - `PreviewHeading` — "Preview Plan"
@@ -136,7 +141,9 @@ The file must cover the following string categories. Key names use `PascalCase` 
 - `PreviewOperationsDescription` — "Operations remain scrollable in the wider workspace so longer destination names and paths stay readable."
 
 **Preview status/error messages:**
-- `PreviewStatusDefault` — "No plan loaded"
+- `PreviewStatusDefault` — "Select a rename-plan.json file to preview planned operations."  *(initial `statusMessage` default)*
+- `PreviewCreatedAtDefault` — "No plan loaded"  *(initial `createdAtDisplay` default)*
+- `PreviewStatusPathUpdated` — "Plan path updated. Load preview to refresh."
 - `PreviewStatusBrowseOpening` — "Opening plan file picker..."
 - `PreviewStatusBrowseCanceled` — "Plan selection canceled."
 - `PreviewStatusBrowseSelected` — "Selected plan artifact: {0}"
@@ -151,9 +158,14 @@ The file must cover the following string categories. Key names use `PascalCase` 
 
 **Apply workspace:**
 - `ApplyHeading` — "Apply Plan"
-- `ApplyDescription` — "Run the loaded plan and inspect the resulting report summary and per-operation outcomes."
+- `ApplyDescription` — "Load a plan artifact, then run apply and inspect the resulting report summary and per-operation outcomes."
+- `ApplyPlanArtifactSectionHeader` — "Plan Artifact"
+- `ApplyPlanArtifactInstructions` — "Select or paste a path to a rename-plan.json file. The most recently generated plan is prepopulated automatically."
+- `ApplyButtonBrowse` — "Browse"
+- `ApplyButtonLoadPlan` — "Load Plan"
+- `ApplyErrorHeading` — "Unable To Load Plan"  *(static label shown when `HasError` is true)*
 - `ApplySectionHeader` — "Apply"
-- `ApplyInstructions` — "Apply uses the loaded plan artifact and writes the execution outcome into the report panel."
+- `ApplyInstructions` — "Run apply against the loaded plan artifact. Results appear inline below."
 - `ApplyButtonRun` — "Run Apply"
 - `ApplySummarySectionHeader` — "Apply Summary"
 - `ApplyFieldOutcome` — "Outcome"
@@ -178,6 +190,18 @@ The file must cover the following string categories. Key names use `PascalCase` 
 - `ApplyStatusPartial` — "Apply stopped before the full plan completed."
 - `ApplyStatusSuccess` — "Apply completed with {0} success, {1} skipped, {2} failed."
 - `ApplyStatusUnavailable` — "Apply unavailable."
+
+**Apply error titles (set on `ApplyErrorTitle` ViewModel property):**
+- `ApplyErrorTitleRetryAbort` — "Apply stopped after conflict retry limit"
+- `ApplyErrorTitleInvalidPlan` — "Plan artifact is invalid"
+- `ApplyErrorTitleFileSystem` — "Apply failed due to file system error"
+- `ApplyErrorTitleUnexpected` — "Apply failed unexpectedly"
+- `ApplyErrorTitleValidation` — "Apply validation failed"
+
+**Apply error message bodies (set on `ApplyErrorMessage` ViewModel property):**
+- `ApplyErrorMessageValidation` — "Select and load a valid plan artifact before apply."
+- `ApplyErrorMessageInvalidPlan` — "Unable to apply the selected plan artifact: {0}"
+- `ApplyErrorMessageFileSystem` — "Unable to complete apply: {0}"
 
 **Main page:**
 - `MainPageHeading` — "Plan Generation, Preview, and Apply"
@@ -245,10 +269,7 @@ Replace the static help text array and all error output strings with references 
 
 ### 6. Update the index
 
-Add to `docs/specs/000-index.md`:
-```
-- `290-string-resources.md` - draft - RESX-based user-facing string extraction for i18n readiness.
-```
+`docs/specs/000-index.md` already has an entry for this slice (added when the spec was written). No action required unless the status changes.
 
 ## Commands to run
 
@@ -285,12 +306,21 @@ Add to `docs/specs/000-index.md`:
 ## Tests
 
 - No new unit tests are required for this slice — it is a mechanical string extraction with no behaviour change.
-- Confirm all existing tests in `Renamer.Tests` continue to pass without modification. Any test that asserts a user-facing string value must be updated to reference the resource key (e.g. `AppStrings.PreviewStatusDefault`) rather than a raw literal.
+- The following existing test files assert raw user-facing string literals that must be updated to reference the generated resource accessor instead of inline strings:
+  - `src/Renamer.Tests/UI/ApplyFlowViewModelTests.cs` — asserts `ApplyStatusMessage`, `ApplyErrorTitle`, `ApplyErrorMessage`, and `StatusMessage` values directly (e.g. `Assert.Equal("Apply completed with 1 success, 0 skipped, 0 failed.", ...)`)
+  - `src/Renamer.Tests/UI/PlanGenerationViewModelTests.cs` — asserts `StatusMessage`, `GenerationStatusMessage`, `GenerationErrorTitle`, and `GenerationErrorMessage` values directly
+- Each such assertion must be updated to use the resource key, e.g.:
+  ```csharp
+  Assert.Equal(AppStrings.ApplyStatusSuccess.Replace("{0}", "1").Replace("{1}", "0").Replace("{2}", "0"), viewModel.ApplyStatusMessage);
+  // or more idiomatically:
+  Assert.Equal(string.Format(AppStrings.ApplyStatusSuccess, 1, 0, 0), viewModel.ApplyStatusMessage);
+  ```
+- Add `using Renamer.UI.Resources.Strings;` to any test file that references `AppStrings`.
 
 ## Test scope
 
 - All pre-existing tests pass: `dotnet test Renamer.sln` exits 0.
-- If any test was asserting a raw string literal that has now moved to a resource file, the test is updated to use the resource accessor.
+- No test may contain a raw string literal that duplicates a value defined in `AppStrings.resx` or `CliStrings.resx`.
 
 ## Expected outputs
 
