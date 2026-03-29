@@ -90,6 +90,33 @@ public sealed class PlanGenerationViewModelTests
     }
 
     [Fact]
+    public async Task GeneratePlanAsync_WithValidInputs_HandsOffPlanPathToApplyContext()
+    {
+        var existingDirectory = Path.GetTempPath();
+        var plan = CreatePlan();
+        var viewModel = new PlanViewModel(
+            new FakePlanBuilder(plan),
+            new RecordingPlanSerializer(plan),
+            new FakePlanFilePicker(null),
+            new FakeFolderPathPicker(null),
+            new FakeRootPathOpener(),
+            new FakeApplyEngine(),
+            NullLogger<PlanViewModel>.Instance)
+        {
+            GenerationRootPath = existingDirectory,
+            GenerationOutputDirectoryPath = existingDirectory,
+            PlanFileName = "rename-plan.json"
+        };
+
+        await viewModel.GeneratePlanAsync();
+
+        var expectedPath = Path.Combine(existingDirectory, "rename-plan.json");
+        Assert.Equal(expectedPath, viewModel.PlanPath);
+        Assert.True(viewModel.IsLoaded);
+        Assert.True(viewModel.CanApply);
+    }
+
+    [Fact]
     public async Task BrowseGenerationRootPathAsync_WhenPickerReturnsPath_UpdatesRootPath()
     {
         var viewModel = new PlanViewModel(
