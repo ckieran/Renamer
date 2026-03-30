@@ -7,7 +7,7 @@
 - Create or update specs before implementing features.
 - Each chunk should include acceptance criteria, test scope, and expected outputs.
 - Keep changes scoped; avoid unrelated refactors.
-- Use branches with prefix `codex/` when creating new branches.
+- Use the conventional commit type as the branch prefix: `<type>/<slice-id>-<description>` (see `docs/specs/070-engineering-contract.md` for type vocabulary). Use `claude/` only for exploration or spec-only work.
 
 ## Deterministic slice start protocol
 - Always start execution from `docs/checklists/v1.md`.
@@ -19,10 +19,16 @@
   1. `git status --short` must be clean.
   2. `git branch --show-current` must be `main`.
   3. `git pull --ff-only origin main`.
-  4. `git switch -c codex/<slice-id>-<slice-name>`.
+  4. `git switch -c <type>/<slice-id>-<slice-name>` — choose the type from the conventional commits vocabulary in `docs/specs/070-engineering-contract.md`.
   5. Confirm branch name matches the active slice.
   6. If a matching GitHub issue exists, move it to `In Progress` and confirm it matches the active slice.
 - Only after preflight passes: implement one slice, run slice-required commands/tests, open a PR linked to the corresponding issue, then update `docs/checklists/v1.md`.
+
+## Error recovery
+
+- If preflight fails at any step, stop immediately — do not proceed to implementation. Report current state (branch, dirty files, error) and wait for the user to resolve.
+- If the standard test gate (`dotnet restore` / `build` / `test`) fails mid-slice, stop and fix before opening a PR. Do not open a PR with failing tests.
+- Do not attempt automatic cleanup of uncommitted changes or branch state. Destructive git operations (reset, checkout ., clean) require explicit user instruction.
 
 ## Required context pack (read before implementing a slice)
 - Mandatory baseline for every slice:

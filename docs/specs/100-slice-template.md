@@ -50,6 +50,9 @@ One-sentence outcome.
 7. Include the slice ID in PR title and body.
 
 ## Acceptance checks
+
+Acceptance checks are human-verified unless a runnable command is explicitly specified. Each check should describe an observable outcome (e.g. CLI output, file content, UI state).
+
 - Observable check 1.
 - Observable check 2.
 

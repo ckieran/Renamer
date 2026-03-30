@@ -41,6 +41,12 @@ Define shared execution standards for every implementation slice so PRs are cons
 - Run the commands listed in the slice plus the standard command sequence.
 - when adding dependencies from external sources eg nuget, ask for approval and list popularity/install base.  Preference is for open source recently updated packages with high usage to lower chance of adding malware/vulnerabilities
 
+## Test failure policy
+
+- If any step in the standard command sequence fails, stop and fix before opening a PR.
+- A PR must not be opened with a failing build or failing tests.
+- All three steps (`restore`, `build`, `test`) are blocking — none may be skipped or bypassed.
+
 ## Slice completion requirement
 - Every slice must include:
   - implementation steps
