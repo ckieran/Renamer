@@ -28,10 +28,18 @@ Complete these steps before editing code for a new slice:
 - Do not mix unrelated cleanup or refactors into slice branches.
 - All commit messages must follow Conventional Commits — see `docs/specs/070-engineering-contract.md`.
 
+## Merge strategy
+
+All PRs are merged via **squash merge**. The PR title becomes the single commit message on `main`, so it must be a valid Conventional Commit. This keeps `main` history linear and makes each slice atomically revertable.
+
 ## PR close-out
 When opening a PR for a slice:
 
-1. Use the slice ID in the PR title.
+1. Set the PR title to a valid Conventional Commit using the slice ID as the subject:
+   - Format: `<type>(<scope>): <slice-id> <short description>`
+   - Examples: `feat(core): 150 name generation`, `refactor(ui): 290 extract string resources`
+   - The type must match the branch prefix and the primary commit type used in the branch.
+   - This title becomes the squash commit message on `main`.
 2. Link the corresponding GitHub issue in the PR body:
    - prefer `Closes #<issue-number>` when the PR is intended to complete the slice
    - use `Refs #<issue-number>` only when the PR is partial or non-closing

@@ -80,7 +80,7 @@ All commits in this repository must follow the [Conventional Commits v1.0.0](htt
 ```
 
 - The **type** and **short description** are mandatory.
-- The **scope** is optional but recommended; use the project layer (`core`, `cli`, `ui`, `tests`) or a short noun identifying the affected area.
+- The **scope** is optional but recommended; use the project layer (`core`, `cli`, `ui`, `tests`) or a short noun identifying the affected area. Note: `tests` as a scope refers to the test project layer when the primary change is production code (e.g. `feat(core): add X` that also ships tests). Do not use `tests` as a scope when the commit type is already `test` — in that case the type alone is sufficient (e.g. `test(core): cover edge case Y`).
 - The **short description** is lowercase, imperative mood, no trailing period.
 - The **body** is free prose explaining *why*, not *what*. Wrap at 72 characters.
 - Breaking changes must include `BREAKING CHANGE: <description>` in the footer, or `!` after the type: `feat!: ...`.
@@ -99,6 +99,21 @@ All commits in this repository must follow the [Conventional Commits v1.0.0](htt
 | `chore` | Housekeeping that fits no other type (e.g. updating `.gitignore`) |
 | `perf` | Performance improvement with no behaviour change |
 | `style` | Formatting, whitespace — no logic change |
+
+### Merge strategy and PR titles
+
+All PRs are merged via **squash merge**. The PR title becomes the single commit on `main`, so it must itself be a valid Conventional Commit:
+
+```
+<type>(<scope>): <slice-id> <short description>
+```
+
+Examples:
+- `feat(core): 150 name generation`
+- `refactor(ui): 290 extract string resources`
+- `fix(cli): 160 conflict retry off by one`
+
+The type in the PR title must match the branch prefix. This keeps `main` history linear and makes each slice revertable as a single commit.
 
 ### Branch naming
 

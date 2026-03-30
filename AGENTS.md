@@ -23,6 +23,7 @@
   5. Confirm branch name matches the active slice.
   6. If a matching GitHub issue exists, move it to `In Progress` and confirm it matches the active slice.
 - Only after preflight passes: implement one slice, run slice-required commands/tests, open a PR linked to the corresponding issue, then update `docs/checklists/v1.md`.
+- PR title must be a valid Conventional Commit: `<type>(<scope>): <slice-id> <short description>` — this becomes the squash commit message on `main`. See `docs/git-workflow.md` for examples.
 
 ## Error recovery
 
