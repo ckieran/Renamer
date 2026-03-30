@@ -3,32 +3,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:model="clr-namespace:Renamer.UI.Plans"
              xmlns:plans="clr-namespace:Renamer.UI.Plans"
+             xmlns:strings="clr-namespace:Renamer.UI.Resources.Strings"
              x:Class="Renamer.UI.Views.PreviewWorkspaceView"
              x:DataType="plans:IPlanViewModel">
     <VerticalStackLayout Spacing="18">
         <VerticalStackLayout Spacing="4">
-            <Label Text="Preview Plan"
+            <Label Text="{x:Static strings:AppStrings.PreviewHeading}"
                    FontSize="24"
                    FontAttributes="Bold" />
-            <Label Text="Load a plan artifact, review the summary, and inspect each planned rename operation."
+            <Label Text="{x:Static strings:AppStrings.PreviewDescription}"
                    FontSize="13"
                    TextColor="{AppThemeBinding Light=#475569, Dark=#CBD5E1}" />
         </VerticalStackLayout>
 
         <Border Padding="16">
             <VerticalStackLayout Spacing="12">
-                <Label Text="Plan Artifact"
+                <Label Text="{x:Static strings:AppStrings.PreviewSectionHeader}"
                        FontSize="18"
                        FontAttributes="Bold" />
-                <Label Text="Select or paste a path to a rename-plan.json file."
+                <Label Text="{x:Static strings:AppStrings.PreviewInstructions}"
                        FontSize="13" />
                 <Entry Text="{Binding PlanPath}"
-                       Placeholder="/path/to/rename-plan.json"
+                       Placeholder="{x:Static strings:AppStrings.PreviewPlaceholder}"
                        ClearButtonVisibility="WhileEditing" />
                 <HorizontalStackLayout Spacing="10">
-                    <Button Text="Browse"
+                    <Button Text="{x:Static strings:AppStrings.PreviewBrowse}"
                             Command="{Binding BrowsePlanCommand}" />
-                    <Button Text="Load Preview"
+                    <Button Text="{x:Static strings:AppStrings.PreviewButtonLoad}"
                             Command="{Binding LoadPreviewCommand}" />
                 </HorizontalStackLayout>
                 <Label Text="{Binding StatusMessage}"
@@ -39,10 +40,10 @@
         <Border Padding="16"
                 IsVisible="{Binding IsIdle}">
             <VerticalStackLayout Spacing="8">
-                <Label Text="Preview workspace"
+                <Label Text="{x:Static strings:AppStrings.PreviewIdleLabel}"
                        FontSize="18"
                        FontAttributes="Bold" />
-                <Label Text="Select a plan artifact and load it here to review the summary first, then inspect each planned rename operation below."
+                <Label Text="{x:Static strings:AppStrings.PreviewIdleDescription}"
                        FontSize="13" />
             </VerticalStackLayout>
         </Border>
@@ -55,7 +56,7 @@
                 <ActivityIndicator IsRunning="{Binding IsLoading}"
                                    IsVisible="{Binding IsLoading}"
                                    HorizontalOptions="Center" />
-                <Label Text="Loading Preview"
+                <Label Text="{x:Static strings:AppStrings.PreviewLoadingLabel}"
                        FontSize="18"
                        FontAttributes="Bold"
                        HorizontalTextAlignment="Center" />
@@ -68,7 +69,7 @@
         <Border Padding="16"
                 IsVisible="{Binding HasError}">
             <VerticalStackLayout Spacing="8">
-                <Label Text="Unable To Load Plan"
+                <Label Text="{x:Static strings:AppStrings.PreviewErrorHeading}"
                        FontSize="16"
                        FontAttributes="Bold"
                        TextColor="#9A3412" />
@@ -82,17 +83,17 @@
             <Border Padding="16">
                 <VerticalStackLayout Spacing="16">
                     <VerticalStackLayout Spacing="4">
-                        <Label Text="Summary"
+                        <Label Text="{x:Static strings:AppStrings.PreviewSummarySectionHeader}"
                                FontSize="18"
                                FontAttributes="Bold" />
-                        <Label Text="Review the loaded plan metadata before scanning through the planned rename operations."
+                        <Label Text="{x:Static strings:AppStrings.PreviewSummaryDescription}"
                                FontSize="13" />
                     </VerticalStackLayout>
 
                     <Border Padding="14"
                             Background="{AppThemeBinding Light=#F8FAFC, Dark=#111827}">
                         <VerticalStackLayout Spacing="6">
-                            <Label Text="Root Path"
+                            <Label Text="{x:Static strings:AppStrings.PreviewFieldRootPath}"
                                    FontAttributes="Bold" />
                             <Label Text="{Binding RootPath}"
                                    LineBreakMode="WordWrap"
@@ -110,7 +111,7 @@
                                 Padding="14"
                                 Background="{AppThemeBinding Light=#F8FAFC, Dark=#111827}">
                             <VerticalStackLayout Spacing="4">
-                                <Label Text="Created At"
+                                <Label Text="{x:Static strings:AppStrings.PreviewFieldCreatedAt}"
                                        FontAttributes="Bold" />
                                 <Label Text="{Binding CreatedAtDisplay}" />
                             </VerticalStackLayout>
@@ -120,7 +121,7 @@
                                 Padding="14"
                                 Background="{AppThemeBinding Light=#F8FAFC, Dark=#111827}">
                             <VerticalStackLayout Spacing="4">
-                                <Label Text="Operations"
+                                <Label Text="{x:Static strings:AppStrings.PreviewFieldOperations}"
                                        FontAttributes="Bold" />
                                 <Label Text="{Binding OperationCountText}" />
                             </VerticalStackLayout>
@@ -130,7 +131,7 @@
                                 Padding="14"
                                 Background="{AppThemeBinding Light=#F8FAFC, Dark=#111827}">
                             <VerticalStackLayout Spacing="4">
-                                <Label Text="Warnings"
+                                <Label Text="{x:Static strings:AppStrings.PreviewFieldWarnings}"
                                        FontAttributes="Bold" />
                                 <Label Text="{Binding WarningCountText}" />
                             </VerticalStackLayout>
@@ -142,7 +143,7 @@
             <VerticalStackLayout Spacing="12">
                 <Grid ColumnDefinitions="*,Auto"
                       ColumnSpacing="12">
-                    <Label Text="Planned Operations"
+                    <Label Text="{x:Static strings:AppStrings.PreviewOperationsSectionHeader}"
                            FontSize="18"
                            FontAttributes="Bold" />
                     <Label Grid.Column="1"
@@ -151,7 +152,7 @@
                            VerticalOptions="Center"
                            TextColor="{AppThemeBinding Light=#475569, Dark=#CBD5E1}" />
                 </Grid>
-                <Label Text="Operations remain scrollable in the wider workspace so longer destination names and paths stay readable."
+                <Label Text="{x:Static strings:AppStrings.PreviewOperationsDescription}"
                        FontSize="13"
                        TextColor="{AppThemeBinding Light=#475569, Dark=#CBD5E1}" />
 

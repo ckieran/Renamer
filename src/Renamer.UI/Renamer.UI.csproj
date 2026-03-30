@@ -83,4 +83,16 @@
 	  <ProjectReference Include="..\Renamer.Core\Renamer.Core.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <EmbeddedResource Update="Resources\Strings\AppStrings.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>AppStrings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <Compile Update="Resources\Strings\AppStrings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>AppStrings.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
 </Project>

@@ -8,6 +8,7 @@ using Renamer.Core.Contracts;
 using Renamer.Core.Execution;
 using Renamer.Core.Planning;
 using Renamer.Core.Serialization;
+using Renamer.UI.Resources.Strings;
 
 namespace Renamer.UI.Plans;
 
@@ -29,23 +30,23 @@ public sealed class PlanViewModel : IPlanViewModel
     private string generationRootPath = string.Empty;
     private string generationOutputDirectoryPath = string.Empty;
     private string planFileName = "rename-plan.json";
-    private string generationStatusMessage = "Select a root folder and output location to generate a plan.";
+    private string generationStatusMessage = AppStrings.GenerateStatusDefault;
     private string? generationErrorTitle;
     private string? generationErrorMessage;
     private bool isGenerating;
     private string planPath = string.Empty;
-    private string statusMessage = "Select a rename-plan.json file to preview planned operations.";
+    private string statusMessage = AppStrings.PreviewStatusDefault;
     private string? errorMessage;
     private string rootPath = string.Empty;
-    private string createdAtDisplay = "No plan loaded";
+    private string createdAtDisplay = AppStrings.PreviewCreatedAtDefault;
     private string operationCountText = "0";
     private string warningCountText = "0";
-    private string applyStatusMessage = "Load a plan preview to enable apply.";
+    private string applyStatusMessage = AppStrings.ApplyStatusDefault;
     private string? applyErrorTitle;
     private string? applyErrorMessage;
-    private string applyOutcomeText = "Not run";
-    private string applyStartedAtDisplay = "Not run";
-    private string applyFinishedAtDisplay = "Not run";
+    private string applyOutcomeText = AppStrings.ApplyStatusOutcomeDefault;
+    private string applyStartedAtDisplay = AppStrings.ApplyStatusStartedDefault;
+    private string applyFinishedAtDisplay = AppStrings.ApplyStatusFinishedDefault;
     private string applySuccessCountText = "0";
     private string applyFailedCountText = "0";
     private string applySkippedCountText = "0";
@@ -73,16 +74,16 @@ public sealed class PlanViewModel : IPlanViewModel
         this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         generateStep = new PlanWorkflowStepItem(
             PlanWorkflowStep.GeneratePlan,
-            "Generate Plan",
-            "Create a folder rename plan starting from a source folder");
+            AppStrings.StepGenerateTitle,
+            AppStrings.StepGenerateDescription);
         previewStep = new PlanWorkflowStepItem(
             PlanWorkflowStep.PreviewPlan,
-            "Preview Plan",
-            "Load a plan artifact and inspect the planned operations.");
+            AppStrings.StepPreviewTitle,
+            AppStrings.StepPreviewDescription);
         applyStep = new PlanWorkflowStepItem(
             PlanWorkflowStep.ApplyPlan,
-            "Apply Plan",
-            "Execute the loaded plan and review the resulting report.");
+            AppStrings.StepApplyTitle,
+            AppStrings.StepApplyDescription);
         BrowseGenerationRootCommand = new AsyncCommand(BrowseGenerationRootPathAsync);
         BrowseGenerationOutputDirectoryCommand = new AsyncCommand(BrowseGenerationOutputDirectoryAsync);
         GeneratePlanCommand = new AsyncCommand(GeneratePlanAsync);
@@ -371,55 +372,55 @@ public sealed class PlanViewModel : IPlanViewModel
 
     public async Task BrowseGenerationRootPathAsync(CancellationToken cancellationToken = default)
     {
-        var selectedPath = await folderPathPicker.PickFolderPathAsync("Select photo root folder", cancellationToken);
+        var selectedPath = await folderPathPicker.PickFolderPathAsync(AppStrings.GenerateFolderPickerRootTitle, cancellationToken);
         if (string.IsNullOrWhiteSpace(selectedPath))
         {
-            GenerationStatusMessage = "Root folder selection canceled.";
+            GenerationStatusMessage = AppStrings.GenerateStatusRootCanceled;
             return;
         }
 
         GenerationRootPath = selectedPath;
         ClearGenerationError();
-        GenerationStatusMessage = $"Selected root folder: {Path.GetFileName(selectedPath)}";
+        GenerationStatusMessage = string.Format(AppStrings.GenerateStatusRootSelected, Path.GetFileName(selectedPath));
     }
 
     public async Task BrowseGenerationOutputDirectoryAsync(CancellationToken cancellationToken = default)
     {
-        var selectedPath = await folderPathPicker.PickFolderPathAsync("Select output folder for rename-plan.json", cancellationToken);
+        var selectedPath = await folderPathPicker.PickFolderPathAsync(AppStrings.GenerateFolderPickerOutputTitle, cancellationToken);
         if (string.IsNullOrWhiteSpace(selectedPath))
         {
-            GenerationStatusMessage = "Output folder selection canceled.";
+            GenerationStatusMessage = AppStrings.GenerateStatusOutputCanceled;
             return;
         }
 
         GenerationOutputDirectoryPath = selectedPath;
         ClearGenerationError();
-        GenerationStatusMessage = $"Selected output folder: {Path.GetFileName(selectedPath)}";
+        GenerationStatusMessage = string.Format(AppStrings.GenerateStatusOutputSelected, Path.GetFileName(selectedPath));
     }
 
     public async Task GeneratePlanAsync(CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(GenerationRootPath))
         {
-            SetGenerationError("Plan generation requires a root folder", "Select a source root folder before generating a plan.");
+            SetGenerationError(AppStrings.GenerateErrorNoRootTitle, AppStrings.GenerateErrorNoRootMessage);
             return;
         }
 
         if (!Directory.Exists(GenerationRootPath))
         {
-            SetGenerationError("Plan generation requires a valid root folder", $"Root folder '{GenerationRootPath}' does not exist.");
+            SetGenerationError(AppStrings.GenerateErrorInvalidRootTitle, string.Format(AppStrings.GenerateErrorInvalidRootMessage, GenerationRootPath));
             return;
         }
 
         if (string.IsNullOrWhiteSpace(GenerationOutputDirectoryPath))
         {
-            SetGenerationError("Plan generation requires an output folder", "Select an output folder for rename-plan.json.");
+            SetGenerationError(AppStrings.GenerateErrorNoOutputTitle, AppStrings.GenerateErrorNoOutputMessage);
             return;
         }
 
         if (string.IsNullOrWhiteSpace(PlanFileName))
         {
-            SetGenerationError("Plan generation requires a file name", "Enter a file name for the generated plan artifact.");
+            SetGenerationError(AppStrings.GenerateErrorNoFileNameTitle, AppStrings.GenerateErrorNoFileNameMessage);
             return;
         }
 
@@ -430,14 +431,15 @@ public sealed class PlanViewModel : IPlanViewModel
         }
         catch (Exception ex) when (ex is ArgumentException or NotSupportedException)
         {
-            SetGenerationError("Plan file name is invalid", ex.Message);
+            logger.LogError(ex, "Plan file name is invalid.");
+            SetGenerationError(AppStrings.GenerateErrorInvalidFileNameTitle, AppStrings.GenerateErrorUnexpectedMessage);
             return;
         }
 
         logger.LogInformation("Generating plan from root {RootPath} to {OutputPath}.", GenerationRootPath, outputPath);
         IsGenerating = true;
         ClearGenerationError();
-        GenerationStatusMessage = "Generating rename plan...";
+        GenerationStatusMessage = AppStrings.GenerateStatusInProgress;
 
         try
         {
@@ -452,18 +454,18 @@ public sealed class PlanViewModel : IPlanViewModel
             ClearLoadedData();
             ResetApplyState();
             PopulateLoadedState(plan);
-            GenerationStatusMessage = $"Plan generated: {Path.GetFileName(outputPath)}";
+            GenerationStatusMessage = string.Format(AppStrings.GenerateStatusSuccess, Path.GetFileName(outputPath));
             logger.LogInformation("Generated plan with {OperationCount} operations at {OutputPath}.", plan.Operations.Count, outputPath);
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             logger.LogError(ex, "Plan generation failed due to file system access.");
-            SetGenerationError("Plan generation failed due to file system error", ex.Message);
+            SetGenerationError(AppStrings.GenerateErrorFileSystemTitle, AppStrings.GenerateErrorFileSystemMessage);
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Plan generation failed unexpectedly.");
-            SetGenerationError("Plan generation failed unexpectedly", ex.Message);
+            SetGenerationError(AppStrings.GenerateErrorUnexpectedTitle, AppStrings.GenerateErrorUnexpectedMessage);
         }
         finally
         {
@@ -474,7 +476,7 @@ public sealed class PlanViewModel : IPlanViewModel
     public async Task BrowseAsync(CancellationToken cancellationToken = default)
     {
         logger.LogInformation("Plan browse requested.");
-        StatusMessage = "Opening plan file picker...";
+        StatusMessage = AppStrings.PreviewStatusBrowseOpening;
 
         try
         {
@@ -482,19 +484,19 @@ public sealed class PlanViewModel : IPlanViewModel
             if (string.IsNullOrWhiteSpace(selectedPath))
             {
                 logger.LogInformation("Plan selection canceled.");
-                StatusMessage = "Plan selection canceled.";
+                StatusMessage = AppStrings.PreviewStatusBrowseCanceled;
                 return;
             }
 
             PlanPath = selectedPath;
             ErrorMessage = null;
-            StatusMessage = $"Selected plan artifact: {Path.GetFileName(selectedPath)}";
+            StatusMessage = string.Format(AppStrings.PreviewStatusBrowseSelected, Path.GetFileName(selectedPath));
             logger.LogInformation("Plan artifact selected: {PlanPath}", selectedPath);
         }
         catch (Exception ex) when (ex is InvalidOperationException or NotSupportedException or IOException)
         {
             logger.LogError(ex, "Plan selection failed.");
-            SetErrorState($"Unable to select a plan artifact: {ex.Message}");
+            SetErrorState(AppStrings.PreviewStatusBrowseError);
         }
     }
 
@@ -511,12 +513,12 @@ public sealed class PlanViewModel : IPlanViewModel
         try
         {
             await rootPathOpener.OpenAsync(RootPath, cancellationToken);
-            StatusMessage = "Opened root folder.";
+            StatusMessage = AppStrings.PreviewStatusRootOpened;
         }
         catch (Exception ex) when (ex is IOException or InvalidOperationException or NotSupportedException or UnauthorizedAccessException)
         {
             logger.LogError(ex, "Unable to open plan root path {RootPath}.", RootPath);
-            SetErrorState($"Unable to open root folder: {ex.Message}");
+            SetErrorState(AppStrings.PreviewStatusRootError);
         }
     }
 
@@ -525,14 +527,14 @@ public sealed class PlanViewModel : IPlanViewModel
         if (string.IsNullOrWhiteSpace(PlanPath))
         {
             logger.LogWarning("Plan load requested without a selected path.");
-            SetErrorState("Select a plan artifact path to load.");
+            SetErrorState(AppStrings.PreviewStatusNoPath);
             return;
         }
 
         logger.LogInformation("Loading plan preview from {PlanPath}.", PlanPath);
         SetState(PlanViewState.Loading);
         ErrorMessage = null;
-        StatusMessage = "Loading plan preview...";
+        StatusMessage = AppStrings.PreviewStatusLoading;
         ClearLoadedData();
         Operations.Clear();
         ResetApplyState();
@@ -548,7 +550,7 @@ public sealed class PlanViewModel : IPlanViewModel
         {
             logger.LogError(ex, "Unable to load plan preview from {PlanPath}.", PlanPath);
             loadedPlan = null;
-            SetErrorState($"Unable to load plan artifact: {ex.Message}");
+            SetErrorState(AppStrings.PreviewStatusLoadError);
         }
     }
 
@@ -557,7 +559,7 @@ public sealed class PlanViewModel : IPlanViewModel
         if (string.IsNullOrWhiteSpace(PlanPath) || loadedPlan is null || !IsLoaded)
         {
             logger.LogWarning("Apply requested without a loaded plan.");
-            SetApplyError("Apply validation failed", "Select and load a valid plan artifact before apply.");
+            SetApplyError(AppStrings.ApplyErrorTitleValidation, AppStrings.ApplyErrorMessageValidation);
             return;
         }
 
@@ -565,7 +567,7 @@ public sealed class PlanViewModel : IPlanViewModel
         IsApplying = true;
         ApplyErrorTitle = null;
         ApplyErrorMessage = null;
-        ApplyStatusMessage = "Applying rename plan...";
+        ApplyStatusMessage = AppStrings.ApplyStatusInProgress;
         ApplyResults.Clear();
         HasApplyReport = false;
         ResetApplySummary();
@@ -580,29 +582,27 @@ public sealed class PlanViewModel : IPlanViewModel
 
             if (string.Equals(report.Outcome, ApplyEngine.ConflictRetryLimitReachedOutcome, StringComparison.Ordinal))
             {
-                SetApplyError(
-                    "Apply stopped after conflict retry limit",
-                    "A destination conflict could not be resolved after 10 suffix retries.");
-                ApplyStatusMessage = "Apply stopped before the full plan completed.";
+                SetApplyError(AppStrings.ApplyErrorTitleRetryAbort, AppStrings.ApplyStatusPartial);
+                ApplyStatusMessage = AppStrings.ApplyStatusPartial;
                 return;
             }
 
-            ApplyStatusMessage = $"Apply completed with {report.Summary.Success} success, {report.Summary.Skipped} skipped, {report.Summary.Failed} failed.";
+            ApplyStatusMessage = string.Format(AppStrings.ApplyStatusSuccess, report.Summary.Success, report.Summary.Skipped, report.Summary.Failed);
         }
         catch (Exception ex) when (ex is InvalidDataException or NotSupportedException or System.Text.Json.JsonException)
         {
             logger.LogError(ex, "Plan schema validation failed during apply for {PlanPath}.", PlanPath);
-            SetApplyError("Plan artifact is invalid", $"Unable to apply the selected plan artifact: {ex.Message}");
+            SetApplyError(AppStrings.ApplyErrorTitleInvalidPlan, AppStrings.ApplyErrorMessageInvalidPlan);
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             logger.LogError(ex, "Apply failed due to file system access for {PlanPath}.", PlanPath);
-            SetApplyError("Apply failed due to file system error", $"Unable to complete apply: {ex.Message}");
+            SetApplyError(AppStrings.ApplyErrorTitleFileSystem, AppStrings.ApplyErrorMessageFileSystem);
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Unexpected apply failure for {PlanPath}.", PlanPath);
-            SetApplyError("Apply failed unexpectedly", ex.Message);
+            SetApplyError(AppStrings.ApplyErrorTitleUnexpected, AppStrings.ApplyErrorMessageUnexpected);
         }
         finally
         {
@@ -646,7 +646,7 @@ public sealed class PlanViewModel : IPlanViewModel
 
         SetState(PlanViewState.Loaded);
         ErrorMessage = null;
-        StatusMessage = $"Loaded {plan.Operations.Count} planned operation(s).";
+        StatusMessage = string.Format(AppStrings.PreviewStatusLoaded, plan.Operations.Count);
         RefreshShellState();
     }
 
@@ -681,7 +681,7 @@ public sealed class PlanViewModel : IPlanViewModel
     {
         SetState(PlanViewState.Error);
         ErrorMessage = message;
-        StatusMessage = "Plan preview unavailable.";
+        StatusMessage = AppStrings.PreviewStatusUnavailable;
         ClearLoadedData();
         Operations.Clear();
         loadedPlan = null;
@@ -692,7 +692,7 @@ public sealed class PlanViewModel : IPlanViewModel
     private void ClearLoadedData()
     {
         RootPath = string.Empty;
-        CreatedAtDisplay = "No plan loaded";
+        CreatedAtDisplay = AppStrings.PreviewCreatedAtDefault;
         OperationCountText = "0";
         WarningCountText = "0";
     }
@@ -710,8 +710,8 @@ public sealed class PlanViewModel : IPlanViewModel
         Operations.Clear();
         ResetApplyState();
         StatusMessage = HasPlanPath
-            ? "Plan path updated. Load preview to refresh."
-            : "Select a rename-plan.json file to preview planned operations.";
+            ? AppStrings.PreviewStatusPathUpdated
+            : AppStrings.PreviewStatusDefault;
         RefreshShellState();
     }
 
@@ -719,9 +719,7 @@ public sealed class PlanViewModel : IPlanViewModel
     {
         ApplyErrorTitle = null;
         ApplyErrorMessage = null;
-        ApplyStatusMessage = loadedPlan is null
-            ? "Load a plan preview to enable apply."
-            : "Ready to apply the loaded plan.";
+        ApplyStatusMessage = AppStrings.ApplyStatusDefault;
         ApplyResults.Clear();
         HasApplyReport = false;
         IsApplying = false;
@@ -731,9 +729,9 @@ public sealed class PlanViewModel : IPlanViewModel
 
     private void ResetApplySummary()
     {
-        ApplyOutcomeText = "Not run";
-        ApplyStartedAtDisplay = "Not run";
-        ApplyFinishedAtDisplay = "Not run";
+        ApplyOutcomeText = AppStrings.ApplyStatusOutcomeDefault;
+        ApplyStartedAtDisplay = AppStrings.ApplyStatusStartedDefault;
+        ApplyFinishedAtDisplay = AppStrings.ApplyStatusFinishedDefault;
         ApplySuccessCountText = "0";
         ApplyFailedCountText = "0";
         ApplySkippedCountText = "0";
@@ -744,7 +742,7 @@ public sealed class PlanViewModel : IPlanViewModel
     {
         ApplyErrorTitle = title;
         ApplyErrorMessage = message;
-        ApplyStatusMessage = "Apply unavailable.";
+        ApplyStatusMessage = AppStrings.ApplyStatusUnavailable;
         RefreshShellState();
     }
 
@@ -752,7 +750,7 @@ public sealed class PlanViewModel : IPlanViewModel
     {
         GenerationErrorTitle = title;
         GenerationErrorMessage = message;
-        GenerationStatusMessage = "Plan generation unavailable.";
+        GenerationStatusMessage = AppStrings.GenerateStatusUnavailable;
         RefreshShellState();
     }
 

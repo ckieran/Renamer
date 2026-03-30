@@ -2,56 +2,57 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:plans="clr-namespace:Renamer.UI.Plans"
+             xmlns:strings="clr-namespace:Renamer.UI.Resources.Strings"
              x:Class="Renamer.UI.Views.GenerateWorkspaceView"
              x:DataType="plans:IPlanViewModel">
     <VerticalStackLayout Spacing="18">
         <VerticalStackLayout Spacing="4">
-            <Label Text="Generate Plan"
+            <Label Text="{x:Static strings:AppStrings.GenerateHeading}"
                    FontSize="24"
                    FontAttributes="Bold" />
-            <Label Text="Pick the source root and output folder, then generate a plan artifact for the rest of the workflow."
+            <Label Text="{x:Static strings:AppStrings.GenerateDescription}"
                    FontSize="13"
                    TextColor="{AppThemeBinding Light=#475569, Dark=#CBD5E1}" />
         </VerticalStackLayout>
 
         <Border Padding="16">
             <VerticalStackLayout Spacing="12">
-                <Label Text="Generate Plan"
+                <Label Text="{x:Static strings:AppStrings.GenerateSectionHeader}"
                        FontSize="18"
                        FontAttributes="Bold" />
-                <Label Text="Select the source root folder and destination folder for the generated plan artifact."
+                <Label Text="{x:Static strings:AppStrings.GenerateInstructions}"
                        FontSize="13" />
 
                 <VerticalStackLayout Spacing="6">
-                    <Label Text="Root Folder"
+                    <Label Text="{x:Static strings:AppStrings.GenerateLabelRootFolder}"
                            FontAttributes="Bold" />
                     <Entry Text="{Binding GenerationRootPath}"
-                           Placeholder="/path/to/photo-folder"
+                           Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderRootFolder}"
                            ClearButtonVisibility="WhileEditing" />
-                    <Button Text="Browse Root Folder"
+                    <Button Text="{x:Static strings:AppStrings.GenerateBrowseRootFolder}"
                             Command="{Binding BrowseGenerationRootCommand}" />
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Spacing="6">
-                    <Label Text="Output Folder"
+                    <Label Text="{x:Static strings:AppStrings.GenerateLabelOutputFolder}"
                            FontAttributes="Bold" />
                     <Entry Text="{Binding GenerationOutputDirectoryPath}"
-                           Placeholder="/path/to/output-folder"
+                           Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderOutputFolder}"
                            ClearButtonVisibility="WhileEditing" />
-                    <Button Text="Browse Output Folder"
+                    <Button Text="{x:Static strings:AppStrings.GenerateBrowseOutputFolder}"
                             Command="{Binding BrowseGenerationOutputDirectoryCommand}" />
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Spacing="6">
-                    <Label Text="Plan File Name"
+                    <Label Text="{x:Static strings:AppStrings.GenerateLabelPlanFileName}"
                            FontAttributes="Bold" />
                     <Entry Text="{Binding PlanFileName}"
-                           Placeholder="rename-plan.json"
+                           Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderPlanFileName}"
                            ClearButtonVisibility="WhileEditing" />
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Spacing="4">
-                    <Label Text="Generated Plan Path"
+                    <Label Text="{x:Static strings:AppStrings.GenerateLabelGeneratedPlanPath}"
                            FontAttributes="Bold" />
                     <Label Text="{Binding GeneratedPlanPathPreview}"
                            FontSize="12"
@@ -60,7 +61,7 @@
                 </VerticalStackLayout>
 
                 <HorizontalStackLayout Spacing="10">
-                    <Button Text="Generate and Load"
+                    <Button Text="{x:Static strings:AppStrings.GenerateButtonGenerateAndLoad}"
                             Command="{Binding GeneratePlanCommand}"
                             IsEnabled="{Binding CanGenerate}" />
                     <ActivityIndicator IsRunning="{Binding IsGenerating}"

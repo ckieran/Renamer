@@ -3,32 +3,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:model="clr-namespace:Renamer.UI.Plans"
              xmlns:plans="clr-namespace:Renamer.UI.Plans"
+             xmlns:strings="clr-namespace:Renamer.UI.Resources.Strings"
              x:Class="Renamer.UI.Views.ApplyWorkspaceView"
              x:DataType="plans:IPlanViewModel">
     <VerticalStackLayout Spacing="18">
         <VerticalStackLayout Spacing="4">
-            <Label Text="Apply Plan"
+            <Label Text="{x:Static strings:AppStrings.ApplyHeading}"
                    FontSize="24"
                    FontAttributes="Bold" />
-            <Label Text="Load a plan artifact, then run apply and inspect the resulting report summary and per-operation outcomes."
+            <Label Text="{x:Static strings:AppStrings.ApplyDescription}"
                    FontSize="13"
                    TextColor="{AppThemeBinding Light=#475569, Dark=#CBD5E1}" />
         </VerticalStackLayout>
 
         <Border Padding="16">
             <VerticalStackLayout Spacing="12">
-                <Label Text="Plan Artifact"
+                <Label Text="{x:Static strings:AppStrings.ApplyPlanArtifactSectionHeader}"
                        FontSize="18"
                        FontAttributes="Bold" />
-                <Label Text="Select or paste a path to a rename-plan.json file. The most recently generated plan is prepopulated automatically."
+                <Label Text="{x:Static strings:AppStrings.ApplyPlanArtifactInstructions}"
                        FontSize="13" />
                 <Entry Text="{Binding PlanPath}"
-                       Placeholder="/path/to/rename-plan.json"
+                       Placeholder="{x:Static strings:AppStrings.PreviewPlaceholder}"
                        ClearButtonVisibility="WhileEditing" />
                 <HorizontalStackLayout Spacing="10">
-                    <Button Text="Browse"
+                    <Button Text="{x:Static strings:AppStrings.ApplyButtonBrowse}"
                             Command="{Binding BrowsePlanCommand}" />
-                    <Button Text="Load Plan"
+                    <Button Text="{x:Static strings:AppStrings.ApplyButtonLoadPlan}"
                             Command="{Binding LoadPreviewCommand}" />
                     <ActivityIndicator IsRunning="{Binding IsLoading}"
                                        IsVisible="{Binding IsLoading}"
@@ -42,7 +43,7 @@
         <Border Padding="16"
                 IsVisible="{Binding HasError}">
             <VerticalStackLayout Spacing="8">
-                <Label Text="Unable To Load Plan"
+                <Label Text="{x:Static strings:AppStrings.ApplyErrorHeading}"
                        FontSize="16"
                        FontAttributes="Bold"
                        TextColor="#9A3412" />
@@ -53,13 +54,13 @@
 
         <Border Padding="16">
             <VerticalStackLayout Spacing="12">
-                <Label Text="Apply"
+                <Label Text="{x:Static strings:AppStrings.ApplySectionHeader}"
                        FontSize="18"
                        FontAttributes="Bold" />
-                <Label Text="Run apply against the loaded plan artifact. Results appear inline below."
+                <Label Text="{x:Static strings:AppStrings.ApplyInstructions}"
                        FontSize="13" />
                 <HorizontalStackLayout Spacing="10">
-                    <Button Text="Run Apply"
+                    <Button Text="{x:Static strings:AppStrings.ApplyButtonRun}"
                             Command="{Binding ApplyCommand}"
                             IsEnabled="{Binding CanApply}" />
                     <ActivityIndicator IsRunning="{Binding IsApplying}"
@@ -85,7 +86,7 @@
 
         <Border Padding="16">
             <VerticalStackLayout Spacing="14">
-                <Label Text="Apply Summary"
+                <Label Text="{x:Static strings:AppStrings.ApplySummarySectionHeader}"
                        FontSize="18"
                        FontAttributes="Bold" />
 
@@ -93,14 +94,14 @@
                       ColumnSpacing="16">
                     <VerticalStackLayout Grid.Column="0"
                                          Spacing="4">
-                        <Label Text="Outcome"
+                        <Label Text="{x:Static strings:AppStrings.ApplyFieldOutcome}"
                                FontAttributes="Bold" />
                         <Label Text="{Binding ApplyOutcomeText}" />
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Grid.Column="1"
                                          Spacing="4">
-                        <Label Text="Drifted"
+                        <Label Text="{x:Static strings:AppStrings.ApplyFieldDrifted}"
                                FontAttributes="Bold" />
                         <Label Text="{Binding ApplyDriftedCountText}" />
                     </VerticalStackLayout>
@@ -110,14 +111,14 @@
                       ColumnSpacing="16">
                     <VerticalStackLayout Grid.Column="0"
                                          Spacing="4">
-                        <Label Text="Started"
+                        <Label Text="{x:Static strings:AppStrings.ApplyFieldStarted}"
                                FontAttributes="Bold" />
                         <Label Text="{Binding ApplyStartedAtDisplay}" />
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Grid.Column="1"
                                          Spacing="4">
-                        <Label Text="Finished"
+                        <Label Text="{x:Static strings:AppStrings.ApplyFieldFinished}"
                                FontAttributes="Bold" />
                         <Label Text="{Binding ApplyFinishedAtDisplay}" />
                     </VerticalStackLayout>
@@ -127,21 +128,21 @@
                       ColumnSpacing="16">
                     <VerticalStackLayout Grid.Column="0"
                                          Spacing="4">
-                        <Label Text="Success"
+                        <Label Text="{x:Static strings:AppStrings.ApplyFieldSuccess}"
                                FontAttributes="Bold" />
                         <Label Text="{Binding ApplySuccessCountText}" />
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Grid.Column="1"
                                          Spacing="4">
-                        <Label Text="Skipped"
+                        <Label Text="{x:Static strings:AppStrings.ApplyFieldSkipped}"
                                FontAttributes="Bold" />
                         <Label Text="{Binding ApplySkippedCountText}" />
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Grid.Column="2"
                                          Spacing="4">
-                        <Label Text="Failed"
+                        <Label Text="{x:Static strings:AppStrings.ApplyFieldFailed}"
                                FontAttributes="Bold" />
                         <Label Text="{Binding ApplyFailedCountText}" />
                     </VerticalStackLayout>
@@ -150,7 +151,7 @@
         </Border>
 
         <VerticalStackLayout Spacing="12">
-            <Label Text="Apply Results"
+            <Label Text="{x:Static strings:AppStrings.ApplyResultsSectionHeader}"
                    FontSize="18"
                    FontAttributes="Bold" />
             <VerticalStackLayout Spacing="0"
@@ -179,7 +180,7 @@
                                 </Grid>
 
                                 <VerticalStackLayout Spacing="2">
-                                    <Label Text="Planned Destination"
+                                    <Label Text="{x:Static strings:AppStrings.ApplyFieldPlannedDestination}"
                                            FontAttributes="Bold"
                                            FontSize="12" />
                                     <Label Text="{Binding PlannedDestinationPath}"
@@ -188,7 +189,7 @@
                                 </VerticalStackLayout>
 
                                 <VerticalStackLayout Spacing="2">
-                                    <Label Text="Actual Destination"
+                                    <Label Text="{x:Static strings:AppStrings.ApplyFieldActualDestination}"
                                            FontAttributes="Bold"
                                            FontSize="12" />
                                     <Label Text="{Binding ActualDestinationPathText}"
@@ -197,7 +198,7 @@
                                 </VerticalStackLayout>
 
                                 <VerticalStackLayout Spacing="2">
-                                    <Label Text="Warnings"
+                                    <Label Text="{x:Static strings:AppStrings.ApplyFieldResultWarnings}"
                                            FontAttributes="Bold"
                                            FontSize="12" />
                                     <Label Text="{Binding WarningText}"
@@ -206,7 +207,7 @@
                                 </VerticalStackLayout>
 
                                 <VerticalStackLayout Spacing="2">
-                                    <Label Text="Error"
+                                    <Label Text="{x:Static strings:AppStrings.ApplyFieldError}"
                                            FontAttributes="Bold"
                                            FontSize="12" />
                                     <Label Text="{Binding ErrorText}"

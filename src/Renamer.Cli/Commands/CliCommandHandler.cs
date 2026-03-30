@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Renamer.Cli.Resources;
 using Renamer.Core.Contracts;
 using Renamer.Core.Execution;
 using Renamer.Core.Planning;
@@ -10,11 +11,11 @@ public sealed class CliCommandHandler : ICliCommandHandler
 {
     private static readonly string[] HelpLines =
     [
-        "Renamer CLI",
-        "Available commands:",
-        "  help                Show this help.",
-        "  plan --root <path> --out <path>",
-        "  apply --plan <path> --out <path>"
+        CliStrings.HelpHeader,
+        CliStrings.HelpCommandsLabel,
+        CliStrings.HelpCommandHelp,
+        CliStrings.HelpCommandPlan,
+        CliStrings.HelpCommandApply
     ];
 
     private readonly IPlanBuilder planBuilder;
@@ -52,18 +53,17 @@ public sealed class CliCommandHandler : ICliCommandHandler
         if (!TryGetOptionValue(arguments, "--root", out var rootPath) ||
             !TryGetOptionValue(arguments, "--out", out var outputPath))
         {
-            return CreateValidationFailure(
-                "Error: Missing required arguments for 'plan'. Expected --root <path> and --out <path>.");
+            return CreateValidationFailure(CliStrings.PlanErrorMissingArgs);
         }
 
         if (!Directory.Exists(rootPath))
         {
-            return new CommandResult(ProcessExitCode.IoFailure, [$"Root path '{rootPath}' does not exist or is not a directory."]);
+            return new CommandResult(ProcessExitCode.IoFailure, [string.Format(CliStrings.PlanErrorRootNotFound, rootPath)]);
         }
 
         if (IsDirectoryPath(outputPath))
         {
-            return new CommandResult(ProcessExitCode.IoFailure, [$"Output path '{outputPath}' must be a file path, not a directory."]);
+            return new CommandResult(ProcessExitCode.IoFailure, [string.Format(CliStrings.PlanErrorOutputIsDirectory, outputPath)]);
         }
 
         try
@@ -72,7 +72,7 @@ public sealed class CliCommandHandler : ICliCommandHandler
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
-            return new CommandResult(ProcessExitCode.IoFailure, [$"Output path '{outputPath}' is not writable: {ex.Message}"]);
+            return new CommandResult(ProcessExitCode.IoFailure, [string.Format(CliStrings.PlanErrorOutputNotWritable, outputPath)]);
         }
 
         try
@@ -83,11 +83,11 @@ public sealed class CliCommandHandler : ICliCommandHandler
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
-            return new CommandResult(ProcessExitCode.IoFailure, [ex.Message]);
+            return new CommandResult(ProcessExitCode.IoFailure, [CliStrings.PlanErrorBuildFileSystem]);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            return new CommandResult(ProcessExitCode.UnexpectedRuntimeError, [ex.Message]);
+            return new CommandResult(ProcessExitCode.UnexpectedRuntimeError, [CliStrings.PlanErrorBuildUnexpected]);
         }
     }
 
@@ -112,13 +112,12 @@ public sealed class CliCommandHandler : ICliCommandHandler
         if (!TryGetOptionValue(arguments, "--plan", out var planPath) ||
             !TryGetOptionValue(arguments, "--out", out var outputPath))
         {
-            return CreateValidationFailure(
-                "Error: Missing required arguments for 'apply'. Expected --plan <path> and --out <path>.");
+            return CreateValidationFailure(CliStrings.ApplyErrorMissingArgs);
         }
 
         if (!File.Exists(planPath))
         {
-            return new CommandResult(ProcessExitCode.IoFailure, [$"Plan path '{planPath}' does not exist."]);
+            return new CommandResult(ProcessExitCode.IoFailure, [string.Format(CliStrings.ApplyErrorPlanNotFound, planPath)]);
         }
 
         try
@@ -127,7 +126,7 @@ public sealed class CliCommandHandler : ICliCommandHandler
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
-            return new CommandResult(ProcessExitCode.IoFailure, [$"Plan path '{planPath}' is not readable: {ex.Message}"]);
+            return new CommandResult(ProcessExitCode.IoFailure, [string.Format(CliStrings.ApplyErrorPlanNotReadable, planPath)]);
         }
 
         RenamePlan plan;
@@ -137,16 +136,16 @@ public sealed class CliCommandHandler : ICliCommandHandler
         }
         catch (Exception ex) when (ex is InvalidDataException or JsonException or NotSupportedException)
         {
-            return new CommandResult(ProcessExitCode.InvalidOrUnsupportedPlanSchema, [ex.Message]);
+            return new CommandResult(ProcessExitCode.InvalidOrUnsupportedPlanSchema, [CliStrings.ApplyErrorInvalidSchema]);
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
-            return new CommandResult(ProcessExitCode.IoFailure, [ex.Message]);
+            return new CommandResult(ProcessExitCode.IoFailure, [CliStrings.ApplyErrorReadFileSystem]);
         }
 
         if (IsDirectoryPath(outputPath))
         {
-            return new CommandResult(ProcessExitCode.IoFailure, [$"Output path '{outputPath}' must be a file path, not a directory."]);
+            return new CommandResult(ProcessExitCode.IoFailure, [string.Format(CliStrings.ApplyErrorOutputIsDirectory, outputPath)]);
         }
 
         try
@@ -155,7 +154,7 @@ public sealed class CliCommandHandler : ICliCommandHandler
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
-            return new CommandResult(ProcessExitCode.IoFailure, [$"Output path '{outputPath}' is not writable: {ex.Message}"]);
+            return new CommandResult(ProcessExitCode.IoFailure, [string.Format(CliStrings.ApplyErrorOutputNotWritable, outputPath)]);
         }
 
         try
@@ -169,11 +168,11 @@ public sealed class CliCommandHandler : ICliCommandHandler
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
-            return new CommandResult(ProcessExitCode.IoFailure, [ex.Message]);
+            return new CommandResult(ProcessExitCode.IoFailure, [CliStrings.ApplyErrorEngineFileSystem]);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            return new CommandResult(ProcessExitCode.UnexpectedRuntimeError, [ex.Message]);
+            return new CommandResult(ProcessExitCode.UnexpectedRuntimeError, [CliStrings.ApplyErrorEngineUnexpected]);
         }
     }
 

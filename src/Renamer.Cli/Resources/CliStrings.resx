@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- Help output -->
+  <data name="HelpHeader" xml:space="preserve">
+    <value>Renamer CLI</value>
+  </data>
+  <data name="HelpCommandsLabel" xml:space="preserve">
+    <value>Available commands:</value>
+  </data>
+  <data name="HelpCommandHelp" xml:space="preserve">
+    <value>  help                Show this help.</value>
+  </data>
+  <data name="HelpCommandPlan" xml:space="preserve">
+    <value>  plan --root &lt;path&gt; --out &lt;path&gt;</value>
+  </data>
+  <data name="HelpCommandApply" xml:space="preserve">
+    <value>  apply --plan &lt;path&gt; --out &lt;path&gt;</value>
+  </data>
+
+  <!-- Plan command errors -->
+  <data name="PlanErrorMissingArgs" xml:space="preserve">
+    <value>Error: Missing required arguments for 'plan'. Expected --root &lt;path&gt; and --out &lt;path&gt;.</value>
+  </data>
+  <data name="PlanErrorRootNotFound" xml:space="preserve">
+    <value>Root path '{0}' does not exist or is not a directory.</value>
+  </data>
+  <data name="PlanErrorOutputIsDirectory" xml:space="preserve">
+    <value>Output path '{0}' must be a file path, not a directory.</value>
+  </data>
+  <data name="PlanErrorOutputNotWritable" xml:space="preserve">
+    <value>Output path '{0}' is not writable. Check the application log for details.</value>
+  </data>
+  <data name="PlanErrorBuildFileSystem" xml:space="preserve">
+    <value>Plan generation failed due to a file system error. Check the application log for details.</value>
+  </data>
+  <data name="PlanErrorBuildUnexpected" xml:space="preserve">
+    <value>An unexpected error occurred during plan generation. Check the application log for details.</value>
+  </data>
+
+  <!-- Apply command errors -->
+  <data name="ApplyErrorMissingArgs" xml:space="preserve">
+    <value>Error: Missing required arguments for 'apply'. Expected --plan &lt;path&gt; and --out &lt;path&gt;.</value>
+  </data>
+  <data name="ApplyErrorPlanNotFound" xml:space="preserve">
+    <value>Plan path '{0}' does not exist.</value>
+  </data>
+  <data name="ApplyErrorPlanNotReadable" xml:space="preserve">
+    <value>Plan path '{0}' is not readable. Check the application log for details.</value>
+  </data>
+  <data name="ApplyErrorInvalidSchema" xml:space="preserve">
+    <value>The plan artifact uses an unsupported format or schema. Check the application log for details.</value>
+  </data>
+  <data name="ApplyErrorReadFileSystem" xml:space="preserve">
+    <value>A file system error prevented the plan from being read. Check the application log for details.</value>
+  </data>
+  <data name="ApplyErrorOutputIsDirectory" xml:space="preserve">
+    <value>Output path '{0}' must be a file path, not a directory.</value>
+  </data>
+  <data name="ApplyErrorOutputNotWritable" xml:space="preserve">
+    <value>Output path '{0}' is not writable. Check the application log for details.</value>
+  </data>
+  <data name="ApplyErrorEngineFileSystem" xml:space="preserve">
+    <value>A file system error prevented apply from completing. Check the application log for details.</value>
+  </data>
+  <data name="ApplyErrorEngineUnexpected" xml:space="preserve">
+    <value>An unexpected error occurred during apply. Check the application log for details.</value>
+  </data>
+</root>

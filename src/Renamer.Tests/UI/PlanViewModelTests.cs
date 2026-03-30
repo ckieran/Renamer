@@ -5,6 +5,7 @@ using Renamer.Core.Execution;
 using Renamer.Core.Planning;
 using Renamer.Core.Serialization;
 using Renamer.UI.Plans;
+using Renamer.UI.Resources.Strings;
 
 namespace Renamer.Tests.UI;
 
@@ -110,8 +111,8 @@ public sealed class PlanViewModelTests
         await viewModel.LoadAsync();
 
         Assert.True(viewModel.HasError);
-        Assert.Contains("broken plan", viewModel.ErrorMessage);
-        Assert.Equal("Plan preview unavailable.", viewModel.StatusMessage);
+        Assert.Equal(AppStrings.PreviewStatusLoadError, viewModel.ErrorMessage);
+        Assert.Equal(AppStrings.PreviewStatusUnavailable, viewModel.StatusMessage);
         Assert.Empty(viewModel.Operations);
     }
 
@@ -148,7 +149,7 @@ public sealed class PlanViewModelTests
         await viewModel.BrowseAsync();
 
         Assert.True(viewModel.HasError);
-        Assert.Contains("picker unavailable", viewModel.ErrorMessage);
+        Assert.Equal(AppStrings.PreviewStatusBrowseError, viewModel.ErrorMessage);
     }
 
     [Fact]
