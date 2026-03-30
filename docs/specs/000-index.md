@@ -35,3 +35,4 @@ This folder defines the spec-driven development package for Renamer.
 - `260-maui-stepper-shell.md` - draft - Desktop UI step-navigation shell and active workspace layout.
 - `270-maui-preview-workspace.md` - draft - Desktop UI preview workspace with summary breakout and operations list.
 - `280-maui-apply-workspace.md` - draft - Desktop UI apply workspace with inline results and generated-plan handoff.
+- `290-string-resources.md` - draft - RESX-based user-facing string extraction for i18n readiness.
