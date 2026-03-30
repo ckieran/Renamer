@@ -4,6 +4,7 @@ using Renamer.Core.Execution;
 using Renamer.Core.Planning;
 using Renamer.Core.Serialization;
 using Renamer.UI.Plans;
+using Renamer.UI.Resources.Strings;
 
 namespace Renamer.Tests.UI;
 
@@ -35,7 +36,7 @@ public sealed class ApplyFlowViewModelTests
         Assert.Equal("1", viewModel.ApplySuccessCountText);
         Assert.Equal("0", viewModel.ApplyFailedCountText);
         Assert.Equal("1", viewModel.ApplyDriftedCountText);
-        Assert.Equal("Apply completed with 1 success, 0 skipped, 0 failed.", viewModel.ApplyStatusMessage);
+        Assert.Equal(string.Format(AppStrings.ApplyStatusSuccess, 1, 0, 0), viewModel.ApplyStatusMessage);
 
         var result = Assert.Single(viewModel.ApplyResults);
         Assert.Equal("success", result.StatusText);
@@ -64,10 +65,10 @@ public sealed class ApplyFlowViewModelTests
 
         Assert.True(viewModel.HasApplyError);
         Assert.True(viewModel.HasApplyReport);
-        Assert.Equal("Apply stopped after conflict retry limit", viewModel.ApplyErrorTitle);
-        Assert.Contains("10 suffix retries", viewModel.ApplyErrorMessage);
+        Assert.Equal(AppStrings.ApplyErrorTitleRetryAbort, viewModel.ApplyErrorTitle);
+        Assert.Equal(AppStrings.ApplyStatusPartial, viewModel.ApplyErrorMessage);
         Assert.Equal("1", viewModel.ApplyFailedCountText);
-        Assert.Equal("Apply stopped before the full plan completed.", viewModel.ApplyStatusMessage);
+        Assert.Equal(AppStrings.ApplyStatusPartial, viewModel.ApplyStatusMessage);
     }
 
     [Fact]
@@ -91,8 +92,8 @@ public sealed class ApplyFlowViewModelTests
 
         Assert.True(viewModel.HasApplyError);
         Assert.False(viewModel.HasApplyReport);
-        Assert.Equal("Plan artifact is invalid", viewModel.ApplyErrorTitle);
-        Assert.Contains("unsupported schema", viewModel.ApplyErrorMessage);
+        Assert.Equal(AppStrings.ApplyErrorTitleInvalidPlan, viewModel.ApplyErrorTitle);
+        Assert.Equal(AppStrings.ApplyErrorMessageInvalidPlan, viewModel.ApplyErrorMessage);
     }
 
     [Fact]
@@ -115,8 +116,8 @@ public sealed class ApplyFlowViewModelTests
         await viewModel.ApplyAsync();
 
         Assert.True(viewModel.HasApplyError);
-        Assert.Equal("Apply failed due to file system error", viewModel.ApplyErrorTitle);
-        Assert.Contains("source directory missing", viewModel.ApplyErrorMessage);
+        Assert.Equal(AppStrings.ApplyErrorTitleFileSystem, viewModel.ApplyErrorTitle);
+        Assert.Equal(AppStrings.ApplyErrorMessageFileSystem, viewModel.ApplyErrorMessage);
     }
 
     [Fact]
@@ -135,8 +136,8 @@ public sealed class ApplyFlowViewModelTests
         await viewModel.ApplyAsync();
 
         Assert.True(viewModel.HasApplyError);
-        Assert.Equal("Apply validation failed", viewModel.ApplyErrorTitle);
-        Assert.Contains("Select and load a valid plan artifact", viewModel.ApplyErrorMessage);
+        Assert.Equal(AppStrings.ApplyErrorTitleValidation, viewModel.ApplyErrorTitle);
+        Assert.Equal(AppStrings.ApplyErrorMessageValidation, viewModel.ApplyErrorMessage);
     }
 
     [Fact]
@@ -159,7 +160,7 @@ public sealed class ApplyFlowViewModelTests
 
         Assert.True(viewModel.IsLoaded);
         Assert.True(viewModel.CanApply);
-        Assert.Equal("Loaded 1 planned operation(s).", viewModel.StatusMessage);
+        Assert.Equal(string.Format(AppStrings.PreviewStatusLoaded, 1), viewModel.StatusMessage);
     }
 
     [Fact]
@@ -181,7 +182,7 @@ public sealed class ApplyFlowViewModelTests
 
         Assert.True(viewModel.HasError);
         Assert.False(viewModel.CanApply);
-        Assert.Contains("file not found", viewModel.ErrorMessage);
+        Assert.Equal(AppStrings.PreviewStatusLoadError, viewModel.ErrorMessage);
     }
 
     private static RenamePlan CreatePlan() =>

@@ -2,6 +2,7 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:plans="clr-namespace:Renamer.UI.Plans"
+             xmlns:strings="clr-namespace:Renamer.UI.Resources.Strings"
              x:Class="Renamer.UI.Views.WorkflowRailView"
              x:DataType="plans:IPlanViewModel">
     <VerticalStackLayout Spacing="16">
@@ -9,10 +10,10 @@
                 Margin="0,0,18,0"
                 Background="{AppThemeBinding Light=#F8FAFC, Dark=#111827}">
             <VerticalStackLayout Spacing="8">
-                <Label Text="Workflow"
+                <Label Text="{x:Static strings:AppStrings.WorkflowRailHeader}"
                        FontSize="18"
                        FontAttributes="Bold" />
-                <Label Text="Select any step to work in that area. Status shows whether the step needs input, hit an error, or completed successfully."
+                <Label Text="{x:Static strings:AppStrings.WorkflowRailDescription}"
                        FontSize="13"
                        TextColor="{AppThemeBinding Light=#475569, Dark=#CBD5E1}" />
             </VerticalStackLayout>

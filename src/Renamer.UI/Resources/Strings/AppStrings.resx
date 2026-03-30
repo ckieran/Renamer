@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- Main page -->
+  <data name="MainPageHeading" xml:space="preserve">
+    <value>Plan Generation, Preview, and Apply</value>
+  </data>
+  <data name="MainPageDescription" xml:space="preserve">
+    <value>Move between generation, preview, and apply at any time. Each step keeps its own status while the active workspace fills the right panel.</value>
+  </data>
+
+  <!-- Workflow rail -->
+  <data name="WorkflowRailHeader" xml:space="preserve">
+    <value>Workflow</value>
+  </data>
+  <data name="WorkflowRailDescription" xml:space="preserve">
+    <value>Select any step to work in that area. Status shows whether the step needs input, hit an error, or completed successfully.</value>
+  </data>
+
+  <!-- Workflow step definitions -->
+  <data name="StepGenerateTitle" xml:space="preserve">
+    <value>Generate Plan</value>
+  </data>
+  <data name="StepGenerateDescription" xml:space="preserve">
+    <value>Create a folder rename plan starting from a source folder</value>
+  </data>
+  <data name="StepPreviewTitle" xml:space="preserve">
+    <value>Preview Plan</value>
+  </data>
+  <data name="StepPreviewDescription" xml:space="preserve">
+    <value>Load a plan artifact and inspect the planned operations.</value>
+  </data>
+  <data name="StepApplyTitle" xml:space="preserve">
+    <value>Apply Plan</value>
+  </data>
+  <data name="StepApplyDescription" xml:space="preserve">
+    <value>Execute the loaded plan and review the resulting report.</value>
+  </data>
+
+  <!-- Generate workspace -->
+  <data name="GenerateHeading" xml:space="preserve">
+    <value>Generate Plan</value>
+  </data>
+  <data name="GenerateDescription" xml:space="preserve">
+    <value>Pick the source root and output folder, then generate a plan artifact for the rest of the workflow.</value>
+  </data>
+  <data name="GenerateSectionHeader" xml:space="preserve">
+    <value>Generate Plan</value>
+  </data>
+  <data name="GenerateInstructions" xml:space="preserve">
+    <value>Select the source root folder and destination folder for the generated plan artifact.</value>
+  </data>
+  <data name="GenerateLabelRootFolder" xml:space="preserve">
+    <value>Root Folder</value>
+  </data>
+  <data name="GeneratePlaceholderRootFolder" xml:space="preserve">
+    <value>/path/to/photo-folder</value>
+  </data>
+  <data name="GenerateBrowseRootFolder" xml:space="preserve">
+    <value>Browse Root Folder</value>
+  </data>
+  <data name="GenerateLabelOutputFolder" xml:space="preserve">
+    <value>Output Folder</value>
+  </data>
+  <data name="GeneratePlaceholderOutputFolder" xml:space="preserve">
+    <value>/path/to/output-folder</value>
+  </data>
+  <data name="GenerateBrowseOutputFolder" xml:space="preserve">
+    <value>Browse Output Folder</value>
+  </data>
+  <data name="GenerateLabelPlanFileName" xml:space="preserve">
+    <value>Plan File Name</value>
+  </data>
+  <data name="GeneratePlaceholderPlanFileName" xml:space="preserve">
+    <value>rename-plan.json</value>
+  </data>
+  <data name="GenerateLabelGeneratedPlanPath" xml:space="preserve">
+    <value>Generated Plan Path</value>
+  </data>
+  <data name="GenerateButtonGenerateAndLoad" xml:space="preserve">
+    <value>Generate and Load</value>
+  </data>
+
+  <!-- Generate status/error messages -->
+  <data name="GenerateStatusDefault" xml:space="preserve">
+    <value>Select a root folder and output location to generate a plan.</value>
+  </data>
+  <data name="GenerateStatusRootCanceled" xml:space="preserve">
+    <value>Root folder selection canceled.</value>
+  </data>
+  <data name="GenerateStatusRootSelected" xml:space="preserve">
+    <value>Selected root folder: {0}</value>
+  </data>
+  <data name="GenerateStatusOutputCanceled" xml:space="preserve">
+    <value>Output folder selection canceled.</value>
+  </data>
+  <data name="GenerateStatusOutputSelected" xml:space="preserve">
+    <value>Selected output folder: {0}</value>
+  </data>
+  <data name="GenerateStatusInProgress" xml:space="preserve">
+    <value>Generating rename plan...</value>
+  </data>
+  <data name="GenerateStatusSuccess" xml:space="preserve">
+    <value>Plan generated: {0}</value>
+  </data>
+  <data name="GenerateStatusUnavailable" xml:space="preserve">
+    <value>Plan generation unavailable.</value>
+  </data>
+  <data name="GenerateErrorNoRootTitle" xml:space="preserve">
+    <value>Plan generation requires a root folder</value>
+  </data>
+  <data name="GenerateErrorNoRootMessage" xml:space="preserve">
+    <value>Select a source root folder before generating a plan.</value>
+  </data>
+  <data name="GenerateErrorInvalidRootTitle" xml:space="preserve">
+    <value>Plan generation requires a valid root folder</value>
+  </data>
+  <data name="GenerateErrorInvalidRootMessage" xml:space="preserve">
+    <value>Root folder '{0}' does not exist.</value>
+  </data>
+  <data name="GenerateErrorNoOutputTitle" xml:space="preserve">
+    <value>Plan generation requires an output folder</value>
+  </data>
+  <data name="GenerateErrorNoOutputMessage" xml:space="preserve">
+    <value>Select an output folder for rename-plan.json.</value>
+  </data>
+  <data name="GenerateErrorNoFileNameTitle" xml:space="preserve">
+    <value>Plan generation requires a file name</value>
+  </data>
+  <data name="GenerateErrorNoFileNameMessage" xml:space="preserve">
+    <value>Enter a file name for the generated plan artifact.</value>
+  </data>
+  <data name="GenerateErrorInvalidFileNameTitle" xml:space="preserve">
+    <value>Plan file name is invalid</value>
+  </data>
+  <data name="GenerateErrorFileSystemTitle" xml:space="preserve">
+    <value>Plan generation failed due to file system error</value>
+  </data>
+  <data name="GenerateErrorFileSystemMessage" xml:space="preserve">
+    <value>A file system error prevented plan generation. Check the application log for details.</value>
+  </data>
+  <data name="GenerateErrorUnexpectedTitle" xml:space="preserve">
+    <value>Plan generation failed unexpectedly</value>
+  </data>
+  <data name="GenerateErrorUnexpectedMessage" xml:space="preserve">
+    <value>An unexpected error occurred. Check the application log for details.</value>
+  </data>
+
+  <!-- Generate folder picker dialog titles -->
+  <data name="GenerateFolderPickerRootTitle" xml:space="preserve">
+    <value>Select photo root folder</value>
+  </data>
+  <data name="GenerateFolderPickerOutputTitle" xml:space="preserve">
+    <value>Select output folder for rename-plan.json</value>
+  </data>
+
+  <!-- Preview workspace -->
+  <data name="PreviewHeading" xml:space="preserve">
+    <value>Preview Plan</value>
+  </data>
+  <data name="PreviewDescription" xml:space="preserve">
+    <value>Load a plan artifact, review the summary, and inspect each planned rename operation.</value>
+  </data>
+  <data name="PreviewSectionHeader" xml:space="preserve">
+    <value>Plan Artifact</value>
+  </data>
+  <data name="PreviewInstructions" xml:space="preserve">
+    <value>Select or paste a path to a rename-plan.json file.</value>
+  </data>
+  <data name="PreviewPlaceholder" xml:space="preserve">
+    <value>/path/to/rename-plan.json</value>
+  </data>
+  <data name="PreviewBrowse" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="PreviewButtonLoad" xml:space="preserve">
+    <value>Load Preview</value>
+  </data>
+  <data name="PreviewIdleLabel" xml:space="preserve">
+    <value>Preview workspace</value>
+  </data>
+  <data name="PreviewIdleDescription" xml:space="preserve">
+    <value>Select a plan artifact and load it here to review the summary first, then inspect each planned rename operation below.</value>
+  </data>
+  <data name="PreviewLoadingLabel" xml:space="preserve">
+    <value>Loading Preview</value>
+  </data>
+  <data name="PreviewErrorHeading" xml:space="preserve">
+    <value>Unable To Load Plan</value>
+  </data>
+  <data name="PreviewSummarySectionHeader" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+  <data name="PreviewSummaryDescription" xml:space="preserve">
+    <value>Review the loaded plan metadata before scanning through the planned rename operations.</value>
+  </data>
+  <data name="PreviewFieldRootPath" xml:space="preserve">
+    <value>Root Path</value>
+  </data>
+  <data name="PreviewFieldCreatedAt" xml:space="preserve">
+    <value>Created At</value>
+  </data>
+  <data name="PreviewFieldOperations" xml:space="preserve">
+    <value>Operations</value>
+  </data>
+  <data name="PreviewFieldWarnings" xml:space="preserve">
+    <value>Warnings</value>
+  </data>
+  <data name="PreviewOperationsSectionHeader" xml:space="preserve">
+    <value>Planned Operations</value>
+  </data>
+  <data name="PreviewOperationsTotal" xml:space="preserve">
+    <value>{0} total</value>
+  </data>
+  <data name="PreviewOperationsDescription" xml:space="preserve">
+    <value>Operations remain scrollable in the wider workspace so longer destination names and paths stay readable.</value>
+  </data>
+
+  <!-- Preview status/error messages -->
+  <data name="PreviewStatusDefault" xml:space="preserve">
+    <value>Select a rename-plan.json file to preview planned operations.</value>
+  </data>
+  <data name="PreviewCreatedAtDefault" xml:space="preserve">
+    <value>No plan loaded</value>
+  </data>
+  <data name="PreviewStatusPathUpdated" xml:space="preserve">
+    <value>Plan path updated. Load preview to refresh.</value>
+  </data>
+  <data name="PreviewStatusBrowseOpening" xml:space="preserve">
+    <value>Opening plan file picker...</value>
+  </data>
+  <data name="PreviewStatusBrowseCanceled" xml:space="preserve">
+    <value>Plan selection canceled.</value>
+  </data>
+  <data name="PreviewStatusBrowseSelected" xml:space="preserve">
+    <value>Selected plan artifact: {0}</value>
+  </data>
+  <data name="PreviewStatusBrowseError" xml:space="preserve">
+    <value>Unable to select a plan artifact. Check the application log for details.</value>
+  </data>
+  <data name="PreviewStatusRootOpened" xml:space="preserve">
+    <value>Opened root folder.</value>
+  </data>
+  <data name="PreviewStatusRootError" xml:space="preserve">
+    <value>Unable to open root folder. Check the application log for details.</value>
+  </data>
+  <data name="PreviewStatusNoPath" xml:space="preserve">
+    <value>Select a plan artifact path to load.</value>
+  </data>
+  <data name="PreviewStatusLoading" xml:space="preserve">
+    <value>Loading plan preview...</value>
+  </data>
+  <data name="PreviewStatusLoadError" xml:space="preserve">
+    <value>Unable to load plan artifact. Check the application log for details.</value>
+  </data>
+  <data name="PreviewStatusLoaded" xml:space="preserve">
+    <value>Loaded {0} planned operation(s).</value>
+  </data>
+  <data name="PreviewStatusUnavailable" xml:space="preserve">
+    <value>Plan preview unavailable.</value>
+  </data>
+
+  <!-- Apply workspace -->
+  <data name="ApplyHeading" xml:space="preserve">
+    <value>Apply Plan</value>
+  </data>
+  <data name="ApplyDescription" xml:space="preserve">
+    <value>Load a plan artifact, then run apply and inspect the resulting report summary and per-operation outcomes.</value>
+  </data>
+  <data name="ApplyPlanArtifactSectionHeader" xml:space="preserve">
+    <value>Plan Artifact</value>
+  </data>
+  <data name="ApplyPlanArtifactInstructions" xml:space="preserve">
+    <value>Select or paste a path to a rename-plan.json file. The most recently generated plan is prepopulated automatically.</value>
+  </data>
+  <data name="ApplyButtonBrowse" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="ApplyButtonLoadPlan" xml:space="preserve">
+    <value>Load Plan</value>
+  </data>
+  <data name="ApplyErrorHeading" xml:space="preserve">
+    <value>Unable To Load Plan</value>
+  </data>
+  <data name="ApplySectionHeader" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="ApplyInstructions" xml:space="preserve">
+    <value>Run apply against the loaded plan artifact. Results appear inline below.</value>
+  </data>
+  <data name="ApplyButtonRun" xml:space="preserve">
+    <value>Run Apply</value>
+  </data>
+  <data name="ApplySummarySectionHeader" xml:space="preserve">
+    <value>Apply Summary</value>
+  </data>
+  <data name="ApplyFieldOutcome" xml:space="preserve">
+    <value>Outcome</value>
+  </data>
+  <data name="ApplyFieldDrifted" xml:space="preserve">
+    <value>Drifted</value>
+  </data>
+  <data name="ApplyFieldStarted" xml:space="preserve">
+    <value>Started</value>
+  </data>
+  <data name="ApplyFieldFinished" xml:space="preserve">
+    <value>Finished</value>
+  </data>
+  <data name="ApplyFieldSuccess" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="ApplyFieldSkipped" xml:space="preserve">
+    <value>Skipped</value>
+  </data>
+  <data name="ApplyFieldFailed" xml:space="preserve">
+    <value>Failed</value>
+  </data>
+  <data name="ApplyResultsSectionHeader" xml:space="preserve">
+    <value>Apply Results</value>
+  </data>
+  <data name="ApplyFieldPlannedDestination" xml:space="preserve">
+    <value>Planned Destination</value>
+  </data>
+  <data name="ApplyFieldActualDestination" xml:space="preserve">
+    <value>Actual Destination</value>
+  </data>
+  <data name="ApplyFieldResultWarnings" xml:space="preserve">
+    <value>Warnings</value>
+  </data>
+  <data name="ApplyFieldError" xml:space="preserve">
+    <value>Error</value>
+  </data>
+
+  <!-- Apply status/error messages -->
+  <data name="ApplyStatusDefault" xml:space="preserve">
+    <value>Load a plan preview to enable apply.</value>
+  </data>
+  <data name="ApplyStatusOutcomeDefault" xml:space="preserve">
+    <value>Not run</value>
+  </data>
+  <data name="ApplyStatusStartedDefault" xml:space="preserve">
+    <value>Not run</value>
+  </data>
+  <data name="ApplyStatusFinishedDefault" xml:space="preserve">
+    <value>Not run</value>
+  </data>
+  <data name="ApplyStatusInProgress" xml:space="preserve">
+    <value>Applying rename plan...</value>
+  </data>
+  <data name="ApplyStatusPartial" xml:space="preserve">
+    <value>Apply stopped before the full plan completed.</value>
+  </data>
+  <data name="ApplyStatusSuccess" xml:space="preserve">
+    <value>Apply completed with {0} success, {1} skipped, {2} failed.</value>
+  </data>
+  <data name="ApplyStatusUnavailable" xml:space="preserve">
+    <value>Apply unavailable.</value>
+  </data>
+
+  <!-- Apply error titles -->
+  <data name="ApplyErrorTitleRetryAbort" xml:space="preserve">
+    <value>Apply stopped after conflict retry limit</value>
+  </data>
+  <data name="ApplyErrorTitleInvalidPlan" xml:space="preserve">
+    <value>Plan artifact is invalid</value>
+  </data>
+  <data name="ApplyErrorTitleFileSystem" xml:space="preserve">
+    <value>Apply failed due to file system error</value>
+  </data>
+  <data name="ApplyErrorTitleUnexpected" xml:space="preserve">
+    <value>Apply failed unexpectedly</value>
+  </data>
+  <data name="ApplyErrorTitleValidation" xml:space="preserve">
+    <value>Apply validation failed</value>
+  </data>
+
+  <!-- Apply error message bodies -->
+  <data name="ApplyErrorMessageValidation" xml:space="preserve">
+    <value>Select and load a valid plan artifact before apply.</value>
+  </data>
+  <data name="ApplyErrorMessageInvalidPlan" xml:space="preserve">
+    <value>The plan artifact could not be read. Check the application log for details.</value>
+  </data>
+  <data name="ApplyErrorMessageFileSystem" xml:space="preserve">
+    <value>A file system error prevented apply from completing. Check the application log for details.</value>
+  </data>
+  <data name="ApplyErrorMessageUnexpected" xml:space="preserve">
+    <value>An unexpected error occurred. Check the application log for details.</value>
+  </data>
+</root>

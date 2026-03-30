@@ -4,6 +4,7 @@ using Renamer.Core.Execution;
 using Renamer.Core.Planning;
 using Renamer.Core.Serialization;
 using Renamer.UI.Plans;
+using Renamer.UI.Resources.Strings;
 
 namespace Renamer.Tests.UI;
 
@@ -37,8 +38,8 @@ public sealed class PlanGenerationViewModelTests
         Assert.Equal(Path.Combine(existingDirectory, "rename-plan.json"), viewModel.PlanPath);
         Assert.Equal(Path.Combine(existingDirectory, "rename-plan.json"), serializer.WrittenPath);
         Assert.Equal(existingDirectory, serializer.WrittenPlan?.RootPath);
-        Assert.Equal("Loaded 1 planned operation(s).", viewModel.StatusMessage);
-        Assert.Equal("Plan generated: rename-plan.json", viewModel.GenerationStatusMessage);
+        Assert.Equal(string.Format(AppStrings.PreviewStatusLoaded, 1), viewModel.StatusMessage);
+        Assert.Equal(string.Format(AppStrings.GenerateStatusSuccess, "rename-plan.json"), viewModel.GenerationStatusMessage);
         Assert.Single(viewModel.Operations);
     }
 
@@ -61,7 +62,7 @@ public sealed class PlanGenerationViewModelTests
         await viewModel.GeneratePlanAsync();
 
         Assert.True(viewModel.HasGenerationError);
-        Assert.Equal("Plan generation requires a root folder", viewModel.GenerationErrorTitle);
+        Assert.Equal(AppStrings.GenerateErrorNoRootTitle, viewModel.GenerationErrorTitle);
     }
 
     [Fact]
@@ -85,8 +86,8 @@ public sealed class PlanGenerationViewModelTests
         await viewModel.GeneratePlanAsync();
 
         Assert.True(viewModel.HasGenerationError);
-        Assert.Equal("Plan generation failed due to file system error", viewModel.GenerationErrorTitle);
-        Assert.Contains("read only volume", viewModel.GenerationErrorMessage);
+        Assert.Equal(AppStrings.GenerateErrorFileSystemTitle, viewModel.GenerationErrorTitle);
+        Assert.Equal(AppStrings.GenerateErrorFileSystemMessage, viewModel.GenerationErrorMessage);
     }
 
     [Fact]
@@ -131,7 +132,7 @@ public sealed class PlanGenerationViewModelTests
         await viewModel.BrowseGenerationRootPathAsync();
 
         Assert.Equal("/photos", viewModel.GenerationRootPath);
-        Assert.Equal("Selected root folder: photos", viewModel.GenerationStatusMessage);
+        Assert.Equal(string.Format(AppStrings.GenerateStatusRootSelected, "photos"), viewModel.GenerationStatusMessage);
     }
 
     private static RenamePlan CreatePlan() =>

@@ -24,6 +24,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="..\Renamer.UI\Resources\Strings\AppStrings.resx"
+                      Link="Resources\Strings\AppStrings.resx"
+                      ManifestResourceName="Renamer.UI.Resources.Strings.AppStrings" />
+    <Compile Include="..\Renamer.UI\Resources\Strings\AppStrings.Designer.cs"
+             Link="Resources\Strings\AppStrings.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="..\Renamer.UI\Runtime\IRuntimeEnvironment.cs" Link="UI\Runtime\IRuntimeEnvironment.cs" />
     <Compile Include="..\Renamer.UI\Runtime\RuntimePlatform.cs" Link="UI\Runtime\RuntimePlatform.cs" />
     <Compile Include="..\Renamer.UI\Plans\IPlanFilePicker.cs" Link="UI\Plans\IPlanFilePicker.cs" />
