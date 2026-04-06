@@ -40,6 +40,11 @@
   - `280-maui-apply-workspace.md`
 
 ## Phase 4: Polish
+- Execute UI copy slices in order:
+  - `300-ui-copy-baseline.md`
+  - `310-generate-copy-refresh.md`
+  - `320-plan-review-copy-refresh.md`
+  - `330-apply-copy-refresh.md`
 - Cross-platform validation on Windows/macOS.
 - Documentation updates and retrospective cleanup.
 
