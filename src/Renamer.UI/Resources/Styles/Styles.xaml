@@ -191,10 +191,6 @@
         <Setter Property="HorizontalTextAlignment" Value="Center" />
     </Style>
 
-    <Style TargetType="ListView">
-        <Setter Property="SeparatorColor" Value="{DynamicResource BorderPrimary}" />
-        <Setter Property="RefreshControlColor" Value="{DynamicResource TextPrimary}" />
-    </Style>
 
     <Style TargetType="Picker">
         <Setter Property="TextColor" Value="{DynamicResource TextPrimary}" />
@@ -392,16 +388,16 @@
     </Style>
 
     <Style TargetType="Shell" ApplyToDerivedTypes="True">
-        <Setter Property="Shell.BackgroundColor" Value="{DynamicResource BackgroundPrimary}" />
-        <Setter Property="Shell.ForegroundColor" Value="{DynamicResource TextPrimary}" />
-        <Setter Property="Shell.TitleColor" Value="{DynamicResource TextPrimary}" />
-        <Setter Property="Shell.DisabledColor" Value="{DynamicResource TextMuted}" />
-        <Setter Property="Shell.UnselectedColor" Value="{DynamicResource TextMuted}" />
-        <Setter Property="Shell.NavBarHasShadow" Value="False" />
-        <Setter Property="Shell.TabBarBackgroundColor" Value="{DynamicResource BackgroundPrimary}" />
-        <Setter Property="Shell.TabBarForegroundColor" Value="{DynamicResource AccentMid}" />
-        <Setter Property="Shell.TabBarTitleColor" Value="{DynamicResource AccentMid}" />
-        <Setter Property="Shell.TabBarUnselectedColor" Value="{DynamicResource TextMuted}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource BackgroundPrimary}" />
+        <Setter Property="ForegroundColor" Value="{DynamicResource TextPrimary}" />
+        <Setter Property="TitleColor" Value="{DynamicResource TextPrimary}" />
+        <Setter Property="DisabledColor" Value="{DynamicResource TextMuted}" />
+        <Setter Property="UnselectedColor" Value="{DynamicResource TextMuted}" />
+        <Setter Property="NavBarHasShadow" Value="False" />
+        <Setter Property="TabBarBackgroundColor" Value="{DynamicResource BackgroundPrimary}" />
+        <Setter Property="TabBarForegroundColor" Value="{DynamicResource AccentMid}" />
+        <Setter Property="TabBarTitleColor" Value="{DynamicResource AccentMid}" />
+        <Setter Property="TabBarUnselectedColor" Value="{DynamicResource TextMuted}" />
     </Style>
 
     <Style TargetType="NavigationPage">

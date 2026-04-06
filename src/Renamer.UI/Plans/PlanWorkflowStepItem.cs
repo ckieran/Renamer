@@ -44,19 +44,12 @@ public sealed class PlanWorkflowStepItem : INotifyPropertyChanged
         _ => "needs info"
     };
 
-    public Color StatusColor => Status switch
+    public string StatusColor => Status switch
     {
-        PlanWorkflowStepStatus.Done => GetThemeColor("StatusSuccess"),
-        PlanWorkflowStepStatus.Error => GetThemeColor("StatusError"),
-        _ => GetThemeColor("StatusDefault")
+        PlanWorkflowStepStatus.Done => "#166534",
+        PlanWorkflowStepStatus.Error => "#9A3412",
+        _ => "#5A6680"
     };
-
-    private static Color GetThemeColor(string key)
-    {
-        if (Application.Current?.Resources.TryGetValue(key, out var value) == true && value is Color color)
-            return color;
-        return Colors.Transparent;
-    }
 
     public bool IsSelected
     {

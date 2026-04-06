@@ -10,7 +10,6 @@ using Renamer.Core.Time;
 using Renamer.UI.Plans;
 using Renamer.UI.Runtime;
 using Renamer.UI.Services;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
 
@@ -54,7 +53,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IPlanSerializer, PlanSerializer>();
         builder.Services.AddSingleton<IDirectoryMover, DirectoryMover>();
         builder.Services.AddSingleton<IApplyEngine, ApplyEngine>();
-        builder.Services.AddSingleton<IFolderPicker>(FolderPicker.Default);
+        builder.Services.AddSingleton(FolderPicker.Default);
         builder.Services.AddSingleton<IFolderPathPicker, FolderPathPicker>();
         builder.Services.AddSingleton<IPlanFilePicker, PlanFilePicker>();
         builder.Services.AddSingleton<IRootPathOpener, RootPathOpener>();
