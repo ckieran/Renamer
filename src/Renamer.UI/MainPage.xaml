@@ -6,28 +6,56 @@
              xmlns:views="clr-namespace:Renamer.UI.Views"
              x:Class="Renamer.UI.MainPage"
              x:DataType="plans:IPlanViewModel">
+
     <ContentPage.MenuBarItems>
         <MenuBarItem Text="View">
-            <MenuFlyoutItem Text="Light Theme"     Clicked="OnLightThemeClicked" />
-            <MenuFlyoutItem Text="Dark Theme"      Clicked="OnDarkThemeClicked" />
+            <MenuFlyoutItem x:Name="LightThemeMenuItem"  Text="Light Theme"    Clicked="OnLightThemeClicked" />
+            <MenuFlyoutItem x:Name="DarkThemeMenuItem"   Text="Dark Theme"     Clicked="OnDarkThemeClicked" />
             <MenuFlyoutSeparator />
-            <MenuFlyoutItem Text="System Default"  Clicked="OnSystemThemeClicked" />
+            <MenuFlyoutItem x:Name="SystemThemeMenuItem" Text="System Default" Clicked="OnSystemThemeClicked" />
         </MenuBarItem>
     </ContentPage.MenuBarItems>
 
     <Grid RowDefinitions="Auto,*"
           Padding="24"
           RowSpacing="18">
-        <VerticalStackLayout Spacing="6">
-            <Label Text="{x:Static strings:AppStrings.MainPageHeading}"
-                   FontSize="32"
-                   FontAttributes="Bold"
-                   SemanticProperties.HeadingLevel="Level1" />
-            <Label Text="{x:Static strings:AppStrings.MainPageDescription}"
-                   FontSize="14"
-                   TextColor="{DynamicResource TextMuted}" />
-        </VerticalStackLayout>
 
+        <!-- Header row: title/description left, theme picker right -->
+        <Grid ColumnDefinitions="*,Auto">
+            <VerticalStackLayout Spacing="6">
+                <Label Text="{x:Static strings:AppStrings.MainPageHeading}"
+                       FontSize="32"
+                       FontAttributes="Bold"
+                       SemanticProperties.HeadingLevel="Level1" />
+                <Label Text="{x:Static strings:AppStrings.MainPageDescription}"
+                       FontSize="14"
+                       TextColor="{DynamicResource TextMuted}" />
+            </VerticalStackLayout>
+
+            <Border Grid.Column="1"
+                    Padding="12,8"
+                    VerticalOptions="Center"
+                    StrokeShape="RoundRectangle 8"
+                    Stroke="{DynamicResource BorderPrimary}"
+                    Background="{DynamicResource BackgroundTertiary}">
+                <HorizontalStackLayout Spacing="2">
+                    <RadioButton x:Name="LightRadio"
+                                 Content="Light"
+                                 GroupName="AppTheme"
+                                 CheckedChanged="OnThemeRadioChanged" />
+                    <RadioButton x:Name="DarkRadio"
+                                 Content="Dark"
+                                 GroupName="AppTheme"
+                                 CheckedChanged="OnThemeRadioChanged" />
+                    <RadioButton x:Name="SystemRadio"
+                                 Content="System"
+                                 GroupName="AppTheme"
+                                 CheckedChanged="OnThemeRadioChanged" />
+                </HorizontalStackLayout>
+            </Border>
+        </Grid>
+
+        <!-- Main content: rail left, workspace right -->
         <Grid Grid.Row="1"
               ColumnDefinitions="280,*"
               ColumnSpacing="0">

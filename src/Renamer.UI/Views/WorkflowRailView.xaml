@@ -37,9 +37,6 @@
                              Value="True">
                     <Setter Property="Margin" Value="0,0,-1,0" />
                     <Setter Property="Padding" Value="14,14,33,14" />
-                    <Setter Property="Stroke" Value="{DynamicResource BorderPrimary}" />
-                    <Setter Property="StrokeThickness" Value="1" />
-                    <Setter Property="Background" Value="{DynamicResource BackgroundTertiary}" />
                     <Setter Property="StrokeShape">
                         <RoundRectangle CornerRadius="8,0,8,0" />
                     </Setter>
@@ -85,9 +82,6 @@
                              Value="True">
                     <Setter Property="Margin" Value="0,0,-1,0" />
                     <Setter Property="Padding" Value="14,14,33,14" />
-                    <Setter Property="Stroke" Value="{DynamicResource BorderPrimary}" />
-                    <Setter Property="StrokeThickness" Value="1" />
-                    <Setter Property="Background" Value="{DynamicResource BackgroundTertiary}" />
                     <Setter Property="StrokeShape">
                         <RoundRectangle CornerRadius="8,0,8,0" />
                     </Setter>
@@ -133,9 +127,6 @@
                              Value="True">
                     <Setter Property="Margin" Value="0,0,-1,0" />
                     <Setter Property="Padding" Value="14,14,33,14" />
-                    <Setter Property="Stroke" Value="{DynamicResource BorderPrimary}" />
-                    <Setter Property="StrokeThickness" Value="1" />
-                    <Setter Property="Background" Value="{DynamicResource BackgroundTertiary}" />
                     <Setter Property="StrokeShape">
                         <RoundRectangle CornerRadius="8,0,8,0" />
                     </Setter>

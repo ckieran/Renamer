@@ -12,6 +12,8 @@ public sealed class ThemeService
 
     public ThemeMode CurrentMode { get; private set; } = ThemeMode.System;
 
+    public event EventHandler<ThemeMode>? ThemeModeChanged;
+
     public void Initialize()
     {
         var saved = Preferences.Default.Get(PreferenceKey, string.Empty);
@@ -25,6 +27,7 @@ public sealed class ThemeService
 
         followingSystem = CurrentMode == ThemeMode.System;
         ApplyTheme(ResolveEffectiveTheme());
+        ThemeModeChanged?.Invoke(this, CurrentMode);
 
         Application.Current!.RequestedThemeChanged += OnOsThemeChanged;
     }
@@ -40,6 +43,7 @@ public sealed class ThemeService
             Preferences.Default.Set(PreferenceKey, mode.ToString());
 
         ApplyTheme(ResolveEffectiveTheme());
+        ThemeModeChanged?.Invoke(this, CurrentMode);
     }
 
     private void OnOsThemeChanged(object? sender, AppThemeChangedEventArgs e)
