@@ -36,3 +36,7 @@ This folder defines the spec-driven development package for Renamer.
 - `270-maui-preview-workspace.md` - draft - Desktop UI preview workspace with summary breakout and operations list.
 - `280-maui-apply-workspace.md` - draft - Desktop UI apply workspace with inline results and generated-plan handoff.
 - `290-string-resources.md` - draft - RESX-based user-facing string extraction for i18n readiness.
+- `300-ui-copy-baseline.md` - draft - Shared plain-language copy baseline for shell text and status badges.
+- `310-generate-copy-refresh.md` - draft - Generate-step copy refresh for simpler, calmer guidance.
+- `320-plan-review-copy-refresh.md` - draft - Plan review/preview copy refresh for clearer read-only review guidance.
+- `330-apply-copy-refresh.md` - draft - Apply-step copy refresh for direct, low-jargon execution messaging.
