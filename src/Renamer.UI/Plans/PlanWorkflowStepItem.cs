@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Renamer.UI.Resources.Strings;
 
 namespace Renamer.UI.Plans;
 
@@ -39,9 +40,9 @@ public sealed class PlanWorkflowStepItem : INotifyPropertyChanged
 
     public string StatusText => Status switch
     {
-        PlanWorkflowStepStatus.Done => "done",
-        PlanWorkflowStepStatus.Error => "error",
-        _ => "needs info"
+        PlanWorkflowStepStatus.Done => AppStrings.StepStatusDone,
+        PlanWorkflowStepStatus.Error => AppStrings.StepStatusError,
+        _ => AppStrings.StepStatusNeedsInfo
     };
 
     public string StatusColor => Status switch

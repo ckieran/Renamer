@@ -4,6 +4,7 @@ using Renamer.Core.Execution;
 using Renamer.Core.Planning;
 using Renamer.Core.Serialization;
 using Renamer.UI.Plans;
+using Renamer.UI.Resources.Strings;
 
 namespace Renamer.Tests.UI;
 
@@ -22,6 +23,15 @@ public sealed class StepperShellViewModelTests
         Assert.Equal(PlanWorkflowStepStatus.NeedsInfo, viewModel.GenerateStep.Status);
         Assert.Equal(PlanWorkflowStepStatus.NeedsInfo, viewModel.PreviewStep.Status);
         Assert.Equal(PlanWorkflowStepStatus.NeedsInfo, viewModel.ApplyStep.Status);
+        Assert.Equal(AppStrings.StepGenerateTitle, viewModel.GenerateStep.Title);
+        Assert.Equal(AppStrings.StepGenerateDescription, viewModel.GenerateStep.Description);
+        Assert.Equal(AppStrings.StepPreviewTitle, viewModel.PreviewStep.Title);
+        Assert.Equal(AppStrings.StepPreviewDescription, viewModel.PreviewStep.Description);
+        Assert.Equal(AppStrings.StepApplyTitle, viewModel.ApplyStep.Title);
+        Assert.Equal(AppStrings.StepApplyDescription, viewModel.ApplyStep.Description);
+        Assert.Equal(AppStrings.StepStatusNeedsInfo, viewModel.GenerateStep.StatusText);
+        Assert.Equal(AppStrings.StepStatusNeedsInfo, viewModel.PreviewStep.StatusText);
+        Assert.Equal(AppStrings.StepStatusNeedsInfo, viewModel.ApplyStep.StatusText);
     }
 
     [Fact]
@@ -55,6 +65,9 @@ public sealed class StepperShellViewModelTests
         Assert.Equal(PlanWorkflowStepStatus.Done, viewModel.GenerateStep.Status);
         Assert.Equal(PlanWorkflowStepStatus.Done, viewModel.PreviewStep.Status);
         Assert.Equal(PlanWorkflowStepStatus.NeedsInfo, viewModel.ApplyStep.Status);
+        Assert.Equal(AppStrings.StepStatusDone, viewModel.GenerateStep.StatusText);
+        Assert.Equal(AppStrings.StepStatusDone, viewModel.PreviewStep.StatusText);
+        Assert.Equal(AppStrings.StepStatusNeedsInfo, viewModel.ApplyStep.StatusText);
     }
 
     [Fact]
@@ -67,6 +80,7 @@ public sealed class StepperShellViewModelTests
         await viewModel.LoadAsync();
 
         Assert.Equal(PlanWorkflowStepStatus.Error, viewModel.PreviewStep.Status);
+        Assert.Equal(AppStrings.StepStatusError, viewModel.PreviewStep.StatusText);
     }
 
     [Fact]
@@ -83,6 +97,7 @@ public sealed class StepperShellViewModelTests
         await viewModel.ApplyAsync();
 
         Assert.Equal(PlanWorkflowStepStatus.Done, viewModel.ApplyStep.Status);
+        Assert.Equal(AppStrings.StepStatusDone, viewModel.ApplyStep.StatusText);
     }
 
     [Fact]
@@ -99,6 +114,7 @@ public sealed class StepperShellViewModelTests
         await viewModel.ApplyAsync();
 
         Assert.Equal(PlanWorkflowStepStatus.Error, viewModel.ApplyStep.Status);
+        Assert.Equal(AppStrings.StepStatusError, viewModel.ApplyStep.StatusText);
     }
 
     private static PlanViewModel CreateViewModel(
