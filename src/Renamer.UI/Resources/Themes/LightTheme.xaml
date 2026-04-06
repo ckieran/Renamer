@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary
+    x:Class="Renamer.UI.Resources.Themes.LightTheme"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Light palette — amber accents, slate-blue grays -->
+    <!-- Same key names as DarkTheme.xaml for runtime dictionary swap -->
+
+    <!-- Backgrounds -->
+    <Color x:Key="BackgroundPrimary">#F8FAFC</Color>
+    <Color x:Key="BackgroundSecondary">#FFFFFF</Color>
+    <Color x:Key="BackgroundTertiary">#F0F4F8</Color>
+
+    <!-- Accent (amber) -->
+    <Color x:Key="AccentPrimary">#854F0B</Color>
+    <Color x:Key="AccentMid">#D97706</Color>
+    <Color x:Key="AccentLight">#B45309</Color>
+
+    <!-- Text -->
+    <Color x:Key="TextPrimary">#1E293B</Color>
+    <Color x:Key="TextSecondary">#475569</Color>
+    <Color x:Key="TextMuted">#5C5C5C</Color>
+    <Color x:Key="TextLink">#0F4C81</Color>
+
+    <!-- Buttons -->
+    <Color x:Key="ButtonBackground">#D97706</Color>
+    <Color x:Key="ButtonText">#FFFFFF</Color>
+
+    <!-- Surfaces and borders -->
+    <Color x:Key="BorderPrimary">#CBD5E1</Color>
+    <Color x:Key="BadgeBackground">#E2E8F0</Color>
+    <Color x:Key="DividerColor">#D8D8D8</Color>
+
+    <!-- Status -->
+    <Color x:Key="StatusSuccess">#166534</Color>
+    <Color x:Key="StatusError">#9A3412</Color>
+    <Color x:Key="StatusDefault">#475569</Color>
+
+</ResourceDictionary>

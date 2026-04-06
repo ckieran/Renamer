@@ -48,7 +48,7 @@ public sealed class PlanWorkflowStepItem : INotifyPropertyChanged
     {
         PlanWorkflowStepStatus.Done => "#166534",
         PlanWorkflowStepStatus.Error => "#9A3412",
-        _ => "#475569"
+        _ => "#5A6680"
     };
 
     public bool IsSelected
