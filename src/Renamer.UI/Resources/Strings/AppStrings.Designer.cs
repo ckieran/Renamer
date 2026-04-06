@@ -89,6 +89,7 @@ namespace Renamer.UI.Resources.Strings
         internal static string GenerateErrorNoFileNameTitle => ResourceManager.GetString("GenerateErrorNoFileNameTitle", resourceCulture)!;
         internal static string GenerateErrorNoFileNameMessage => ResourceManager.GetString("GenerateErrorNoFileNameMessage", resourceCulture)!;
         internal static string GenerateErrorInvalidFileNameTitle => ResourceManager.GetString("GenerateErrorInvalidFileNameTitle", resourceCulture)!;
+        internal static string GenerateErrorInvalidFileNameMessage => ResourceManager.GetString("GenerateErrorInvalidFileNameMessage", resourceCulture)!;
         internal static string GenerateErrorFileSystemTitle => ResourceManager.GetString("GenerateErrorFileSystemTitle", resourceCulture)!;
         internal static string GenerateErrorFileSystemMessage => ResourceManager.GetString("GenerateErrorFileSystemMessage", resourceCulture)!;
         internal static string GenerateErrorUnexpectedTitle => ResourceManager.GetString("GenerateErrorUnexpectedTitle", resourceCulture)!;

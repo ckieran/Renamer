@@ -18,7 +18,7 @@
     <value>Rename your folders in three steps</value>
   </data>
   <data name="MainPageDescription" xml:space="preserve">
-    <value>Make a plan, review the changes, then rename the folders when you're ready.</value>
+    <value>Build a plan, review the changes, then rename the folders when you're ready.</value>
   </data>
 
   <!-- Workflow rail -->
@@ -31,7 +31,7 @@
 
   <!-- Workflow step definitions -->
   <data name="StepGenerateTitle" xml:space="preserve">
-    <value>Make a plan</value>
+    <value>Build a plan</value>
   </data>
   <data name="StepGenerateDescription" xml:space="preserve">
     <value>Choose a photo folder and create a rename plan.</value>
@@ -60,119 +60,122 @@
 
   <!-- Generate workspace -->
   <data name="GenerateHeading" xml:space="preserve">
-    <value>Generate Plan</value>
+    <value>Build a plan</value>
   </data>
   <data name="GenerateDescription" xml:space="preserve">
-    <value>Pick the source root and output folder, then generate a plan artifact for the rest of the workflow.</value>
+    <value>Choose your photo folder and where to save the plan, then review the folder names before anything changes.</value>
   </data>
   <data name="GenerateSectionHeader" xml:space="preserve">
-    <value>Generate Plan</value>
+    <value>Choose folders</value>
   </data>
   <data name="GenerateInstructions" xml:space="preserve">
-    <value>Select the source root folder and destination folder for the generated plan artifact.</value>
+    <value>Pick the folder with your photos, then choose where to save the plan.</value>
   </data>
   <data name="GenerateLabelRootFolder" xml:space="preserve">
-    <value>Root Folder</value>
+    <value>Photo folder</value>
   </data>
   <data name="GeneratePlaceholderRootFolder" xml:space="preserve">
-    <value>/path/to/photo-folder</value>
+    <value>/path/to/photos</value>
   </data>
   <data name="GenerateBrowseRootFolder" xml:space="preserve">
-    <value>Browse Root Folder</value>
+    <value>Choose photo folder</value>
   </data>
   <data name="GenerateLabelOutputFolder" xml:space="preserve">
-    <value>Output Folder</value>
+    <value>Save folder</value>
   </data>
   <data name="GeneratePlaceholderOutputFolder" xml:space="preserve">
-    <value>/path/to/output-folder</value>
+    <value>/path/to/save-folder</value>
   </data>
   <data name="GenerateBrowseOutputFolder" xml:space="preserve">
-    <value>Browse Output Folder</value>
+    <value>Choose save folder</value>
   </data>
   <data name="GenerateLabelPlanFileName" xml:space="preserve">
-    <value>Plan File Name</value>
+    <value>Plan file</value>
   </data>
   <data name="GeneratePlaceholderPlanFileName" xml:space="preserve">
     <value>rename-plan.json</value>
   </data>
   <data name="GenerateLabelGeneratedPlanPath" xml:space="preserve">
-    <value>Generated Plan Path</value>
+    <value>Plan will be saved to</value>
   </data>
   <data name="GenerateButtonGenerateAndLoad" xml:space="preserve">
-    <value>Generate and Load</value>
+    <value>Build plan</value>
   </data>
 
   <!-- Generate status/error messages -->
   <data name="GenerateStatusDefault" xml:space="preserve">
-    <value>Select a root folder and output location to generate a plan.</value>
+    <value>Choose a photo folder and a save folder to build a plan.</value>
   </data>
   <data name="GenerateStatusRootCanceled" xml:space="preserve">
-    <value>Root folder selection canceled.</value>
+    <value>No photo folder selected.</value>
   </data>
   <data name="GenerateStatusRootSelected" xml:space="preserve">
-    <value>Selected root folder: {0}</value>
+    <value>Photo folder selected: {0}</value>
   </data>
   <data name="GenerateStatusOutputCanceled" xml:space="preserve">
-    <value>Output folder selection canceled.</value>
+    <value>No save folder selected.</value>
   </data>
   <data name="GenerateStatusOutputSelected" xml:space="preserve">
-    <value>Selected output folder: {0}</value>
+    <value>Save folder selected: {0}</value>
   </data>
   <data name="GenerateStatusInProgress" xml:space="preserve">
-    <value>Generating rename plan...</value>
+    <value>Building your plan...</value>
   </data>
   <data name="GenerateStatusSuccess" xml:space="preserve">
-    <value>Plan generated: {0}</value>
+    <value>Your plan is ready: {0}</value>
   </data>
   <data name="GenerateStatusUnavailable" xml:space="preserve">
-    <value>Plan generation unavailable.</value>
+    <value>Building a plan is not available right now.</value>
   </data>
   <data name="GenerateErrorNoRootTitle" xml:space="preserve">
-    <value>Plan generation requires a root folder</value>
+    <value>Choose a photo folder</value>
   </data>
   <data name="GenerateErrorNoRootMessage" xml:space="preserve">
-    <value>Select a source root folder before generating a plan.</value>
+    <value>Select the folder that holds the photos you want to rename.</value>
   </data>
   <data name="GenerateErrorInvalidRootTitle" xml:space="preserve">
-    <value>Plan generation requires a valid root folder</value>
+    <value>Photo folder not found</value>
   </data>
   <data name="GenerateErrorInvalidRootMessage" xml:space="preserve">
-    <value>Root folder '{0}' does not exist.</value>
+    <value>The photo folder '{0}' could not be found. Choose another folder.</value>
   </data>
   <data name="GenerateErrorNoOutputTitle" xml:space="preserve">
-    <value>Plan generation requires an output folder</value>
+    <value>Choose where to save the plan</value>
   </data>
   <data name="GenerateErrorNoOutputMessage" xml:space="preserve">
-    <value>Select an output folder for rename-plan.json.</value>
+    <value>Select a folder where Renamer can save the plan.</value>
   </data>
   <data name="GenerateErrorNoFileNameTitle" xml:space="preserve">
-    <value>Plan generation requires a file name</value>
+    <value>Name the plan file</value>
   </data>
   <data name="GenerateErrorNoFileNameMessage" xml:space="preserve">
-    <value>Enter a file name for the generated plan artifact.</value>
+    <value>Enter a file name for the plan, such as rename-plan.json.</value>
   </data>
   <data name="GenerateErrorInvalidFileNameTitle" xml:space="preserve">
-    <value>Plan file name is invalid</value>
+    <value>Plan file name not valid</value>
+  </data>
+  <data name="GenerateErrorInvalidFileNameMessage" xml:space="preserve">
+    <value>Use a different file name for the plan, such as rename-plan.json.</value>
   </data>
   <data name="GenerateErrorFileSystemTitle" xml:space="preserve">
-    <value>Plan generation failed due to file system error</value>
+    <value>Couldn't save the plan</value>
   </data>
   <data name="GenerateErrorFileSystemMessage" xml:space="preserve">
-    <value>A file system error prevented plan generation. Check the application log for details.</value>
+    <value>Renamer couldn't save the plan there. Check the app log for details.</value>
   </data>
   <data name="GenerateErrorUnexpectedTitle" xml:space="preserve">
-    <value>Plan generation failed unexpectedly</value>
+    <value>Couldn't build the plan</value>
   </data>
   <data name="GenerateErrorUnexpectedMessage" xml:space="preserve">
-    <value>An unexpected error occurred. Check the application log for details.</value>
+    <value>Something unexpected stopped the plan from being created. Check the app log for details.</value>
   </data>
 
   <!-- Generate folder picker dialog titles -->
   <data name="GenerateFolderPickerRootTitle" xml:space="preserve">
-    <value>Select photo root folder</value>
+    <value>Choose photo folder</value>
   </data>
   <data name="GenerateFolderPickerOutputTitle" xml:space="preserve">
-    <value>Select output folder for rename-plan.json</value>
+    <value>Choose where to save the plan</value>
   </data>
 
   <!-- Preview workspace -->

@@ -132,7 +132,75 @@ public sealed class PlanGenerationViewModelTests
         await viewModel.BrowseGenerationRootPathAsync();
 
         Assert.Equal("/photos", viewModel.GenerationRootPath);
+        Assert.Equal("/photos", viewModel.GenerationOutputDirectoryPath);
         Assert.Equal(string.Format(AppStrings.GenerateStatusRootSelected, "photos"), viewModel.GenerationStatusMessage);
+    }
+
+    [Fact]
+    public async Task BrowseGenerationRootPathAsync_WhenOutputWasAutoFilled_UpdatesOutputToLatestRoot()
+    {
+        var folderPicker = new SequenceFolderPathPicker("/photos", "/photos-2");
+        var viewModel = new PlanViewModel(
+            new FakePlanBuilder(CreatePlan()),
+            new RecordingPlanSerializer(CreatePlan()),
+            new FakePlanFilePicker(null),
+            folderPicker,
+            new FakeRootPathOpener(),
+            new FakeApplyEngine(),
+            NullLogger<PlanViewModel>.Instance);
+
+        await viewModel.BrowseGenerationRootPathAsync();
+        await viewModel.BrowseGenerationRootPathAsync();
+
+        Assert.Equal("/photos-2", viewModel.GenerationRootPath);
+        Assert.Equal("/photos-2", viewModel.GenerationOutputDirectoryPath);
+    }
+
+    [Fact]
+    public async Task BrowseGenerationRootPathAsync_WhenOutputWasChosenSeparately_DoesNotOverwriteOutput()
+    {
+        var viewModel = new PlanViewModel(
+            new FakePlanBuilder(CreatePlan()),
+            new RecordingPlanSerializer(CreatePlan()),
+            new FakePlanFilePicker(null),
+            new FakeFolderPathPicker("/photos"),
+            new FakeRootPathOpener(),
+            new FakeApplyEngine(),
+            NullLogger<PlanViewModel>.Instance)
+        {
+            GenerationOutputDirectoryPath = "/custom-output"
+        };
+
+        await viewModel.BrowseGenerationRootPathAsync();
+
+        Assert.Equal("/photos", viewModel.GenerationRootPath);
+        Assert.Equal("/custom-output", viewModel.GenerationOutputDirectoryPath);
+    }
+
+    [Fact]
+    public async Task GeneratePlanAsync_WithInvalidFileName_ShowsSpecificValidationMessage()
+    {
+        var existingDirectory = Path.GetTempPath();
+        var viewModel = new PlanViewModel(
+            new FakePlanBuilder(CreatePlan()),
+            new RecordingPlanSerializer(CreatePlan()),
+            new FakePlanFilePicker(null),
+            new FakeFolderPathPicker(null),
+            new FakeRootPathOpener(),
+            new FakeApplyEngine(),
+            NullLogger<PlanViewModel>.Instance)
+        {
+            GenerationRootPath = existingDirectory,
+            GenerationOutputDirectoryPath = existingDirectory,
+            PlanFileName = "bad/name"
+        };
+
+        await viewModel.GeneratePlanAsync();
+
+        Assert.True(viewModel.HasGenerationError);
+        Assert.Equal(AppStrings.GenerateErrorInvalidFileNameTitle, viewModel.GenerationErrorTitle);
+        Assert.Equal(AppStrings.GenerateErrorInvalidFileNameMessage, viewModel.GenerationErrorMessage);
+        Assert.Equal(AppStrings.GenerateStatusUnavailable, viewModel.GenerationStatusMessage);
     }
 
     private static RenamePlan CreatePlan() =>
@@ -209,6 +277,17 @@ public sealed class PlanGenerationViewModelTests
     private sealed class FakeFolderPathPicker(string? selectedPath) : IFolderPathPicker
     {
         public Task<string?> PickFolderPathAsync(string title, CancellationToken cancellationToken = default) => Task.FromResult(selectedPath);
+    }
+
+    private sealed class SequenceFolderPathPicker(params string?[] selectedPaths) : IFolderPathPicker
+    {
+        private readonly Queue<string?> selectedPaths = new(selectedPaths);
+
+        public Task<string?> PickFolderPathAsync(string title, CancellationToken cancellationToken = default)
+        {
+            var next = selectedPaths.Count > 0 ? selectedPaths.Dequeue() : null;
+            return Task.FromResult(next);
+        }
     }
 
     private sealed class FakeRootPathOpener : IRootPathOpener
