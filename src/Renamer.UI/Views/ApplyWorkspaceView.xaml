@@ -13,7 +13,7 @@
                    FontAttributes="Bold" />
             <Label Text="{x:Static strings:AppStrings.ApplyDescription}"
                    FontSize="13"
-                   TextColor="{AppThemeBinding Light=#475569, Dark=#CBD5E1}" />
+                   TextColor="{DynamicResource TextSecondary}" />
         </VerticalStackLayout>
 
         <Border Padding="16">
@@ -46,7 +46,7 @@
                 <Label Text="{x:Static strings:AppStrings.ApplyErrorHeading}"
                        FontSize="16"
                        FontAttributes="Bold"
-                       TextColor="#9A3412" />
+                       TextColor="{DynamicResource StatusError}" />
                 <Label Text="{Binding ErrorMessage}"
                        FontSize="13" />
             </VerticalStackLayout>
@@ -78,7 +78,7 @@
                 <Label Text="{Binding ApplyErrorTitle}"
                        FontSize="16"
                        FontAttributes="Bold"
-                       TextColor="#9A3412" />
+                       TextColor="{DynamicResource StatusError}" />
                 <Label Text="{Binding ApplyErrorMessage}"
                        FontSize="13" />
             </VerticalStackLayout>
@@ -171,7 +171,7 @@
                                         <Label Text="{Binding SourcePath}"
                                                FontSize="12"
                                                LineBreakMode="WordWrap"
-                                               TextColor="{AppThemeBinding Light=#5C5C5C, Dark=#B8B8B8}" />
+                                               TextColor="{DynamicResource TextMuted}" />
                                     </VerticalStackLayout>
                                     <Label Grid.Column="1"
                                            Text="{Binding StatusText}"

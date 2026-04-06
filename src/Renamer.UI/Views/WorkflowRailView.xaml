@@ -8,21 +8,21 @@
     <VerticalStackLayout Spacing="16">
         <Border Padding="16"
                 Margin="0,0,18,0"
-                Background="{AppThemeBinding Light=#F8FAFC, Dark=#111827}">
+                Background="{DynamicResource BackgroundSecondary}">
             <VerticalStackLayout Spacing="8">
                 <Label Text="{x:Static strings:AppStrings.WorkflowRailHeader}"
                        FontSize="18"
                        FontAttributes="Bold" />
                 <Label Text="{x:Static strings:AppStrings.WorkflowRailDescription}"
                        FontSize="13"
-                       TextColor="{AppThemeBinding Light=#475569, Dark=#CBD5E1}" />
+                       TextColor="{DynamicResource TextSecondary}" />
             </VerticalStackLayout>
         </Border>
 
         <Border Padding="14"
                 Margin="0,0,18,0"
-                Stroke="{AppThemeBinding Light=#CBD5E1, Dark=#475569}"
-                Background="{AppThemeBinding Light=#F8FAFC, Dark=#111827}"
+                Stroke="{DynamicResource BorderPrimary}"
+                Background="{DynamicResource BackgroundSecondary}"
                 ZIndex="2">
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="8" />
@@ -37,9 +37,9 @@
                              Value="True">
                     <Setter Property="Margin" Value="0,0,-1,0" />
                     <Setter Property="Padding" Value="14,14,33,14" />
-                    <Setter Property="Stroke" Value="{AppThemeBinding Light=#CBD5E1, Dark=#475569}" />
+                    <Setter Property="Stroke" Value="{DynamicResource BorderPrimary}" />
                     <Setter Property="StrokeThickness" Value="1" />
-                    <Setter Property="Background" Value="{AppThemeBinding Light=#FFFFFF, Dark=#0F172A}" />
+                    <Setter Property="Background" Value="{DynamicResource BackgroundTertiary}" />
                     <Setter Property="StrokeShape">
                         <RoundRectangle CornerRadius="8,0,8,0" />
                     </Setter>
@@ -56,21 +56,21 @@
                            FontSize="11"
                            FontAttributes="Bold"
                            Padding="8,4"
-                           BackgroundColor="{AppThemeBinding Light=#E2E8F0, Dark=#334155}"
+                           BackgroundColor="{DynamicResource BadgeBackground}"
                            TextColor="{Binding GenerateStep.StatusColor}"
                            HorizontalOptions="End"
                            VerticalOptions="Start" />
                 </Grid>
                 <Label Text="{Binding GenerateStep.Description}"
                        FontSize="13"
-                       TextColor="{AppThemeBinding Light=#475569, Dark=#CBD5E1}" />
+                       TextColor="{DynamicResource TextSecondary}" />
             </VerticalStackLayout>
         </Border>
 
         <Border Padding="14"
                 Margin="0,0,18,0"
-                Stroke="{AppThemeBinding Light=#CBD5E1, Dark=#475569}"
-                Background="{AppThemeBinding Light=#F8FAFC, Dark=#111827}"
+                Stroke="{DynamicResource BorderPrimary}"
+                Background="{DynamicResource BackgroundSecondary}"
                 ZIndex="2">
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="8" />
@@ -85,9 +85,9 @@
                              Value="True">
                     <Setter Property="Margin" Value="0,0,-1,0" />
                     <Setter Property="Padding" Value="14,14,33,14" />
-                    <Setter Property="Stroke" Value="{AppThemeBinding Light=#CBD5E1, Dark=#475569}" />
+                    <Setter Property="Stroke" Value="{DynamicResource BorderPrimary}" />
                     <Setter Property="StrokeThickness" Value="1" />
-                    <Setter Property="Background" Value="{AppThemeBinding Light=#FFFFFF, Dark=#0F172A}" />
+                    <Setter Property="Background" Value="{DynamicResource BackgroundTertiary}" />
                     <Setter Property="StrokeShape">
                         <RoundRectangle CornerRadius="8,0,8,0" />
                     </Setter>
@@ -104,21 +104,21 @@
                            FontSize="11"
                            FontAttributes="Bold"
                            Padding="8,4"
-                           BackgroundColor="{AppThemeBinding Light=#E2E8F0, Dark=#334155}"
+                           BackgroundColor="{DynamicResource BadgeBackground}"
                            TextColor="{Binding PreviewStep.StatusColor}"
                            HorizontalOptions="End"
                            VerticalOptions="Start" />
                 </Grid>
                 <Label Text="{Binding PreviewStep.Description}"
                        FontSize="13"
-                       TextColor="{AppThemeBinding Light=#475569, Dark=#CBD5E1}" />
+                       TextColor="{DynamicResource TextSecondary}" />
             </VerticalStackLayout>
         </Border>
 
         <Border Padding="14"
                 Margin="0,0,18,0"
-                Stroke="{AppThemeBinding Light=#CBD5E1, Dark=#475569}"
-                Background="{AppThemeBinding Light=#F8FAFC, Dark=#111827}"
+                Stroke="{DynamicResource BorderPrimary}"
+                Background="{DynamicResource BackgroundSecondary}"
                 ZIndex="2">
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="8" />
@@ -133,9 +133,9 @@
                              Value="True">
                     <Setter Property="Margin" Value="0,0,-1,0" />
                     <Setter Property="Padding" Value="14,14,33,14" />
-                    <Setter Property="Stroke" Value="{AppThemeBinding Light=#CBD5E1, Dark=#475569}" />
+                    <Setter Property="Stroke" Value="{DynamicResource BorderPrimary}" />
                     <Setter Property="StrokeThickness" Value="1" />
-                    <Setter Property="Background" Value="{AppThemeBinding Light=#FFFFFF, Dark=#0F172A}" />
+                    <Setter Property="Background" Value="{DynamicResource BackgroundTertiary}" />
                     <Setter Property="StrokeShape">
                         <RoundRectangle CornerRadius="8,0,8,0" />
                     </Setter>
@@ -152,14 +152,14 @@
                            FontSize="11"
                            FontAttributes="Bold"
                            Padding="8,4"
-                           BackgroundColor="{AppThemeBinding Light=#E2E8F0, Dark=#334155}"
+                           BackgroundColor="{DynamicResource BadgeBackground}"
                            TextColor="{Binding ApplyStep.StatusColor}"
                            HorizontalOptions="End"
                            VerticalOptions="Start" />
                 </Grid>
                 <Label Text="{Binding ApplyStep.Description}"
                        FontSize="13"
-                       TextColor="{AppThemeBinding Light=#475569, Dark=#CBD5E1}" />
+                       TextColor="{DynamicResource TextSecondary}" />
             </VerticalStackLayout>
         </Border>
     </VerticalStackLayout>

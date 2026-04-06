@@ -1,13 +1,16 @@
-﻿namespace Renamer.UI;
+using Renamer.UI.Services;
+
+namespace Renamer.UI;
 
 public partial class App : Application
 {
     private readonly MainPage mainPage;
 
-    public App(MainPage mainPage)
+    public App(MainPage mainPage, ThemeService themeService)
     {
-        this.mainPage = mainPage;
         InitializeComponent();
+        themeService.Initialize();
+        this.mainPage = mainPage;
     }
 
     protected override Window CreateWindow(IActivationState? activationState)

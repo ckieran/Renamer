@@ -6,6 +6,15 @@
              xmlns:views="clr-namespace:Renamer.UI.Views"
              x:Class="Renamer.UI.MainPage"
              x:DataType="plans:IPlanViewModel">
+    <ContentPage.MenuBarItems>
+        <MenuBarItem Text="View">
+            <MenuFlyoutItem Text="Light Theme"     Clicked="OnLightThemeClicked" />
+            <MenuFlyoutItem Text="Dark Theme"      Clicked="OnDarkThemeClicked" />
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem Text="System Default"  Clicked="OnSystemThemeClicked" />
+        </MenuBarItem>
+    </ContentPage.MenuBarItems>
+
     <Grid RowDefinitions="Auto,*"
           Padding="24"
           RowSpacing="18">
@@ -16,7 +25,7 @@
                    SemanticProperties.HeadingLevel="Level1" />
             <Label Text="{x:Static strings:AppStrings.MainPageDescription}"
                    FontSize="14"
-                   TextColor="{AppThemeBinding Light=#5C5C5C, Dark=#B8B8B8}" />
+                   TextColor="{DynamicResource TextMuted}" />
         </VerticalStackLayout>
 
         <Grid Grid.Row="1"
@@ -29,8 +38,8 @@
             <Grid Grid.Column="1"
                   ZIndex="1">
                 <Border Padding="16"
-                        Background="{AppThemeBinding Light=#FFFFFF, Dark=#0F172A}"
-                        Stroke="{AppThemeBinding Light=#CBD5E1, Dark=#475569}">
+                        Background="{DynamicResource BackgroundSecondary}"
+                        Stroke="{DynamicResource BorderPrimary}">
                     <ScrollView>
                         <Grid>
                             <views:GenerateWorkspaceView IsVisible="{Binding IsGenerateStepActive}" />
@@ -44,7 +53,7 @@
                          Margin="-1,0,0,0"
                          HorizontalOptions="Start"
                          VerticalOptions="Fill"
-                         BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#0F172A}"
+                         BackgroundColor="{DynamicResource BackgroundSecondary}"
                          ZIndex="3" />
             </Grid>
         </Grid>
