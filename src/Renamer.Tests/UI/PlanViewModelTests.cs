@@ -30,7 +30,7 @@ public sealed class PlanViewModelTests
 
         Assert.True(viewModel.IsLoaded);
         Assert.False(viewModel.HasError);
-        Assert.Equal("Loaded 1 planned operation(s).", viewModel.StatusMessage);
+        Assert.Equal(AppStrings.PreviewStatusLoaded.Replace("{0}", "1"), viewModel.StatusMessage);
         Assert.Equal("/photos", viewModel.RootPath);
         Assert.Equal("1", viewModel.OperationCountText);
         Assert.Equal("1", viewModel.WarningCountText);
@@ -60,7 +60,7 @@ public sealed class PlanViewModelTests
         await viewModel.LoadAsync();
 
         Assert.True(viewModel.HasError);
-        Assert.Equal("Select a plan artifact path to load.", viewModel.ErrorMessage);
+        Assert.Equal(AppStrings.PreviewStatusNoPath, viewModel.ErrorMessage);
         Assert.Equal(string.Empty, viewModel.RootPath);
         Assert.Empty(viewModel.Operations);
     }
@@ -87,7 +87,7 @@ public sealed class PlanViewModelTests
         Assert.True(viewModel.IsLoading);
         Assert.False(viewModel.IsLoaded);
         Assert.False(viewModel.HasError);
-        Assert.Equal("Loading plan preview...", viewModel.StatusMessage);
+        Assert.Equal(AppStrings.PreviewStatusLoading, viewModel.StatusMessage);
 
         serializer.Release();
         await loadTask;
@@ -131,7 +131,7 @@ public sealed class PlanViewModelTests
         await viewModel.BrowseAsync();
 
         Assert.Equal("/tmp/picked-plan.json", viewModel.PlanPath);
-        Assert.Equal("Selected plan artifact: picked-plan.json", viewModel.StatusMessage);
+        Assert.Equal(string.Format(AppStrings.PreviewStatusBrowseSelected, "picked-plan.json"), viewModel.StatusMessage);
     }
 
     [Fact]
@@ -172,7 +172,7 @@ public sealed class PlanViewModelTests
         await viewModel.OpenRootPathAsync();
 
         Assert.Equal("/photos", rootPathOpener.OpenedPath);
-        Assert.Equal("Opened root folder.", viewModel.StatusMessage);
+        Assert.Equal(AppStrings.PreviewStatusRootOpened, viewModel.StatusMessage);
     }
 
     [Fact]
@@ -196,7 +196,7 @@ public sealed class PlanViewModelTests
         Assert.True(viewModel.IsIdle);
         Assert.False(viewModel.IsLoaded);
         Assert.False(viewModel.HasError);
-        Assert.Equal("Plan path updated. Load preview to refresh.", viewModel.StatusMessage);
+        Assert.Equal(AppStrings.PreviewStatusPathUpdated, viewModel.StatusMessage);
         Assert.Equal(string.Empty, viewModel.RootPath);
         Assert.Equal("0", viewModel.OperationCountText);
         Assert.Equal("0", viewModel.WarningCountText);

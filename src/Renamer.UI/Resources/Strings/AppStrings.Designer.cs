@@ -53,6 +53,9 @@ namespace Renamer.UI.Resources.Strings
         internal static string StepPreviewDescription => ResourceManager.GetString("StepPreviewDescription", resourceCulture)!;
         internal static string StepApplyTitle => ResourceManager.GetString("StepApplyTitle", resourceCulture)!;
         internal static string StepApplyDescription => ResourceManager.GetString("StepApplyDescription", resourceCulture)!;
+        internal static string StepStatusDone => ResourceManager.GetString("StepStatusDone", resourceCulture)!;
+        internal static string StepStatusError => ResourceManager.GetString("StepStatusError", resourceCulture)!;
+        internal static string StepStatusNeedsInfo => ResourceManager.GetString("StepStatusNeedsInfo", resourceCulture)!;
 
         internal static string GenerateHeading => ResourceManager.GetString("GenerateHeading", resourceCulture)!;
         internal static string GenerateDescription => ResourceManager.GetString("GenerateDescription", resourceCulture)!;
