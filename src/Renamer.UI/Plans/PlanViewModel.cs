@@ -55,6 +55,8 @@ public sealed class PlanViewModel : IPlanViewModel
     private PlanViewState state = PlanViewState.Idle;
     private bool isApplying;
     private bool hasApplyReport;
+    private bool isAutoUpdatingGenerationOutputDirectory;
+    private string? autoFilledGenerationOutputDirectoryPath;
 
     public PlanViewModel(
         IPlanBuilder planBuilder,
@@ -130,6 +132,11 @@ public sealed class PlanViewModel : IPlanViewModel
         {
             if (SetProperty(ref generationOutputDirectoryPath, value))
             {
+                if (!isAutoUpdatingGenerationOutputDirectory)
+                {
+                    autoFilledGenerationOutputDirectoryPath = null;
+                }
+
                 OnPropertyChanged(nameof(GeneratedPlanPathPreview));
                 OnPropertyChanged(nameof(CanGenerate));
             }
@@ -380,6 +387,7 @@ public sealed class PlanViewModel : IPlanViewModel
         }
 
         GenerationRootPath = selectedPath;
+        TryAutoFillGenerationOutputDirectory(selectedPath);
         ClearGenerationError();
         GenerationStatusMessage = string.Format(AppStrings.GenerateStatusRootSelected, Path.GetFileName(selectedPath));
     }
@@ -394,6 +402,7 @@ public sealed class PlanViewModel : IPlanViewModel
         }
 
         GenerationOutputDirectoryPath = selectedPath;
+        autoFilledGenerationOutputDirectoryPath = null;
         ClearGenerationError();
         GenerationStatusMessage = string.Format(AppStrings.GenerateStatusOutputSelected, Path.GetFileName(selectedPath));
     }
@@ -432,7 +441,7 @@ public sealed class PlanViewModel : IPlanViewModel
         catch (Exception ex) when (ex is ArgumentException or NotSupportedException)
         {
             logger.LogError(ex, "Plan file name is invalid.");
-            SetGenerationError(AppStrings.GenerateErrorInvalidFileNameTitle, AppStrings.GenerateErrorUnexpectedMessage);
+            SetGenerationError(AppStrings.GenerateErrorInvalidFileNameTitle, AppStrings.GenerateErrorInvalidFileNameMessage);
             return;
         }
 
@@ -883,6 +892,26 @@ public sealed class PlanViewModel : IPlanViewModel
         }
 
         return Path.HasExtension(trimmed) ? trimmed : $"{trimmed}.json";
+    }
+
+    private void TryAutoFillGenerationOutputDirectory(string rootPath)
+    {
+        if (!string.IsNullOrWhiteSpace(GenerationOutputDirectoryPath) &&
+            !string.Equals(GenerationOutputDirectoryPath, autoFilledGenerationOutputDirectoryPath, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        isAutoUpdatingGenerationOutputDirectory = true;
+        try
+        {
+            GenerationOutputDirectoryPath = rootPath;
+            autoFilledGenerationOutputDirectoryPath = rootPath;
+        }
+        finally
+        {
+            isAutoUpdatingGenerationOutputDirectory = false;
+        }
     }
 
     private string BuildGeneratedPlanPathPreview()
