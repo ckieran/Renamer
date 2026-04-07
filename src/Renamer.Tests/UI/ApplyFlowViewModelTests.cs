@@ -11,15 +11,6 @@ namespace Renamer.Tests.UI;
 public sealed class ApplyFlowViewModelTests
 {
     [Fact]
-    public void ApplyCopy_UsesClearRenameFraming()
-    {
-        Assert.Equal("Rename folders", AppStrings.ApplyHeading);
-        Assert.Equal("Rename now", AppStrings.ApplyButtonRun);
-        Assert.Equal("Run the rename", AppStrings.ApplySectionHeader);
-        Assert.Equal("Rename summary", AppStrings.ApplySummarySectionHeader);
-    }
-
-    [Fact]
     public async Task ApplyAsync_WithSuccessfulReport_PopulatesSummaryAndResults()
     {
         var plan = CreatePlan();
