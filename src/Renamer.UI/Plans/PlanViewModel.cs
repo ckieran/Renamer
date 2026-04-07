@@ -650,7 +650,11 @@ public sealed class PlanViewModel : IPlanViewModel
                 operation.SourcePath,
                 operation.PlannedDestinationPath,
                 FormatDateRange(operation.Reason.StartDate, operation.Reason.EndDate),
-                $"{operation.Reason.FilesConsidered} files, {operation.Reason.FilesSkippedMissingExif} missing EXIF"));
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    AppStrings.PreviewOperationFileCount,
+                    operation.Reason.FilesConsidered,
+                    operation.Reason.FilesSkippedMissingExif)));
         }
 
         SetState(PlanViewState.Loaded);

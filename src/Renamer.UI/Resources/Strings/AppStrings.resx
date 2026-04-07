@@ -180,16 +180,16 @@
 
   <!-- Preview workspace -->
   <data name="PreviewHeading" xml:space="preserve">
-    <value>Preview Plan</value>
+    <value>Review the plan</value>
   </data>
   <data name="PreviewDescription" xml:space="preserve">
-    <value>Load a plan artifact, review the summary, and inspect each planned rename operation.</value>
+    <value>Load a saved plan and check the proposed folder names before anything is renamed.</value>
   </data>
   <data name="PreviewSectionHeader" xml:space="preserve">
-    <value>Plan Artifact</value>
+    <value>Choose a plan</value>
   </data>
   <data name="PreviewInstructions" xml:space="preserve">
-    <value>Select or paste a path to a rename-plan.json file.</value>
+    <value>Select or paste the path to a rename-plan.json file.</value>
   </data>
   <data name="PreviewPlaceholder" xml:space="preserve">
     <value>/path/to/rename-plan.json</value>
@@ -198,57 +198,60 @@
     <value>Browse</value>
   </data>
   <data name="PreviewButtonLoad" xml:space="preserve">
-    <value>Load Preview</value>
+    <value>Review plan</value>
   </data>
   <data name="PreviewIdleLabel" xml:space="preserve">
-    <value>Preview workspace</value>
+    <value>Ready to review</value>
   </data>
   <data name="PreviewIdleDescription" xml:space="preserve">
-    <value>Select a plan artifact and load it here to review the summary first, then inspect each planned rename operation below.</value>
+    <value>Load a saved plan to check the folder names before you rename anything.</value>
   </data>
   <data name="PreviewLoadingLabel" xml:space="preserve">
-    <value>Loading Preview</value>
+    <value>Loading plan</value>
   </data>
   <data name="PreviewErrorHeading" xml:space="preserve">
-    <value>Unable To Load Plan</value>
+    <value>Couldn't load the plan</value>
   </data>
   <data name="PreviewSummarySectionHeader" xml:space="preserve">
-    <value>Summary</value>
+    <value>Before you rename</value>
   </data>
   <data name="PreviewSummaryDescription" xml:space="preserve">
-    <value>Review the loaded plan metadata before scanning through the planned rename operations.</value>
+    <value>Check where the plan came from, when it was created, and how many folder names it will change.</value>
   </data>
   <data name="PreviewFieldRootPath" xml:space="preserve">
-    <value>Root Path</value>
+    <value>Photo folder</value>
   </data>
   <data name="PreviewFieldCreatedAt" xml:space="preserve">
-    <value>Created At</value>
+    <value>Created</value>
   </data>
   <data name="PreviewFieldOperations" xml:space="preserve">
-    <value>Operations</value>
+    <value>Folder changes</value>
   </data>
   <data name="PreviewFieldWarnings" xml:space="preserve">
-    <value>Warnings</value>
+    <value>Things to note</value>
   </data>
   <data name="PreviewOperationsSectionHeader" xml:space="preserve">
-    <value>Planned Operations</value>
+    <value>Proposed folder names</value>
   </data>
   <data name="PreviewOperationsTotal" xml:space="preserve">
-    <value>{0} total</value>
+    <value>{0} changes</value>
   </data>
   <data name="PreviewOperationsDescription" xml:space="preserve">
-    <value>Operations remain scrollable in the wider workspace so longer destination names and paths stay readable.</value>
+    <value>Review each proposed folder name below before you run the rename step.</value>
+  </data>
+  <data name="PreviewOperationFileCount" xml:space="preserve">
+    <value>{0} files checked, {1} without photo dates</value>
   </data>
 
   <!-- Preview status/error messages -->
   <data name="PreviewStatusDefault" xml:space="preserve">
-    <value>Select a rename-plan.json file to preview planned operations.</value>
+    <value>Choose a rename-plan.json file to review the proposed folder names.</value>
   </data>
   <data name="PreviewCreatedAtDefault" xml:space="preserve">
     <value>No plan loaded</value>
   </data>
   <data name="PreviewStatusPathUpdated" xml:space="preserve">
-    <value>Plan path updated. Load preview to refresh.</value>
+    <value>Plan path updated. Load it again to refresh the review.</value>
   </data>
   <data name="PreviewStatusBrowseOpening" xml:space="preserve">
     <value>Opening plan file picker...</value>
@@ -257,10 +260,10 @@
     <value>Plan selection canceled.</value>
   </data>
   <data name="PreviewStatusBrowseSelected" xml:space="preserve">
-    <value>Selected plan artifact: {0}</value>
+    <value>Selected plan file: {0}</value>
   </data>
   <data name="PreviewStatusBrowseError" xml:space="preserve">
-    <value>Unable to select a plan artifact. Check the application log for details.</value>
+    <value>Couldn't choose a plan file. Check the app log for details.</value>
   </data>
   <data name="PreviewStatusRootOpened" xml:space="preserve">
     <value>Opened root folder.</value>
@@ -269,19 +272,19 @@
     <value>Unable to open root folder. Check the application log for details.</value>
   </data>
   <data name="PreviewStatusNoPath" xml:space="preserve">
-    <value>Select a plan artifact path to load.</value>
+    <value>Choose a plan file to review.</value>
   </data>
   <data name="PreviewStatusLoading" xml:space="preserve">
-    <value>Loading plan preview...</value>
+    <value>Loading the plan...</value>
   </data>
   <data name="PreviewStatusLoadError" xml:space="preserve">
-    <value>Unable to load plan artifact. Check the application log for details.</value>
+    <value>Couldn't load the plan. Check the app log for details.</value>
   </data>
   <data name="PreviewStatusLoaded" xml:space="preserve">
-    <value>Loaded {0} planned operation(s).</value>
+    <value>Ready to review {0} planned folder change(s).</value>
   </data>
   <data name="PreviewStatusUnavailable" xml:space="preserve">
-    <value>Plan preview unavailable.</value>
+    <value>Plan review unavailable.</value>
   </data>
 
   <!-- Apply workspace -->

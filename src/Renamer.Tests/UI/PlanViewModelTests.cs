@@ -12,6 +12,15 @@ namespace Renamer.Tests.UI;
 public sealed class PlanViewModelTests
 {
     [Fact]
+    public void PreviewCopy_UsesReviewFraming()
+    {
+        Assert.Equal("Review the plan", AppStrings.PreviewHeading);
+        Assert.Equal("Review plan", AppStrings.PreviewButtonLoad);
+        Assert.Equal("Before you rename", AppStrings.PreviewSummarySectionHeader);
+        Assert.Equal("Proposed folder names", AppStrings.PreviewOperationsSectionHeader);
+    }
+
+    [Fact]
     public async Task LoadAsync_WithValidPlan_PopulatesSummaryAndOperations()
     {
         var viewModel = new PlanViewModel(
@@ -43,6 +52,7 @@ public sealed class PlanViewModelTests
         Assert.Equal("2024-06-12 - 2024-06-14 - Trip A", operation.DestinationName);
         Assert.Equal("/photos/Trip A", operation.SourcePath);
         Assert.Equal("2024-06-12 to 2024-06-14", operation.DateRangeText);
+        Assert.Equal("12 files checked, 1 without photo dates", operation.FileCountText);
     }
 
     [Fact]
