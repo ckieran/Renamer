@@ -681,9 +681,9 @@ public sealed class PlanViewModel : IPlanViewModel
                 result.SourcePath,
                 result.Status,
                 result.PlannedDestinationPath,
-                result.ActualDestinationPath ?? "Not moved",
-                result.Warnings.Count == 0 ? "No warnings" : string.Join(" ", result.Warnings),
-                result.Error ?? "No error"));
+                result.ActualDestinationPath ?? AppStrings.ApplyResultActualDestinationDefault,
+                result.Warnings.Count == 0 ? AppStrings.ApplyResultWarningsDefault : string.Join(" ", result.Warnings),
+                result.Error ?? AppStrings.ApplyResultErrorDefault));
         }
 
         HasApplyReport = true;

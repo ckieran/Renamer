@@ -289,43 +289,43 @@
 
   <!-- Apply workspace -->
   <data name="ApplyHeading" xml:space="preserve">
-    <value>Apply Plan</value>
+    <value>Rename folders</value>
   </data>
   <data name="ApplyDescription" xml:space="preserve">
-    <value>Load a plan artifact, then run apply and inspect the resulting report summary and per-operation outcomes.</value>
+    <value>Load a saved plan, run the rename, and review what changed right here.</value>
   </data>
   <data name="ApplyPlanArtifactSectionHeader" xml:space="preserve">
-    <value>Plan Artifact</value>
+    <value>Choose a plan</value>
   </data>
   <data name="ApplyPlanArtifactInstructions" xml:space="preserve">
-    <value>Select or paste a path to a rename-plan.json file. The most recently generated plan is prepopulated automatically.</value>
+    <value>Select or paste the path to a rename-plan.json file. The most recent plan is filled in for you when it is available.</value>
   </data>
   <data name="ApplyButtonBrowse" xml:space="preserve">
     <value>Browse</value>
   </data>
   <data name="ApplyButtonLoadPlan" xml:space="preserve">
-    <value>Load Plan</value>
+    <value>Load for rename</value>
   </data>
   <data name="ApplyErrorHeading" xml:space="preserve">
-    <value>Unable To Load Plan</value>
+    <value>Couldn't prepare the rename</value>
   </data>
   <data name="ApplySectionHeader" xml:space="preserve">
-    <value>Apply</value>
+    <value>Run the rename</value>
   </data>
   <data name="ApplyInstructions" xml:space="preserve">
-    <value>Run apply against the loaded plan artifact. Results appear inline below.</value>
+    <value>This step makes the folder name changes. Review the plan first, then run it when you are ready.</value>
   </data>
   <data name="ApplyButtonRun" xml:space="preserve">
-    <value>Run Apply</value>
+    <value>Rename now</value>
   </data>
   <data name="ApplySummarySectionHeader" xml:space="preserve">
-    <value>Apply Summary</value>
+    <value>Rename summary</value>
   </data>
   <data name="ApplyFieldOutcome" xml:space="preserve">
-    <value>Outcome</value>
+    <value>Result</value>
   </data>
   <data name="ApplyFieldDrifted" xml:space="preserve">
-    <value>Drifted</value>
+    <value>Renamed differently</value>
   </data>
   <data name="ApplyFieldStarted" xml:space="preserve">
     <value>Started</value>
@@ -343,24 +343,24 @@
     <value>Failed</value>
   </data>
   <data name="ApplyResultsSectionHeader" xml:space="preserve">
-    <value>Apply Results</value>
+    <value>Folder results</value>
   </data>
   <data name="ApplyFieldPlannedDestination" xml:space="preserve">
-    <value>Planned Destination</value>
+    <value>Planned name</value>
   </data>
   <data name="ApplyFieldActualDestination" xml:space="preserve">
-    <value>Actual Destination</value>
+    <value>Final name</value>
   </data>
   <data name="ApplyFieldResultWarnings" xml:space="preserve">
-    <value>Warnings</value>
+    <value>Notes</value>
   </data>
   <data name="ApplyFieldError" xml:space="preserve">
-    <value>Error</value>
+    <value>Problem</value>
   </data>
 
   <!-- Apply status/error messages -->
   <data name="ApplyStatusDefault" xml:space="preserve">
-    <value>Load a plan preview to enable apply.</value>
+    <value>Load a reviewed plan before you rename folders.</value>
   </data>
   <data name="ApplyStatusOutcomeDefault" xml:space="preserve">
     <value>Not run</value>
@@ -372,46 +372,55 @@
     <value>Not run</value>
   </data>
   <data name="ApplyStatusInProgress" xml:space="preserve">
-    <value>Applying rename plan...</value>
+    <value>Renaming folders...</value>
   </data>
   <data name="ApplyStatusPartial" xml:space="preserve">
-    <value>Apply stopped before the full plan completed.</value>
+    <value>The rename stopped before every folder was updated.</value>
   </data>
   <data name="ApplyStatusSuccess" xml:space="preserve">
-    <value>Apply completed with {0} success, {1} skipped, {2} failed.</value>
+    <value>Rename finished: {0} changed, {1} skipped, {2} failed.</value>
   </data>
   <data name="ApplyStatusUnavailable" xml:space="preserve">
-    <value>Apply unavailable.</value>
+    <value>Rename unavailable.</value>
   </data>
 
   <!-- Apply error titles -->
   <data name="ApplyErrorTitleRetryAbort" xml:space="preserve">
-    <value>Apply stopped after conflict retry limit</value>
+    <value>Rename stopped after too many name conflicts</value>
   </data>
   <data name="ApplyErrorTitleInvalidPlan" xml:space="preserve">
-    <value>Plan artifact is invalid</value>
+    <value>Plan file could not be read</value>
   </data>
   <data name="ApplyErrorTitleFileSystem" xml:space="preserve">
-    <value>Apply failed due to file system error</value>
+    <value>Rename stopped because a folder could not be reached</value>
   </data>
   <data name="ApplyErrorTitleUnexpected" xml:space="preserve">
-    <value>Apply failed unexpectedly</value>
+    <value>Rename stopped unexpectedly</value>
   </data>
   <data name="ApplyErrorTitleValidation" xml:space="preserve">
-    <value>Apply validation failed</value>
+    <value>Load a plan before you rename folders</value>
   </data>
 
   <!-- Apply error message bodies -->
   <data name="ApplyErrorMessageValidation" xml:space="preserve">
-    <value>Select and load a valid plan artifact before apply.</value>
+    <value>Choose a plan file and load it before you run the rename.</value>
   </data>
   <data name="ApplyErrorMessageInvalidPlan" xml:space="preserve">
-    <value>The plan artifact could not be read. Check the application log for details.</value>
+    <value>The plan file could not be read. Choose another file or check the app log for details.</value>
   </data>
   <data name="ApplyErrorMessageFileSystem" xml:space="preserve">
-    <value>A file system error prevented apply from completing. Check the application log for details.</value>
+    <value>A folder or path could not be reached while renaming. Check the app log for details.</value>
   </data>
   <data name="ApplyErrorMessageUnexpected" xml:space="preserve">
-    <value>An unexpected error occurred. Check the application log for details.</value>
+    <value>Something unexpected stopped the rename. Check the app log for details.</value>
+  </data>
+  <data name="ApplyResultActualDestinationDefault" xml:space="preserve">
+    <value>Folder was not renamed</value>
+  </data>
+  <data name="ApplyResultWarningsDefault" xml:space="preserve">
+    <value>No notes</value>
+  </data>
+  <data name="ApplyResultErrorDefault" xml:space="preserve">
+    <value>No problem reported</value>
   </data>
 </root>

@@ -178,5 +178,8 @@ namespace Renamer.UI.Resources.Strings
         internal static string ApplyErrorMessageInvalidPlan => ResourceManager.GetString("ApplyErrorMessageInvalidPlan", resourceCulture)!;
         internal static string ApplyErrorMessageFileSystem => ResourceManager.GetString("ApplyErrorMessageFileSystem", resourceCulture)!;
         internal static string ApplyErrorMessageUnexpected => ResourceManager.GetString("ApplyErrorMessageUnexpected", resourceCulture)!;
+        internal static string ApplyResultActualDestinationDefault => ResourceManager.GetString("ApplyResultActualDestinationDefault", resourceCulture)!;
+        internal static string ApplyResultWarningsDefault => ResourceManager.GetString("ApplyResultWarningsDefault", resourceCulture)!;
+        internal static string ApplyResultErrorDefault => ResourceManager.GetString("ApplyResultErrorDefault", resourceCulture)!;
     }
 }
