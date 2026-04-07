@@ -45,6 +45,31 @@ public sealed class ApplyFlowViewModelTests
     }
 
     [Fact]
+    public async Task ApplyAsync_WithFallbackTexts_UsesResourceBackedCopy()
+    {
+        var plan = CreatePlan();
+        var viewModel = new PlanViewModel(
+            new FakePlanBuilder(plan),
+            new FakePlanSerializer(plan),
+            new FakePlanFilePicker(null),
+            new FakeFolderPathPicker(null),
+            new FakeRootPathOpener(),
+            new FakeApplyEngine(CreateReportWithFallbacks()),
+            NullLogger<PlanViewModel>.Instance)
+        {
+            PlanPath = "/tmp/rename-plan.json"
+        };
+
+        await viewModel.LoadAsync();
+        await viewModel.ApplyAsync();
+
+        var result = Assert.Single(viewModel.ApplyResults);
+        Assert.Equal(AppStrings.ApplyResultActualDestinationDefault, result.ActualDestinationPathText);
+        Assert.Equal(AppStrings.ApplyResultWarningsDefault, result.WarningText);
+        Assert.Equal(AppStrings.ApplyResultErrorDefault, result.ErrorText);
+    }
+
+    [Fact]
     public async Task ApplyAsync_WithRetryAbortReport_ShowsAbortErrorAndRetainsReport()
     {
         var plan = CreatePlan();
@@ -266,6 +291,37 @@ public sealed class ApplyFlowViewModelTests
                     Attempts = 11,
                     Warnings = [],
                     Error = "Destination conflict unresolved after 10 suffix retries."
+                }
+            ],
+            Summary = new RenameReportSummary
+            {
+                Success = 0,
+                Failed = 1,
+                Skipped = 0,
+                Drifted = 0
+            }
+        };
+
+    private static RenameReport CreateReportWithFallbacks() =>
+        new()
+        {
+            Outcome = ApplyEngine.CompletedOutcome,
+            SchemaVersion = "1.0",
+            PlanId = "d609111f-4fbb-4de3-8d6c-faf102a6fdb0",
+            StartedAtUtc = "2026-03-01T16:11:00Z",
+            FinishedAtUtc = "2026-03-01T16:11:01Z",
+            Results =
+            [
+                new RenameReportResult
+                {
+                    OpId = "7c730a84-4b07-4f56-8758-9906cf488e6b",
+                    SourcePath = "/photos/Trip A",
+                    PlannedDestinationPath = "/photos/2024-06-12 - 2024-06-14 - Trip A",
+                    ActualDestinationPath = null,
+                    Status = "failed",
+                    Attempts = 1,
+                    Warnings = [],
+                    Error = null
                 }
             ],
             Summary = new RenameReportSummary

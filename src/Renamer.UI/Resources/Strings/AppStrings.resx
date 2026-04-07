@@ -1,5 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!--
+    Microsoft ResX Schema
+
+    Version 2.0
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
+    associated with the data types.
+
+    Example:
+
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+
+    There are any number of "resheader" rows that contain simple
+    name/value pairs.
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
+    mimetype set.
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
+    extensible. For a given mimetype the value must be set accordingly:
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
+    read any of the formats listed below.
+
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -12,406 +117,520 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-
-  <!-- Main page -->
   <data name="MainPageHeading" xml:space="preserve">
     <value>Rename your folders in three steps</value>
+    <comment/>
   </data>
   <data name="MainPageDescription" xml:space="preserve">
     <value>Build a plan, review the changes, then rename the folders when you're ready.</value>
+    <comment/>
   </data>
-
-  <!-- Workflow rail -->
   <data name="WorkflowRailHeader" xml:space="preserve">
     <value>Steps</value>
+    <comment/>
   </data>
   <data name="WorkflowRailDescription" xml:space="preserve">
     <value>Pick a step to keep going. Each one shows if it needs input, hit a problem, or is done.</value>
+    <comment/>
   </data>
-
-  <!-- Workflow step definitions -->
   <data name="StepGenerateTitle" xml:space="preserve">
     <value>Build a plan</value>
+    <comment/>
   </data>
   <data name="StepGenerateDescription" xml:space="preserve">
     <value>Choose a photo folder and create a rename plan.</value>
+    <comment/>
   </data>
   <data name="StepPreviewTitle" xml:space="preserve">
     <value>Review the plan</value>
+    <comment/>
   </data>
   <data name="StepPreviewDescription" xml:space="preserve">
     <value>Check the proposed folder names before you make changes.</value>
+    <comment/>
   </data>
   <data name="StepApplyTitle" xml:space="preserve">
     <value>Rename folders</value>
+    <comment/>
   </data>
   <data name="StepApplyDescription" xml:space="preserve">
     <value>Run the plan and review what changed.</value>
+    <comment/>
   </data>
   <data name="StepStatusDone" xml:space="preserve">
     <value>done</value>
+    <comment/>
   </data>
   <data name="StepStatusError" xml:space="preserve">
     <value>problem</value>
+    <comment/>
   </data>
   <data name="StepStatusNeedsInfo" xml:space="preserve">
     <value>needs input</value>
+    <comment/>
   </data>
-
-  <!-- Generate workspace -->
   <data name="GenerateHeading" xml:space="preserve">
     <value>Build a plan</value>
+    <comment/>
   </data>
   <data name="GenerateDescription" xml:space="preserve">
     <value>Choose your photo folder and where to save the plan, then review the folder names before anything changes.</value>
+    <comment/>
   </data>
   <data name="GenerateSectionHeader" xml:space="preserve">
     <value>Choose folders</value>
+    <comment/>
   </data>
   <data name="GenerateInstructions" xml:space="preserve">
     <value>Pick the folder with your photos, then choose where to save the plan.</value>
+    <comment/>
   </data>
   <data name="GenerateLabelRootFolder" xml:space="preserve">
     <value>Photo folder</value>
+    <comment/>
   </data>
   <data name="GeneratePlaceholderRootFolder" xml:space="preserve">
     <value>/path/to/photos</value>
+    <comment/>
   </data>
   <data name="GenerateBrowseRootFolder" xml:space="preserve">
     <value>Choose photo folder</value>
+    <comment/>
   </data>
   <data name="GenerateLabelOutputFolder" xml:space="preserve">
     <value>Save folder</value>
+    <comment/>
   </data>
   <data name="GeneratePlaceholderOutputFolder" xml:space="preserve">
     <value>/path/to/save-folder</value>
+    <comment/>
   </data>
   <data name="GenerateBrowseOutputFolder" xml:space="preserve">
     <value>Choose save folder</value>
+    <comment/>
   </data>
   <data name="GenerateLabelPlanFileName" xml:space="preserve">
     <value>Plan file</value>
+    <comment/>
   </data>
   <data name="GeneratePlaceholderPlanFileName" xml:space="preserve">
     <value>rename-plan.json</value>
+    <comment/>
   </data>
   <data name="GenerateLabelGeneratedPlanPath" xml:space="preserve">
     <value>Plan will be saved to</value>
+    <comment/>
   </data>
   <data name="GenerateButtonGenerateAndLoad" xml:space="preserve">
     <value>Build plan</value>
+    <comment/>
   </data>
-
-  <!-- Generate status/error messages -->
   <data name="GenerateStatusDefault" xml:space="preserve">
     <value>Choose a photo folder and a save folder to build a plan.</value>
+    <comment/>
   </data>
   <data name="GenerateStatusRootCanceled" xml:space="preserve">
     <value>No photo folder selected.</value>
+    <comment/>
   </data>
   <data name="GenerateStatusRootSelected" xml:space="preserve">
     <value>Photo folder selected: {0}</value>
+    <comment/>
   </data>
   <data name="GenerateStatusOutputCanceled" xml:space="preserve">
     <value>No save folder selected.</value>
+    <comment/>
   </data>
   <data name="GenerateStatusOutputSelected" xml:space="preserve">
     <value>Save folder selected: {0}</value>
+    <comment/>
   </data>
   <data name="GenerateStatusInProgress" xml:space="preserve">
     <value>Building your plan...</value>
+    <comment/>
   </data>
   <data name="GenerateStatusSuccess" xml:space="preserve">
     <value>Your plan is ready: {0}</value>
+    <comment/>
   </data>
   <data name="GenerateStatusUnavailable" xml:space="preserve">
     <value>Building a plan is not available right now.</value>
+    <comment/>
   </data>
   <data name="GenerateErrorNoRootTitle" xml:space="preserve">
     <value>Choose a photo folder</value>
+    <comment/>
   </data>
   <data name="GenerateErrorNoRootMessage" xml:space="preserve">
     <value>Select the folder that holds the photos you want to rename.</value>
+    <comment/>
   </data>
   <data name="GenerateErrorInvalidRootTitle" xml:space="preserve">
     <value>Photo folder not found</value>
+    <comment/>
   </data>
   <data name="GenerateErrorInvalidRootMessage" xml:space="preserve">
     <value>The photo folder '{0}' could not be found. Choose another folder.</value>
+    <comment/>
   </data>
   <data name="GenerateErrorNoOutputTitle" xml:space="preserve">
     <value>Choose where to save the plan</value>
+    <comment/>
   </data>
   <data name="GenerateErrorNoOutputMessage" xml:space="preserve">
     <value>Select a folder where Renamer can save the plan.</value>
+    <comment/>
   </data>
   <data name="GenerateErrorNoFileNameTitle" xml:space="preserve">
     <value>Name the plan file</value>
+    <comment/>
   </data>
   <data name="GenerateErrorNoFileNameMessage" xml:space="preserve">
     <value>Enter a file name for the plan, such as rename-plan.json.</value>
+    <comment/>
   </data>
   <data name="GenerateErrorInvalidFileNameTitle" xml:space="preserve">
     <value>Plan file name not valid</value>
+    <comment/>
   </data>
   <data name="GenerateErrorInvalidFileNameMessage" xml:space="preserve">
     <value>Use a different file name for the plan, such as rename-plan.json.</value>
+    <comment/>
   </data>
   <data name="GenerateErrorFileSystemTitle" xml:space="preserve">
     <value>Couldn't save the plan</value>
+    <comment/>
   </data>
   <data name="GenerateErrorFileSystemMessage" xml:space="preserve">
     <value>Renamer couldn't save the plan there. Check the app log for details.</value>
+    <comment/>
   </data>
   <data name="GenerateErrorUnexpectedTitle" xml:space="preserve">
     <value>Couldn't build the plan</value>
+    <comment/>
   </data>
   <data name="GenerateErrorUnexpectedMessage" xml:space="preserve">
     <value>Something unexpected stopped the plan from being created. Check the app log for details.</value>
+    <comment/>
   </data>
-
-  <!-- Generate folder picker dialog titles -->
   <data name="GenerateFolderPickerRootTitle" xml:space="preserve">
     <value>Choose photo folder</value>
+    <comment/>
   </data>
   <data name="GenerateFolderPickerOutputTitle" xml:space="preserve">
     <value>Choose where to save the plan</value>
+    <comment/>
   </data>
-
-  <!-- Preview workspace -->
   <data name="PreviewHeading" xml:space="preserve">
     <value>Review the plan</value>
+    <comment/>
   </data>
   <data name="PreviewDescription" xml:space="preserve">
     <value>Load a saved plan and check the proposed folder names before anything is renamed.</value>
+    <comment/>
   </data>
   <data name="PreviewSectionHeader" xml:space="preserve">
     <value>Choose a plan</value>
+    <comment/>
   </data>
   <data name="PreviewInstructions" xml:space="preserve">
     <value>Select or paste the path to a rename-plan.json file.</value>
+    <comment/>
   </data>
   <data name="PreviewPlaceholder" xml:space="preserve">
     <value>/path/to/rename-plan.json</value>
+    <comment/>
   </data>
   <data name="PreviewBrowse" xml:space="preserve">
     <value>Browse</value>
+    <comment/>
   </data>
   <data name="PreviewButtonLoad" xml:space="preserve">
     <value>Review plan</value>
+    <comment/>
   </data>
   <data name="PreviewIdleLabel" xml:space="preserve">
     <value>Ready to review</value>
+    <comment/>
   </data>
   <data name="PreviewIdleDescription" xml:space="preserve">
     <value>Load a saved plan to check the folder names before you rename anything.</value>
+    <comment/>
   </data>
   <data name="PreviewLoadingLabel" xml:space="preserve">
     <value>Loading plan</value>
+    <comment/>
   </data>
   <data name="PreviewErrorHeading" xml:space="preserve">
     <value>Couldn't load the plan</value>
+    <comment/>
   </data>
   <data name="PreviewSummarySectionHeader" xml:space="preserve">
     <value>Before you rename</value>
+    <comment/>
   </data>
   <data name="PreviewSummaryDescription" xml:space="preserve">
     <value>Check where the plan came from, when it was created, and how many folder names it will change.</value>
+    <comment/>
   </data>
   <data name="PreviewFieldRootPath" xml:space="preserve">
     <value>Photo folder</value>
+    <comment/>
   </data>
   <data name="PreviewFieldCreatedAt" xml:space="preserve">
     <value>Created</value>
+    <comment/>
   </data>
   <data name="PreviewFieldOperations" xml:space="preserve">
     <value>Folder changes</value>
+    <comment/>
   </data>
   <data name="PreviewFieldWarnings" xml:space="preserve">
     <value>Things to note</value>
+    <comment/>
   </data>
   <data name="PreviewOperationsSectionHeader" xml:space="preserve">
     <value>Proposed folder names</value>
+    <comment/>
   </data>
   <data name="PreviewOperationsTotal" xml:space="preserve">
     <value>{0} changes</value>
+    <comment/>
   </data>
   <data name="PreviewOperationsDescription" xml:space="preserve">
     <value>Review each proposed folder name below before you run the rename step.</value>
+    <comment/>
   </data>
   <data name="PreviewOperationFileCount" xml:space="preserve">
     <value>{0} files checked, {1} without photo dates</value>
+    <comment/>
   </data>
-
-  <!-- Preview status/error messages -->
   <data name="PreviewStatusDefault" xml:space="preserve">
     <value>Choose a rename-plan.json file to review the proposed folder names.</value>
+    <comment/>
   </data>
   <data name="PreviewCreatedAtDefault" xml:space="preserve">
     <value>No plan loaded</value>
+    <comment/>
   </data>
   <data name="PreviewStatusPathUpdated" xml:space="preserve">
     <value>Plan path updated. Load it again to refresh the review.</value>
+    <comment/>
   </data>
   <data name="PreviewStatusBrowseOpening" xml:space="preserve">
     <value>Opening plan file picker...</value>
+    <comment/>
   </data>
   <data name="PreviewStatusBrowseCanceled" xml:space="preserve">
     <value>Plan selection canceled.</value>
+    <comment/>
   </data>
   <data name="PreviewStatusBrowseSelected" xml:space="preserve">
     <value>Selected plan file: {0}</value>
+    <comment/>
   </data>
   <data name="PreviewStatusBrowseError" xml:space="preserve">
     <value>Couldn't choose a plan file. Check the app log for details.</value>
+    <comment/>
   </data>
   <data name="PreviewStatusRootOpened" xml:space="preserve">
     <value>Opened root folder.</value>
+    <comment/>
   </data>
   <data name="PreviewStatusRootError" xml:space="preserve">
     <value>Unable to open root folder. Check the application log for details.</value>
+    <comment/>
   </data>
   <data name="PreviewStatusNoPath" xml:space="preserve">
     <value>Choose a plan file to review.</value>
+    <comment/>
   </data>
   <data name="PreviewStatusLoading" xml:space="preserve">
     <value>Loading the plan...</value>
+    <comment/>
   </data>
   <data name="PreviewStatusLoadError" xml:space="preserve">
     <value>Couldn't load the plan. Check the app log for details.</value>
+    <comment/>
   </data>
   <data name="PreviewStatusLoaded" xml:space="preserve">
     <value>Ready to review {0} planned folder change(s).</value>
+    <comment/>
   </data>
   <data name="PreviewStatusUnavailable" xml:space="preserve">
     <value>Plan review unavailable.</value>
+    <comment/>
   </data>
-
-  <!-- Apply workspace -->
   <data name="ApplyHeading" xml:space="preserve">
-    <value>Apply Plan</value>
+    <value>Rename folders</value>
+    <comment/>
   </data>
   <data name="ApplyDescription" xml:space="preserve">
-    <value>Load a plan artifact, then run apply and inspect the resulting report summary and per-operation outcomes.</value>
+    <value>Load a saved plan, apply the plan, and review what changed right here.</value>
+    <comment/>
   </data>
   <data name="ApplyPlanArtifactSectionHeader" xml:space="preserve">
-    <value>Plan Artifact</value>
+    <value>Choose a plan</value>
+    <comment/>
   </data>
   <data name="ApplyPlanArtifactInstructions" xml:space="preserve">
-    <value>Select or paste a path to a rename-plan.json file. The most recently generated plan is prepopulated automatically.</value>
+    <value>Select or paste the path to a rename-plan.json file. The most recent plan is filled in for you when it is available.</value>
+    <comment/>
   </data>
   <data name="ApplyButtonBrowse" xml:space="preserve">
     <value>Browse</value>
+    <comment/>
   </data>
   <data name="ApplyButtonLoadPlan" xml:space="preserve">
-    <value>Load Plan</value>
+    <value>Load for rename</value>
+    <comment/>
   </data>
   <data name="ApplyErrorHeading" xml:space="preserve">
-    <value>Unable To Load Plan</value>
+    <value>Couldn't prepare the rename</value>
+    <comment/>
   </data>
   <data name="ApplySectionHeader" xml:space="preserve">
-    <value>Apply</value>
+    <value>Apply the plan</value>
+    <comment/>
   </data>
   <data name="ApplyInstructions" xml:space="preserve">
-    <value>Run apply against the loaded plan artifact. Results appear inline below.</value>
+    <value>This step makes the folder name changes. Review the plan first, then run it when you are ready.</value>
+    <comment/>
   </data>
   <data name="ApplyButtonRun" xml:space="preserve">
-    <value>Run Apply</value>
+    <value>Rename now</value>
+    <comment/>
   </data>
   <data name="ApplySummarySectionHeader" xml:space="preserve">
-    <value>Apply Summary</value>
+    <value>Rename summary</value>
+    <comment/>
   </data>
   <data name="ApplyFieldOutcome" xml:space="preserve">
-    <value>Outcome</value>
+    <value>Result</value>
+    <comment/>
   </data>
   <data name="ApplyFieldDrifted" xml:space="preserve">
-    <value>Drifted</value>
+    <value>Renamed differently</value>
+    <comment/>
   </data>
   <data name="ApplyFieldStarted" xml:space="preserve">
     <value>Started</value>
+    <comment/>
   </data>
   <data name="ApplyFieldFinished" xml:space="preserve">
     <value>Finished</value>
+    <comment/>
   </data>
   <data name="ApplyFieldSuccess" xml:space="preserve">
     <value>Success</value>
+    <comment/>
   </data>
   <data name="ApplyFieldSkipped" xml:space="preserve">
     <value>Skipped</value>
+    <comment/>
   </data>
   <data name="ApplyFieldFailed" xml:space="preserve">
     <value>Failed</value>
+    <comment/>
   </data>
   <data name="ApplyResultsSectionHeader" xml:space="preserve">
-    <value>Apply Results</value>
+    <value>Folder results</value>
+    <comment/>
   </data>
   <data name="ApplyFieldPlannedDestination" xml:space="preserve">
-    <value>Planned Destination</value>
+    <value>Planned name</value>
+    <comment/>
   </data>
   <data name="ApplyFieldActualDestination" xml:space="preserve">
-    <value>Actual Destination</value>
+    <value>Final name</value>
+    <comment/>
   </data>
   <data name="ApplyFieldResultWarnings" xml:space="preserve">
-    <value>Warnings</value>
+    <value>Notes</value>
+    <comment/>
   </data>
   <data name="ApplyFieldError" xml:space="preserve">
-    <value>Error</value>
+    <value>Problem</value>
+    <comment/>
   </data>
-
-  <!-- Apply status/error messages -->
   <data name="ApplyStatusDefault" xml:space="preserve">
-    <value>Load a plan preview to enable apply.</value>
+    <value>Load a reviewed plan before you rename folders.</value>
+    <comment/>
   </data>
   <data name="ApplyStatusOutcomeDefault" xml:space="preserve">
     <value>Not run</value>
+    <comment/>
   </data>
   <data name="ApplyStatusStartedDefault" xml:space="preserve">
     <value>Not run</value>
+    <comment/>
   </data>
   <data name="ApplyStatusFinishedDefault" xml:space="preserve">
     <value>Not run</value>
+    <comment/>
   </data>
   <data name="ApplyStatusInProgress" xml:space="preserve">
-    <value>Applying rename plan...</value>
+    <value>Renaming folders...</value>
+    <comment/>
   </data>
   <data name="ApplyStatusPartial" xml:space="preserve">
-    <value>Apply stopped before the full plan completed.</value>
+    <value>The rename stopped before every folder was updated.</value>
+    <comment/>
   </data>
   <data name="ApplyStatusSuccess" xml:space="preserve">
-    <value>Apply completed with {0} success, {1} skipped, {2} failed.</value>
+    <value>Rename finished: {0} changed, {1} skipped, {2} failed.</value>
+    <comment/>
   </data>
   <data name="ApplyStatusUnavailable" xml:space="preserve">
-    <value>Apply unavailable.</value>
+    <value>Rename unavailable.</value>
+    <comment/>
   </data>
-
-  <!-- Apply error titles -->
   <data name="ApplyErrorTitleRetryAbort" xml:space="preserve">
-    <value>Apply stopped after conflict retry limit</value>
+    <value>Rename stopped after too many name conflicts</value>
+    <comment/>
   </data>
   <data name="ApplyErrorTitleInvalidPlan" xml:space="preserve">
-    <value>Plan artifact is invalid</value>
+    <value>Plan file could not be read</value>
+    <comment/>
   </data>
   <data name="ApplyErrorTitleFileSystem" xml:space="preserve">
-    <value>Apply failed due to file system error</value>
+    <value>Rename stopped because a folder could not be reached</value>
+    <comment/>
   </data>
   <data name="ApplyErrorTitleUnexpected" xml:space="preserve">
-    <value>Apply failed unexpectedly</value>
+    <value>Rename stopped unexpectedly</value>
+    <comment/>
   </data>
   <data name="ApplyErrorTitleValidation" xml:space="preserve">
-    <value>Apply validation failed</value>
+    <value>Load a plan before you rename folders</value>
+    <comment/>
   </data>
-
-  <!-- Apply error message bodies -->
   <data name="ApplyErrorMessageValidation" xml:space="preserve">
-    <value>Select and load a valid plan artifact before apply.</value>
+    <value>Choose a plan file and load it before you run the rename.</value>
+    <comment/>
   </data>
   <data name="ApplyErrorMessageInvalidPlan" xml:space="preserve">
-    <value>The plan artifact could not be read. Check the application log for details.</value>
+    <value>The plan file could not be read. Choose another file or check the app log for details.</value>
+    <comment/>
   </data>
   <data name="ApplyErrorMessageFileSystem" xml:space="preserve">
-    <value>A file system error prevented apply from completing. Check the application log for details.</value>
+    <value>A folder or path could not be reached while renaming. Check the app log for details.</value>
+    <comment/>
   </data>
   <data name="ApplyErrorMessageUnexpected" xml:space="preserve">
-    <value>An unexpected error occurred. Check the application log for details.</value>
+    <value>Something unexpected stopped the rename. Check the app log for details.</value>
+    <comment/>
+  </data>
+  <data name="ApplyResultActualDestinationDefault" xml:space="preserve">
+    <value>Folder was not renamed</value>
+    <comment/>
+  </data>
+  <data name="ApplyResultWarningsDefault" xml:space="preserve">
+    <value>No notes</value>
+    <comment/>
+  </data>
+  <data name="ApplyResultErrorDefault" xml:space="preserve">
+    <value>No problem reported</value>
+    <comment/>
   </data>
 </root>
