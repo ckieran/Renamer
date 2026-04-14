@@ -66,31 +66,18 @@ public sealed class PlanSerializer : IPlanSerializer
     private static void ValidateReadablePlan(RenamePlan plan)
     {
         if (!string.Equals(plan.SchemaVersion, CurrentSchemaVersion, StringComparison.Ordinal))
-        {
             throw new NotSupportedException($"Unsupported plan schemaVersion '{plan.SchemaVersion}'.");
-        }
-
         if (string.IsNullOrWhiteSpace(plan.PlanId))
-        {
             throw new InvalidDataException("Plan artifact is missing required field 'planId'.");
-        }
-
         if (string.IsNullOrWhiteSpace(plan.RootPath))
-        {
             throw new InvalidDataException("Plan artifact is missing required field 'rootPath'.");
-        }
 
         foreach (var operation in plan.Operations)
         {
             if (string.IsNullOrWhiteSpace(operation.SourcePath))
-            {
                 throw new InvalidDataException("Plan artifact contains an operation with empty 'sourcePath'.");
-            }
-
             if (string.IsNullOrWhiteSpace(operation.PlannedDestinationPath))
-            {
                 throw new InvalidDataException("Plan artifact contains an operation with empty 'plannedDestinationPath'.");
-            }
         }
     }
 }

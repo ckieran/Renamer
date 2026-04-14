@@ -181,12 +181,7 @@ public sealed class CliCommandHandler : ICliCommandHandler
         ArgumentException.ThrowIfNullOrWhiteSpace(outputPath);
 
         var fullOutputPath = Path.GetFullPath(outputPath);
-        var directory = Path.GetDirectoryName(fullOutputPath);
-        if (string.IsNullOrWhiteSpace(directory))
-        {
-            directory = Directory.GetCurrentDirectory();
-        }
-
+        var directory = Path.GetDirectoryName(fullOutputPath) ?? Directory.GetCurrentDirectory();
         Directory.CreateDirectory(directory);
 
         var probePath = Path.Combine(directory, $".renamer-write-test-{Guid.NewGuid():N}.tmp");
@@ -197,12 +192,8 @@ public sealed class CliCommandHandler : ICliCommandHandler
     private static bool IsDirectoryPath(string outputPath)
     {
         var fullOutputPath = Path.GetFullPath(outputPath);
-        if (Directory.Exists(fullOutputPath))
-        {
-            return true;
-        }
-
-        return outputPath.EndsWith(Path.DirectorySeparatorChar) ||
+        return Directory.Exists(fullOutputPath) ||
+               outputPath.EndsWith(Path.DirectorySeparatorChar) ||
                outputPath.EndsWith(Path.AltDirectorySeparatorChar);
     }
 

@@ -111,12 +111,9 @@ public sealed class PlanBuilder : IPlanBuilder
     {
         foreach (var candidatePath in conflictRetryPolicy.GetCandidatePaths(baseDestinationPath))
         {
-            if (string.Equals(candidatePath, sourceDirectory, StringComparison.Ordinal))
-            {
-                continue;
-            }
-
-            if (reservedDestinations.Contains(candidatePath) || Directory.Exists(candidatePath))
+            if (string.Equals(candidatePath, sourceDirectory, StringComparison.Ordinal) ||
+                reservedDestinations.Contains(candidatePath) ||
+                Directory.Exists(candidatePath))
             {
                 continue;
             }
