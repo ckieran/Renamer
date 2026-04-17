@@ -41,11 +41,7 @@ public sealed class ApplyEngine : IApplyEngine
         {
             var result = ExecuteOperation(operation);
             results.Add(result);
-
-            if (result.Status == FailedStatus)
-            {
-                break;
-            }
+            if (result.Status == FailedStatus) break;
         }
 
         var finishedAtUtc = clock.UtcNow;
@@ -138,14 +134,8 @@ public sealed class ApplyEngine : IApplyEngine
     private static string FormatUtc(DateTimeOffset timestamp) =>
         timestamp.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ");
 
-    private static IReadOnlyList<string> BuildWarnings(string plannedDestinationPath, string actualDestinationPath)
-    {
-        if (string.Equals(plannedDestinationPath, actualDestinationPath, StringComparison.Ordinal))
-        {
-            return [];
-        }
-
-        var suffix = actualDestinationPath[plannedDestinationPath.Length..];
-        return [$"Destination conflict; applied suffix{suffix}."];
-    }
+    private static IReadOnlyList<string> BuildWarnings(string plannedDestinationPath, string actualDestinationPath) =>
+        string.Equals(plannedDestinationPath, actualDestinationPath, StringComparison.Ordinal)
+            ? []
+            : [$"Destination conflict; applied suffix{actualDestinationPath[plannedDestinationPath.Length..]}."];
 }

@@ -30,14 +30,10 @@ public sealed class MetadataExtractorExifMetadataReader(
             {
                 var directory = metadataDirectories.FirstOrDefault(directory => directory.GetType() == dateTag.DirectoryType);
                 if (directory is null || !directory.ContainsTag(dateTag.TagType))
-                {
                     continue;
-                }
 
                 if (directory.TryGetDateTime(dateTag.TagType, out var captureDateTime))
-                {
                     return ExifMetadataReadResult.Found(DateOnly.FromDateTime(captureDateTime));
-                }
 
                 logger.LogWarning(
                     "EXIF date tag {TagType} exists but could not be parsed for {FilePath}. Treating as invalid EXIF.",

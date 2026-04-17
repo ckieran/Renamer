@@ -5,9 +5,7 @@ public static class CliCommandParser
     public static CliCommand Parse(string[] args)
     {
         if (args.Length == 0)
-        {
             return new CliCommand(CliCommandType.Invalid, null, CliCommandParseError.MissingCommand);
-        }
 
         var command = args[0].Trim().ToLowerInvariant();
         var commandArguments = args.Skip(1).ToArray();

@@ -19,10 +19,7 @@ public sealed class CliCommandDispatcher(
             case CliCommandType.Invalid:
                 logger.LogWarning("Unsupported CLI command {Command}.", parsedCommand.CommandText);
                 break;
-            case CliCommandType.Plan:
-                logger.LogInformation("Accepted CLI command {Command}.", parsedCommand.CommandText);
-                break;
-            case CliCommandType.Apply:
+            case CliCommandType.Plan or CliCommandType.Apply:
                 logger.LogInformation("Accepted CLI command {Command}.", parsedCommand.CommandText);
                 break;
         }

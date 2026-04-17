@@ -713,11 +713,7 @@ public sealed class PlanViewModel : IPlanViewModel
     private void ResetPlanPreviewState()
     {
         loadedPlan = null;
-        if (state != PlanViewState.Idle)
-        {
-            SetState(PlanViewState.Idle);
-        }
-
+        SetState(PlanViewState.Idle);
         ErrorMessage = null;
         ClearLoadedData();
         Operations.Clear();
@@ -825,35 +821,17 @@ public sealed class PlanViewModel : IPlanViewModel
         applyStep.Status = GetApplyStepStatus();
     }
 
-    private PlanWorkflowStepStatus GetGenerateStepStatus()
-    {
-        if (HasGenerationError)
-        {
-            return PlanWorkflowStepStatus.Error;
-        }
+    private PlanWorkflowStepStatus GetGenerateStepStatus() =>
+        HasGenerationError ? PlanWorkflowStepStatus.Error :
+        hasGeneratedPlan ? PlanWorkflowStepStatus.Done : PlanWorkflowStepStatus.NeedsInfo;
 
-        return hasGeneratedPlan ? PlanWorkflowStepStatus.Done : PlanWorkflowStepStatus.NeedsInfo;
-    }
+    private PlanWorkflowStepStatus GetPreviewStepStatus() =>
+        HasError ? PlanWorkflowStepStatus.Error :
+        IsLoaded ? PlanWorkflowStepStatus.Done : PlanWorkflowStepStatus.NeedsInfo;
 
-    private PlanWorkflowStepStatus GetPreviewStepStatus()
-    {
-        if (HasError)
-        {
-            return PlanWorkflowStepStatus.Error;
-        }
-
-        return IsLoaded ? PlanWorkflowStepStatus.Done : PlanWorkflowStepStatus.NeedsInfo;
-    }
-
-    private PlanWorkflowStepStatus GetApplyStepStatus()
-    {
-        if (HasApplyError)
-        {
-            return PlanWorkflowStepStatus.Error;
-        }
-
-        return HasApplyReport ? PlanWorkflowStepStatus.Done : PlanWorkflowStepStatus.NeedsInfo;
-    }
+    private PlanWorkflowStepStatus GetApplyStepStatus() =>
+        HasApplyError ? PlanWorkflowStepStatus.Error :
+        HasApplyReport ? PlanWorkflowStepStatus.Done : PlanWorkflowStepStatus.NeedsInfo;
 
     private bool SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
     {
@@ -870,19 +848,14 @@ public sealed class PlanViewModel : IPlanViewModel
     private void OnPropertyChanged([CallerMemberName] string? propertyName = null) =>
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-    private static string FormatTimestamp(string timestamp)
-    {
-        if (!DateTimeOffset.TryParse(
+    private static string FormatTimestamp(string timestamp) =>
+        DateTimeOffset.TryParse(
                 timestamp,
                 CultureInfo.InvariantCulture,
                 DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
-                out var parsed))
-        {
-            return timestamp;
-        }
-
-        return parsed.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss zzz", CultureInfo.InvariantCulture);
-    }
+                out var parsed)
+            ? parsed.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss zzz", CultureInfo.InvariantCulture)
+            : timestamp;
 
     private static string FormatDateRange(string startDate, string endDate) =>
         startDate == endDate ? startDate : $"{startDate} to {endDate}";

@@ -57,20 +57,13 @@ public sealed class ReportSerializer : IReportSerializer
     private static void ValidateReport(RenameReport report, RenameReportSummary summary)
     {
         if (string.IsNullOrWhiteSpace(report.Outcome))
-        {
             throw new InvalidOperationException("Invalid report invariant: outcome is required.");
-        }
-
         if (report.Results.Any(result => result.Attempts < 1))
-        {
             throw new InvalidOperationException("Invalid report invariant: each result.attempts must be at least 1.");
-        }
 
         var totalCount = summary.Success + summary.Failed + summary.Skipped;
         if (totalCount != report.Results.Count)
-        {
             throw new InvalidOperationException(
                 $"Invalid report invariant: summary counts '{totalCount}' do not match results count '{report.Results.Count}'.");
-        }
     }
 }

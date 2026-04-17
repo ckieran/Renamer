@@ -13,10 +13,7 @@ public sealed class FolderDateRangeCalculator : IFolderDateRangeCalculator
 
         foreach (var metadata in photoMetadata)
         {
-            if (metadata.CaptureDate is not { } captureDate)
-            {
-                continue;
-            }
+            if (metadata.CaptureDate is not { } captureDate) continue;
 
             minDate = minDate is null || captureDate < minDate ? captureDate : minDate;
             maxDate = maxDate is null || captureDate > maxDate ? captureDate : maxDate;

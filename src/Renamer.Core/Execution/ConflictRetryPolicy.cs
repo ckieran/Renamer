@@ -33,9 +33,7 @@ public sealed class ConflictRetryPolicy : IConflictRetryPolicy
         {
             var candidatePath = candidates[index];
             if (!destinationExists(candidatePath))
-            {
                 return ConflictRetryResolution.Success(candidatePath, index + 1);
-            }
         }
 
         return ConflictRetryResolution.RetryLimitExceeded(candidates.Count);
