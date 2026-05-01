@@ -14,7 +14,6 @@ public sealed class UiLogPathProvider(IRuntimeEnvironment runtimeEnvironment) : 
 
         var logFileName = $"{executableName}.log";
         var directory = ResolveLogDirectory(runtimeEnvironment.Platform);
-        Directory.CreateDirectory(directory);
         return Path.Combine(directory, logFileName);
     }
 

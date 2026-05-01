@@ -38,3 +38,5 @@ secrets.json
 # Images and generated files
 src/**/Resources/Raw/
 plan.json
+.codex
+.claude/
