@@ -40,38 +40,53 @@
                     </Grid>
                 </VerticalStackLayout>
 
-                <VerticalStackLayout Spacing="6">
-                    <Label Text="{x:Static strings:AppStrings.GenerateLabelOutputFolder}"
-                           FontAttributes="Bold" />
-                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="6">
-                        <Entry Grid.Column="0"
-                               Text="{Binding GenerationOutputDirectoryPath}"
-                               Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderOutputFolder}"
-                               ClearButtonVisibility="WhileEditing" />
-                        <Button Grid.Column="1"
-                                Style="{DynamicResource BrowseButton}"
-                                Text="{x:Static strings:AppStrings.BrowseButtonGlyph}"
-                                Command="{Binding BrowseGenerationOutputDirectoryCommand}"
-                                AutomationProperties.Name="{x:Static strings:AppStrings.GenerateBrowseOutputFolder}"
-                                ToolTipProperties.Text="{x:Static strings:AppStrings.GenerateBrowseOutputFolder}" />
-                    </Grid>
-                </VerticalStackLayout>
-
-                <VerticalStackLayout Spacing="6">
-                    <Label Text="{x:Static strings:AppStrings.GenerateLabelPlanFileName}"
-                           FontAttributes="Bold" />
-                    <Entry Text="{Binding PlanFileName}"
-                           Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderPlanFileName}"
-                           ClearButtonVisibility="WhileEditing" />
-                </VerticalStackLayout>
-
                 <VerticalStackLayout Spacing="4">
-                    <Label Text="{x:Static strings:AppStrings.GenerateLabelGeneratedPlanPath}"
-                           FontAttributes="Bold" />
-                    <Label Text="{Binding GeneratedPlanPathPreview}"
+                    <Label Text="{x:Static strings:AppStrings.GenerateAdvancedDisclosureHelpCollapsed}"
+                           x:Name="AdvancedCollapsedHint"
                            FontSize="12"
-                           LineBreakMode="WordWrap"
-                           TextColor="{DynamicResource TextLink}" />
+                           TextColor="{DynamicResource TextSecondary}" />
+                    <Button x:Name="AdvancedToggle"
+                            Text="{x:Static strings:AppStrings.GenerateAdvancedDisclosureLabel}"
+                            Clicked="OnAdvancedToggleClicked"
+                            HorizontalOptions="Start" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout x:Name="AdvancedPanel"
+                                     Spacing="12"
+                                     IsVisible="False">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="{x:Static strings:AppStrings.GenerateLabelOutputFolder}"
+                               FontAttributes="Bold" />
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="6">
+                            <Entry Grid.Column="0"
+                                   Text="{Binding GenerationOutputDirectoryPath}"
+                                   Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderOutputFolder}"
+                                   ClearButtonVisibility="WhileEditing" />
+                            <Button Grid.Column="1"
+                                    Style="{DynamicResource BrowseButton}"
+                                    Text="{x:Static strings:AppStrings.BrowseButtonGlyph}"
+                                    Command="{Binding BrowseGenerationOutputDirectoryCommand}"
+                                    AutomationProperties.Name="{x:Static strings:AppStrings.GenerateBrowseOutputFolder}"
+                                    ToolTipProperties.Text="{x:Static strings:AppStrings.GenerateBrowseOutputFolder}" />
+                        </Grid>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="{x:Static strings:AppStrings.GenerateLabelPlanFileName}"
+                               FontAttributes="Bold" />
+                        <Entry Text="{Binding PlanFileName}"
+                               Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderPlanFileName}"
+                               ClearButtonVisibility="WhileEditing" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="{x:Static strings:AppStrings.GenerateLabelGeneratedPlanPath}"
+                               FontAttributes="Bold" />
+                        <Label Text="{Binding GeneratedPlanPathPreview}"
+                               FontSize="12"
+                               LineBreakMode="WordWrap"
+                               TextColor="{DynamicResource TextLink}" />
+                    </VerticalStackLayout>
                 </VerticalStackLayout>
 
                 <HorizontalStackLayout Spacing="10">
