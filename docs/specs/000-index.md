@@ -40,3 +40,10 @@ This folder defines the spec-driven development package for Renamer.
 - `310-generate-copy-refresh.md` - draft - Generate-step copy refresh for simpler, calmer guidance.
 - `320-plan-review-copy-refresh.md` - draft - Plan review/preview copy refresh for clearer read-only review guidance.
 - `330-apply-copy-refresh.md` - draft - Apply-step copy refresh for direct, low-jargon execution messaging.
+- `335-ui-cleanup-design-baseline.md` - draft - UI cleanup v2 design baseline: thin rail, inline browse buttons, smart defaults, card plan items, stat strip, compact theme toggle.
+- `340-thin-rail-redesign.md` - draft - Thin numbered rail replacing full-card stepper with circular indicator + stacked-letter label.
+- `350-inline-browse-buttons.md` - draft - Inline icon-sized browse buttons; accent primary reserved for commit actions.
+- `360-plan-file-smart-defaults.md` - draft - Smart defaults for output folder and plan filename behind an Advanced disclosure.
+- `370-plan-items-as-cards.md` - draft - Plan preview list restructured as bounded from→to cards with status pills.
+- `380-stat-strip-and-result-banner.md` - draft - Compact stat strip on preview and condensed result banner on apply.
+- `390-compact-theme-toggle.md` - draft - Single icon-pill theme toggle cycling Light/Dark/System, replacing three RadioButtons.
