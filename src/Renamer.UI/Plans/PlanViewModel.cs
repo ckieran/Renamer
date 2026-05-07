@@ -662,7 +662,8 @@ public sealed class PlanViewModel : IPlanViewModel
                     CultureInfo.InvariantCulture,
                     AppStrings.PreviewOperationFileCount,
                     operation.Reason.FilesConsidered,
-                    operation.Reason.FilesSkippedMissingExif)));
+                    operation.Reason.FilesSkippedMissingExif),
+                HasWarnings: operation.Reason.FilesSkippedMissingExif > 0));
         }
 
         SetState(PlanViewState.Loaded);

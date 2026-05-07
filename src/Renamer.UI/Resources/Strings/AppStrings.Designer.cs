@@ -126,6 +126,10 @@ namespace Renamer.UI.Resources.Strings
         internal static string PreviewOperationsDescription => ResourceManager.GetString("PreviewOperationsDescription", resourceCulture)!;
         internal static string PreviewOperationFileCount => ResourceManager.GetString("PreviewOperationFileCount", resourceCulture)!;
 
+        internal static string PlanOperationStatusOk => ResourceManager.GetString("PlanOperationStatusOk", resourceCulture)!;
+
+        internal static string PlanOperationStatusWarning => ResourceManager.GetString("PlanOperationStatusWarning", resourceCulture)!;
+
         internal static string PreviewStatusDefault => ResourceManager.GetString("PreviewStatusDefault", resourceCulture)!;
         internal static string PreviewCreatedAtDefault => ResourceManager.GetString("PreviewCreatedAtDefault", resourceCulture)!;
         internal static string PreviewStatusPathUpdated => ResourceManager.GetString("PreviewStatusPathUpdated", resourceCulture)!;

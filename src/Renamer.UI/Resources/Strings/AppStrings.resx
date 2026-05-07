@@ -421,6 +421,14 @@
     <value>{0} files checked, {1} without photo dates</value>
     <comment/>
   </data>
+  <data name="PlanOperationStatusOk" xml:space="preserve">
+    <value>OK</value>
+    <comment/>
+  </data>
+  <data name="PlanOperationStatusWarning" xml:space="preserve">
+    <value>Warning</value>
+    <comment/>
+  </data>
   <data name="PreviewStatusDefault" xml:space="preserve">
     <value>Choose a rename-plan.json file to review the proposed folder names.</value>
     <comment/>
