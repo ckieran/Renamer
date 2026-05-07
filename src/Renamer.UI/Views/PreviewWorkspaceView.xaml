@@ -81,15 +81,7 @@
         <VerticalStackLayout Spacing="18"
                              IsVisible="{Binding IsLoaded}">
             <Border Padding="16">
-                <VerticalStackLayout Spacing="16">
-                    <VerticalStackLayout Spacing="4">
-                        <Label Text="{x:Static strings:AppStrings.PreviewSummarySectionHeader}"
-                               FontSize="18"
-                               FontAttributes="Bold" />
-                        <Label Text="{x:Static strings:AppStrings.PreviewSummaryDescription}"
-                               FontSize="13" />
-                    </VerticalStackLayout>
-
+                <VerticalStackLayout Spacing="12">
                     <Border Padding="14"
                             Background="{DynamicResource BackgroundTertiary}">
                         <VerticalStackLayout Spacing="6">
@@ -105,36 +97,21 @@
                         </VerticalStackLayout>
                     </Border>
 
-                    <Grid ColumnDefinitions="*,*,*"
-                          ColumnSpacing="16">
+                    <Grid ColumnDefinitions="*,*"
+                          ColumnSpacing="12">
                         <Border Grid.Column="0"
                                 Padding="14"
                                 Background="{DynamicResource BackgroundTertiary}">
-                            <VerticalStackLayout Spacing="4">
-                                <Label Text="{x:Static strings:AppStrings.PreviewFieldCreatedAt}"
-                                       FontAttributes="Bold" />
-                                <Label Text="{Binding CreatedAtDisplay}" />
-                            </VerticalStackLayout>
+                            <Label Text="{Binding PreviewStatChanges}"
+                                   FontSize="16"
+                                   FontAttributes="Bold" />
                         </Border>
-
                         <Border Grid.Column="1"
                                 Padding="14"
                                 Background="{DynamicResource BackgroundTertiary}">
-                            <VerticalStackLayout Spacing="4">
-                                <Label Text="{x:Static strings:AppStrings.PreviewFieldOperations}"
-                                       FontAttributes="Bold" />
-                                <Label Text="{Binding OperationCountText}" />
-                            </VerticalStackLayout>
-                        </Border>
-
-                        <Border Grid.Column="2"
-                                Padding="14"
-                                Background="{DynamicResource BackgroundTertiary}">
-                            <VerticalStackLayout Spacing="4">
-                                <Label Text="{x:Static strings:AppStrings.PreviewFieldWarnings}"
-                                       FontAttributes="Bold" />
-                                <Label Text="{Binding WarningCountText}" />
-                            </VerticalStackLayout>
+                            <Label Text="{Binding PreviewStatNotes}"
+                                   FontSize="16"
+                                   FontAttributes="Bold" />
                         </Border>
                     </Grid>
                 </VerticalStackLayout>

@@ -58,6 +58,11 @@ public sealed class PlanViewModel : IPlanViewModel
     private bool isAutoUpdatingGenerationOutputDirectory;
     private string? autoFilledGenerationOutputDirectoryPath;
     private bool planFileNameOverridden;
+    private int operationCount;
+    private int warningCount;
+    private int applySuccessCount;
+    private int applyFailedCount;
+    private int applySkippedCount;
 
     public PlanViewModel(
         IPlanBuilder planBuilder,
@@ -210,6 +215,22 @@ public sealed class PlanViewModel : IPlanViewModel
     public bool HasAdvancedOverrides =>
         (autoFilledGenerationOutputDirectoryPath == null && !string.IsNullOrWhiteSpace(generationOutputDirectoryPath)) ||
         planFileNameOverridden;
+
+    public string PreviewStatChanges =>
+        string.Format(CultureInfo.InvariantCulture, AppStrings.PreviewStatChangesFormat, operationCount);
+
+    public string PreviewStatNotes =>
+        string.Format(CultureInfo.InvariantCulture,
+            warningCount == 1 ? AppStrings.PreviewStatNotesSingularFormat : AppStrings.PreviewStatNotesPluralFormat,
+            warningCount);
+
+    public string ApplyResultHeadline =>
+        string.Format(CultureInfo.InvariantCulture,
+            applySuccessCount == 1 ? AppStrings.ApplyResultHeadlineSingular : AppStrings.ApplyResultHeadlinePlural,
+            applySuccessCount);
+
+    public string ApplyResultBreakdown =>
+        string.Format(CultureInfo.InvariantCulture, AppStrings.ApplyResultBreakdownFormat, applySkippedCount, applyFailedCount);
 
     public string PlanPath
     {
@@ -646,8 +667,12 @@ public sealed class PlanViewModel : IPlanViewModel
     {
         RootPath = plan.RootPath;
         CreatedAtDisplay = FormatTimestamp(plan.CreatedAtUtc);
-        OperationCountText = plan.Summary.OperationCount.ToString(CultureInfo.InvariantCulture);
-        WarningCountText = plan.Summary.Warnings.ToString(CultureInfo.InvariantCulture);
+        operationCount = plan.Summary.OperationCount;
+        warningCount = plan.Summary.Warnings;
+        OperationCountText = operationCount.ToString(CultureInfo.InvariantCulture);
+        WarningCountText = warningCount.ToString(CultureInfo.InvariantCulture);
+        OnPropertyChanged(nameof(PreviewStatChanges));
+        OnPropertyChanged(nameof(PreviewStatNotes));
 
         foreach (var operation in plan.Operations)
         {
@@ -677,10 +702,15 @@ public sealed class PlanViewModel : IPlanViewModel
         ApplyOutcomeText = report.Outcome;
         ApplyStartedAtDisplay = FormatTimestamp(report.StartedAtUtc);
         ApplyFinishedAtDisplay = FormatTimestamp(report.FinishedAtUtc);
-        ApplySuccessCountText = report.Summary.Success.ToString(CultureInfo.InvariantCulture);
-        ApplyFailedCountText = report.Summary.Failed.ToString(CultureInfo.InvariantCulture);
-        ApplySkippedCountText = report.Summary.Skipped.ToString(CultureInfo.InvariantCulture);
+        applySuccessCount = report.Summary.Success;
+        applyFailedCount = report.Summary.Failed;
+        applySkippedCount = report.Summary.Skipped;
+        ApplySuccessCountText = applySuccessCount.ToString(CultureInfo.InvariantCulture);
+        ApplyFailedCountText = applyFailedCount.ToString(CultureInfo.InvariantCulture);
+        ApplySkippedCountText = applySkippedCount.ToString(CultureInfo.InvariantCulture);
         ApplyDriftedCountText = report.Summary.Drifted.ToString(CultureInfo.InvariantCulture);
+        OnPropertyChanged(nameof(ApplyResultHeadline));
+        OnPropertyChanged(nameof(ApplyResultBreakdown));
 
         foreach (var result in report.Results)
         {
@@ -715,8 +745,12 @@ public sealed class PlanViewModel : IPlanViewModel
     {
         RootPath = string.Empty;
         CreatedAtDisplay = AppStrings.PreviewCreatedAtDefault;
+        operationCount = 0;
+        warningCount = 0;
         OperationCountText = "0";
         WarningCountText = "0";
+        OnPropertyChanged(nameof(PreviewStatChanges));
+        OnPropertyChanged(nameof(PreviewStatNotes));
     }
 
     private void ResetPlanPreviewState()
@@ -750,10 +784,15 @@ public sealed class PlanViewModel : IPlanViewModel
         ApplyOutcomeText = AppStrings.ApplyStatusOutcomeDefault;
         ApplyStartedAtDisplay = AppStrings.ApplyStatusStartedDefault;
         ApplyFinishedAtDisplay = AppStrings.ApplyStatusFinishedDefault;
+        applySuccessCount = 0;
+        applyFailedCount = 0;
+        applySkippedCount = 0;
         ApplySuccessCountText = "0";
         ApplyFailedCountText = "0";
         ApplySkippedCountText = "0";
         ApplyDriftedCountText = "0";
+        OnPropertyChanged(nameof(ApplyResultHeadline));
+        OnPropertyChanged(nameof(ApplyResultBreakdown));
     }
 
     private void SetApplyError(string title, string message)

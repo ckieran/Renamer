@@ -92,68 +92,72 @@
         </Border>
 
         <Border Padding="16">
-            <VerticalStackLayout Spacing="14">
-                <Label Text="{x:Static strings:AppStrings.ApplySummarySectionHeader}"
-                       FontSize="18"
+            <VerticalStackLayout Spacing="8">
+                <Label Text="{Binding ApplyResultHeadline}"
+                       FontSize="22"
                        FontAttributes="Bold" />
-
-                <Grid ColumnDefinitions="*,*"
-                      ColumnSpacing="16">
-                    <VerticalStackLayout Grid.Column="0"
-                                         Spacing="4">
-                        <Label Text="{x:Static strings:AppStrings.ApplyFieldOutcome}"
-                               FontAttributes="Bold" />
-                        <Label Text="{Binding ApplyOutcomeText}" />
-                    </VerticalStackLayout>
-
-                    <VerticalStackLayout Grid.Column="1"
-                                         Spacing="4">
-                        <Label Text="{x:Static strings:AppStrings.ApplyFieldDrifted}"
-                               FontAttributes="Bold" />
-                        <Label Text="{Binding ApplyDriftedCountText}" />
-                    </VerticalStackLayout>
-                </Grid>
-
-                <Grid ColumnDefinitions="*,*"
-                      ColumnSpacing="16">
-                    <VerticalStackLayout Grid.Column="0"
-                                         Spacing="4">
-                        <Label Text="{x:Static strings:AppStrings.ApplyFieldStarted}"
-                               FontAttributes="Bold" />
-                        <Label Text="{Binding ApplyStartedAtDisplay}" />
-                    </VerticalStackLayout>
-
-                    <VerticalStackLayout Grid.Column="1"
-                                         Spacing="4">
-                        <Label Text="{x:Static strings:AppStrings.ApplyFieldFinished}"
-                               FontAttributes="Bold" />
-                        <Label Text="{Binding ApplyFinishedAtDisplay}" />
-                    </VerticalStackLayout>
-                </Grid>
-
-                <Grid ColumnDefinitions="*,*,*"
-                      ColumnSpacing="16">
-                    <VerticalStackLayout Grid.Column="0"
-                                         Spacing="4">
-                        <Label Text="{x:Static strings:AppStrings.ApplyFieldSuccess}"
-                               FontAttributes="Bold" />
-                        <Label Text="{Binding ApplySuccessCountText}" />
-                    </VerticalStackLayout>
-
-                    <VerticalStackLayout Grid.Column="1"
-                                         Spacing="4">
-                        <Label Text="{x:Static strings:AppStrings.ApplyFieldSkipped}"
-                               FontAttributes="Bold" />
-                        <Label Text="{Binding ApplySkippedCountText}" />
-                    </VerticalStackLayout>
-
-                    <VerticalStackLayout Grid.Column="2"
-                                         Spacing="4">
-                        <Label Text="{x:Static strings:AppStrings.ApplyFieldFailed}"
-                               FontAttributes="Bold" />
-                        <Label Text="{Binding ApplyFailedCountText}" />
-                    </VerticalStackLayout>
-                </Grid>
+                <Label Text="{Binding ApplyResultBreakdown}"
+                       FontSize="13"
+                       TextColor="{DynamicResource TextSecondary}" />
+                <Button x:Name="DetailsToggle"
+                        Text="{x:Static strings:AppStrings.ApplyResultDetailsLabel}"
+                        Clicked="OnDetailsToggleClicked"
+                        HorizontalOptions="Start" />
+                <VerticalStackLayout x:Name="DetailsPanel"
+                                     Spacing="14"
+                                     IsVisible="False">
+                    <Grid ColumnDefinitions="*,*"
+                          ColumnSpacing="16">
+                        <VerticalStackLayout Grid.Column="0"
+                                             Spacing="4">
+                            <Label Text="{x:Static strings:AppStrings.ApplyFieldOutcome}"
+                                   FontAttributes="Bold" />
+                            <Label Text="{Binding ApplyOutcomeText}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1"
+                                             Spacing="4">
+                            <Label Text="{x:Static strings:AppStrings.ApplyFieldDrifted}"
+                                   FontAttributes="Bold" />
+                            <Label Text="{Binding ApplyDriftedCountText}" />
+                        </VerticalStackLayout>
+                    </Grid>
+                    <Grid ColumnDefinitions="*,*"
+                          ColumnSpacing="16">
+                        <VerticalStackLayout Grid.Column="0"
+                                             Spacing="4">
+                            <Label Text="{x:Static strings:AppStrings.ApplyFieldStarted}"
+                                   FontAttributes="Bold" />
+                            <Label Text="{Binding ApplyStartedAtDisplay}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1"
+                                             Spacing="4">
+                            <Label Text="{x:Static strings:AppStrings.ApplyFieldFinished}"
+                                   FontAttributes="Bold" />
+                            <Label Text="{Binding ApplyFinishedAtDisplay}" />
+                        </VerticalStackLayout>
+                    </Grid>
+                    <Grid ColumnDefinitions="*,*,*"
+                          ColumnSpacing="16">
+                        <VerticalStackLayout Grid.Column="0"
+                                             Spacing="4">
+                            <Label Text="{x:Static strings:AppStrings.ApplyFieldSuccess}"
+                                   FontAttributes="Bold" />
+                            <Label Text="{Binding ApplySuccessCountText}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1"
+                                             Spacing="4">
+                            <Label Text="{x:Static strings:AppStrings.ApplyFieldSkipped}"
+                                   FontAttributes="Bold" />
+                            <Label Text="{Binding ApplySkippedCountText}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="2"
+                                             Spacing="4">
+                            <Label Text="{x:Static strings:AppStrings.ApplyFieldFailed}"
+                                   FontAttributes="Bold" />
+                            <Label Text="{Binding ApplyFailedCountText}" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
             </VerticalStackLayout>
         </Border>
 

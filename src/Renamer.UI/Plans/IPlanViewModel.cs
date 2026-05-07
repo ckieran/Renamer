@@ -41,6 +41,14 @@ public interface IPlanViewModel : INotifyPropertyChanged
 
     bool HasAdvancedOverrides { get; }
 
+    string PreviewStatChanges { get; }
+
+    string PreviewStatNotes { get; }
+
+    string ApplyResultHeadline { get; }
+
+    string ApplyResultBreakdown { get; }
+
     string PlanPath { get; set; }
 
     string StatusMessage { get; }

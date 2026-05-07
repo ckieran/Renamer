@@ -116,6 +116,13 @@ namespace Renamer.UI.Resources.Strings
         internal static string PreviewLoadingLabel => ResourceManager.GetString("PreviewLoadingLabel", resourceCulture)!;
         internal static string PreviewErrorHeading => ResourceManager.GetString("PreviewErrorHeading", resourceCulture)!;
         internal static string PreviewSummarySectionHeader => ResourceManager.GetString("PreviewSummarySectionHeader", resourceCulture)!;
+        internal static string PreviewStatChangesFormat => ResourceManager.GetString("PreviewStatChangesFormat", resourceCulture)!;
+        internal static string PreviewStatNotesSingularFormat => ResourceManager.GetString("PreviewStatNotesSingularFormat", resourceCulture)!;
+        internal static string PreviewStatNotesPluralFormat => ResourceManager.GetString("PreviewStatNotesPluralFormat", resourceCulture)!;
+        internal static string ApplyResultHeadlineSingular => ResourceManager.GetString("ApplyResultHeadlineSingular", resourceCulture)!;
+        internal static string ApplyResultHeadlinePlural => ResourceManager.GetString("ApplyResultHeadlinePlural", resourceCulture)!;
+        internal static string ApplyResultBreakdownFormat => ResourceManager.GetString("ApplyResultBreakdownFormat", resourceCulture)!;
+        internal static string ApplyResultDetailsLabel => ResourceManager.GetString("ApplyResultDetailsLabel", resourceCulture)!;
         internal static string PreviewSummaryDescription => ResourceManager.GetString("PreviewSummaryDescription", resourceCulture)!;
         internal static string PreviewFieldRootPath => ResourceManager.GetString("PreviewFieldRootPath", resourceCulture)!;
         internal static string PreviewFieldCreatedAt => ResourceManager.GetString("PreviewFieldCreatedAt", resourceCulture)!;

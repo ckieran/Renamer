@@ -385,6 +385,34 @@
     <value>Before you rename</value>
     <comment/>
   </data>
+  <data name="PreviewStatChangesFormat" xml:space="preserve">
+    <value>{0} changes</value>
+    <comment/>
+  </data>
+  <data name="PreviewStatNotesSingularFormat" xml:space="preserve">
+    <value>{0} note</value>
+    <comment/>
+  </data>
+  <data name="PreviewStatNotesPluralFormat" xml:space="preserve">
+    <value>{0} notes</value>
+    <comment/>
+  </data>
+  <data name="ApplyResultHeadlineSingular" xml:space="preserve">
+    <value>Renamed {0} folder</value>
+    <comment/>
+  </data>
+  <data name="ApplyResultHeadlinePlural" xml:space="preserve">
+    <value>Renamed {0} folders</value>
+    <comment/>
+  </data>
+  <data name="ApplyResultBreakdownFormat" xml:space="preserve">
+    <value>{0} skipped · {1} failed</value>
+    <comment/>
+  </data>
+  <data name="ApplyResultDetailsLabel" xml:space="preserve">
+    <value>Details</value>
+    <comment/>
+  </data>
   <data name="PreviewSummaryDescription" xml:space="preserve">
     <value>Check where the plan came from, when it was created, and how many folder names it will change.</value>
     <comment/>
