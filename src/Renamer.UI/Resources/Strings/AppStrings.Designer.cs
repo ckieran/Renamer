@@ -123,6 +123,10 @@ namespace Renamer.UI.Resources.Strings
         internal static string ApplyResultHeadlinePlural => ResourceManager.GetString("ApplyResultHeadlinePlural", resourceCulture)!;
         internal static string ApplyResultBreakdownFormat => ResourceManager.GetString("ApplyResultBreakdownFormat", resourceCulture)!;
         internal static string ApplyResultDetailsLabel => ResourceManager.GetString("ApplyResultDetailsLabel", resourceCulture)!;
+        internal static string ThemeToggleLight => ResourceManager.GetString("ThemeToggleLight", resourceCulture)!;
+        internal static string ThemeToggleDark => ResourceManager.GetString("ThemeToggleDark", resourceCulture)!;
+        internal static string ThemeToggleSystem => ResourceManager.GetString("ThemeToggleSystem", resourceCulture)!;
+        internal static string ThemeToggleAccessibilityFormat => ResourceManager.GetString("ThemeToggleAccessibilityFormat", resourceCulture)!;
         internal static string PreviewSummaryDescription => ResourceManager.GetString("PreviewSummaryDescription", resourceCulture)!;
         internal static string PreviewFieldRootPath => ResourceManager.GetString("PreviewFieldRootPath", resourceCulture)!;
         internal static string PreviewFieldCreatedAt => ResourceManager.GetString("PreviewFieldCreatedAt", resourceCulture)!;

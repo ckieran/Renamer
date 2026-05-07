@@ -1,4 +1,5 @@
 using Renamer.UI.Plans;
+using Renamer.UI.Resources.Strings;
 using Renamer.UI.Services;
 
 namespace Renamer.UI;
@@ -6,7 +7,6 @@ namespace Renamer.UI;
 public partial class MainPage : ContentPage
 {
     private readonly ThemeService themeService;
-    private bool updatingTheme;
 
     public MainPage(IPlanViewModel viewModel, ThemeService themeService)
     {
@@ -16,38 +16,34 @@ public partial class MainPage : ContentPage
         themeService.ThemeModeChanged += OnThemeModeChanged;
     }
 
-    // Fired by ThemeService whenever the mode changes (including on first initialisation)
     private void OnThemeModeChanged(object? sender, ThemeMode mode) =>
         MainThread.BeginInvokeOnMainThread(() => ApplyModeToUi(mode));
 
     private void ApplyModeToUi(ThemeMode mode)
     {
         UpdateMenuCheckmarks(mode);
-        UpdateRadioButtons(mode);
+        UpdateThemePill(mode);
     }
 
-    // ── Radio buttons ────────────────────────────────────────────────────────
+    // ── Theme pill ───────────────────────────────────────────────────────────
 
-    private void UpdateRadioButtons(ThemeMode mode)
+    private void OnThemePillTapped(object? sender, TappedEventArgs e) =>
+        themeService.CycleTheme();
+
+    private void UpdateThemePill(ThemeMode mode)
     {
-        updatingTheme = true;
-        LightRadio.IsChecked  = mode == ThemeMode.Light;
-        DarkRadio.IsChecked   = mode == ThemeMode.Dark;
-        SystemRadio.IsChecked = mode == ThemeMode.System;
-        updatingTheme = false;
-    }
-
-    private void OnThemeRadioChanged(object? sender, CheckedChangedEventArgs e)
-    {
-        if (updatingTheme || !e.Value) return;
-
-        var mode = sender switch
+        var (glyph, label) = mode switch
         {
-            RadioButton r when ReferenceEquals(r, LightRadio)  => ThemeMode.Light,
-            RadioButton r when ReferenceEquals(r, DarkRadio)   => ThemeMode.Dark,
-            _                                                   => ThemeMode.System
+            ThemeMode.Light  => ("☀", AppStrings.ThemeToggleLight),
+            ThemeMode.Dark   => ("☾", AppStrings.ThemeToggleDark),
+            _                => ("⚙", AppStrings.ThemeToggleSystem)
         };
-        themeService.SetTheme(mode);
+
+        ThemePillLabel.Text = $"{glyph} {label}";
+
+        var accessibilityName = string.Format(AppStrings.ThemeToggleAccessibilityFormat, label);
+        AutomationProperties.SetName(ThemePill, accessibilityName);
+        ToolTipProperties.SetText(ThemePill, accessibilityName);
     }
 
     // ── Menu bar items ───────────────────────────────────────────────────────
