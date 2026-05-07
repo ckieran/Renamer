@@ -45,8 +45,10 @@ When opening a PR for a slice:
    - use `Refs #<issue-number>` only when the PR is partial or non-closing
 3. Confirm the linked issue is in `In Progress` before requesting review.
 4. Keep the PR scoped to the slice spec and acceptance checks only.
-5. After merge:
-   - update `docs/checklists/v1.md`
+5. Before pushing the branch, commit the checklist update as part of the slice:
+   - mark the active item in `docs/checklists/v1.md` as `[x]`
+   - stage and commit it alongside the implementation files — do not leave it for after merge
+6. After merge:
    - confirm the GitHub issue is closed by the PR merge
 
 ## Notes
