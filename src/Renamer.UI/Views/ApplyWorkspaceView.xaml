@@ -23,12 +23,19 @@
                        FontAttributes="Bold" />
                 <Label Text="{x:Static strings:AppStrings.ApplyPlanArtifactInstructions}"
                        FontSize="13" />
-                <Entry Text="{Binding PlanPath}"
-                       Placeholder="{x:Static strings:AppStrings.PreviewPlaceholder}"
-                       ClearButtonVisibility="WhileEditing" />
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="6">
+                    <Entry Grid.Column="0"
+                           Text="{Binding PlanPath}"
+                           Placeholder="{x:Static strings:AppStrings.PreviewPlaceholder}"
+                           ClearButtonVisibility="WhileEditing" />
+                    <Button Grid.Column="1"
+                            Style="{DynamicResource BrowseButton}"
+                            Text="{x:Static strings:AppStrings.BrowseButtonGlyph}"
+                            Command="{Binding BrowsePlanCommand}"
+                            AutomationProperties.Name="{x:Static strings:AppStrings.ApplyButtonBrowse}"
+                            ToolTipProperties.Text="{x:Static strings:AppStrings.ApplyButtonBrowse}" />
+                </Grid>
                 <HorizontalStackLayout Spacing="10">
-                    <Button Text="{x:Static strings:AppStrings.ApplyButtonBrowse}"
-                            Command="{Binding BrowsePlanCommand}" />
                     <Button Text="{x:Static strings:AppStrings.ApplyButtonLoadPlan}"
                             Command="{Binding LoadPreviewCommand}" />
                     <ActivityIndicator IsRunning="{Binding IsLoading}"

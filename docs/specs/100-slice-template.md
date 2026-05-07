@@ -42,12 +42,13 @@ One-sentence outcome.
 1. Branch from current `main` using the conventional commit type as prefix (for example `feat/xxx-slice-name` or `refactor/xxx-slice-name`). See `docs/specs/070-engineering-contract.md` for type vocabulary and branch naming rules.
 2. Keep one slice per branch and one branch per PR.
 3. Commit only files related to this slice.
-4. If a matching GitHub issue exists, ensure it is `In Progress` before opening the PR.
-5. Open PR back into `main` with slice ID in title/body.
-6. Link the corresponding issue in the PR body:
+4. Before pushing: mark this slice's item in `docs/checklists/v1.md` as `[x]` and include it in the commit. Do not leave the checklist update for after merge.
+5. If a matching GitHub issue exists, ensure it is `In Progress` before opening the PR.
+6. Open PR back into `main` with slice ID in title/body.
+7. Link the corresponding issue in the PR body:
    - use `Closes #<issue-number>` when the PR completes the slice
    - use `Refs #<issue-number>` only for partial work
-7. Include the slice ID in PR title and body.
+8. Include the slice ID in PR title and body.
 
 ## Acceptance checks
 
@@ -72,7 +73,7 @@ Acceptance checks are human-verified unless a runnable command is explicitly spe
 ## Definition of Done
 - Acceptance checks in this slice are satisfied.
 - Tests listed in this slice are implemented and pass locally.
-- Checklist item for this slice is updated.
+- Checklist item for this slice is committed on the slice branch before push (not after merge).
 - Branch pre-implementation gate completed before first code edit.
 - Branch name follows `<type>/` (conventional commit type) and maps to this slice ID.
 - PR scope is limited to this slice (no unrelated refactors).

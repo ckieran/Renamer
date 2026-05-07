@@ -26,21 +26,35 @@
                 <VerticalStackLayout Spacing="6">
                     <Label Text="{x:Static strings:AppStrings.GenerateLabelRootFolder}"
                            FontAttributes="Bold" />
-                    <Entry Text="{Binding GenerationRootPath}"
-                           Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderRootFolder}"
-                           ClearButtonVisibility="WhileEditing" />
-                    <Button Text="{x:Static strings:AppStrings.GenerateBrowseRootFolder}"
-                            Command="{Binding BrowseGenerationRootCommand}" />
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="6">
+                        <Entry Grid.Column="0"
+                               Text="{Binding GenerationRootPath}"
+                               Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderRootFolder}"
+                               ClearButtonVisibility="WhileEditing" />
+                        <Button Grid.Column="1"
+                                Style="{DynamicResource BrowseButton}"
+                                Text="{x:Static strings:AppStrings.BrowseButtonGlyph}"
+                                Command="{Binding BrowseGenerationRootCommand}"
+                                AutomationProperties.Name="{x:Static strings:AppStrings.GenerateBrowseRootFolder}"
+                                ToolTipProperties.Text="{x:Static strings:AppStrings.GenerateBrowseRootFolder}" />
+                    </Grid>
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Spacing="6">
                     <Label Text="{x:Static strings:AppStrings.GenerateLabelOutputFolder}"
                            FontAttributes="Bold" />
-                    <Entry Text="{Binding GenerationOutputDirectoryPath}"
-                           Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderOutputFolder}"
-                           ClearButtonVisibility="WhileEditing" />
-                    <Button Text="{x:Static strings:AppStrings.GenerateBrowseOutputFolder}"
-                            Command="{Binding BrowseGenerationOutputDirectoryCommand}" />
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="6">
+                        <Entry Grid.Column="0"
+                               Text="{Binding GenerationOutputDirectoryPath}"
+                               Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderOutputFolder}"
+                               ClearButtonVisibility="WhileEditing" />
+                        <Button Grid.Column="1"
+                                Style="{DynamicResource BrowseButton}"
+                                Text="{x:Static strings:AppStrings.BrowseButtonGlyph}"
+                                Command="{Binding BrowseGenerationOutputDirectoryCommand}"
+                                AutomationProperties.Name="{x:Static strings:AppStrings.GenerateBrowseOutputFolder}"
+                                ToolTipProperties.Text="{x:Static strings:AppStrings.GenerateBrowseOutputFolder}" />
+                    </Grid>
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Spacing="6">
