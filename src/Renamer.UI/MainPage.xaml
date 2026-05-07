@@ -57,7 +57,7 @@
 
         <!-- Main content: rail left, workspace right -->
         <Grid Grid.Row="1"
-              ColumnDefinitions="280,*"
+              ColumnDefinitions="72,*"
               ColumnSpacing="0">
             <ScrollView>
                 <views:WorkflowRailView />
