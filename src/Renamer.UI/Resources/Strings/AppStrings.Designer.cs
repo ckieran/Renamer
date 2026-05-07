@@ -72,6 +72,12 @@ namespace Renamer.UI.Resources.Strings
         internal static string GenerateLabelGeneratedPlanPath => ResourceManager.GetString("GenerateLabelGeneratedPlanPath", resourceCulture)!;
         internal static string GenerateButtonGenerateAndLoad => ResourceManager.GetString("GenerateButtonGenerateAndLoad", resourceCulture)!;
 
+        internal static string DefaultPlanFileName => ResourceManager.GetString("DefaultPlanFileName", resourceCulture)!;
+
+        internal static string GenerateAdvancedDisclosureLabel => ResourceManager.GetString("GenerateAdvancedDisclosureLabel", resourceCulture)!;
+
+        internal static string GenerateAdvancedDisclosureHelpCollapsed => ResourceManager.GetString("GenerateAdvancedDisclosureHelpCollapsed", resourceCulture)!;
+
         internal static string GenerateStatusDefault => ResourceManager.GetString("GenerateStatusDefault", resourceCulture)!;
         internal static string GenerateStatusRootCanceled => ResourceManager.GetString("GenerateStatusRootCanceled", resourceCulture)!;
         internal static string GenerateStatusRootSelected => ResourceManager.GetString("GenerateStatusRootSelected", resourceCulture)!;

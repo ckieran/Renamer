@@ -29,7 +29,7 @@ public sealed class PlanViewModel : IPlanViewModel
     private bool hasGeneratedPlan;
     private string generationRootPath = string.Empty;
     private string generationOutputDirectoryPath = string.Empty;
-    private string planFileName = "rename-plan.json";
+    private string planFileName = AppStrings.DefaultPlanFileName;
     private string generationStatusMessage = AppStrings.GenerateStatusDefault;
     private string? generationErrorTitle;
     private string? generationErrorMessage;
@@ -57,6 +57,7 @@ public sealed class PlanViewModel : IPlanViewModel
     private bool hasApplyReport;
     private bool isAutoUpdatingGenerationOutputDirectory;
     private string? autoFilledGenerationOutputDirectoryPath;
+    private bool planFileNameOverridden;
 
     public PlanViewModel(
         IPlanBuilder planBuilder,
@@ -120,6 +121,7 @@ public sealed class PlanViewModel : IPlanViewModel
         {
             if (SetProperty(ref generationRootPath, value))
             {
+                TryAutoFillGenerationOutputDirectory(value);
                 OnPropertyChanged(nameof(CanGenerate));
             }
         }
@@ -139,6 +141,7 @@ public sealed class PlanViewModel : IPlanViewModel
 
                 OnPropertyChanged(nameof(GeneratedPlanPathPreview));
                 OnPropertyChanged(nameof(CanGenerate));
+                OnPropertyChanged(nameof(HasAdvancedOverrides));
             }
         }
     }
@@ -150,8 +153,10 @@ public sealed class PlanViewModel : IPlanViewModel
         {
             if (SetProperty(ref planFileName, value))
             {
+                planFileNameOverridden = true;
                 OnPropertyChanged(nameof(GeneratedPlanPathPreview));
                 OnPropertyChanged(nameof(CanGenerate));
+                OnPropertyChanged(nameof(HasAdvancedOverrides));
             }
         }
     }
@@ -201,6 +206,10 @@ public sealed class PlanViewModel : IPlanViewModel
         !string.IsNullOrWhiteSpace(GenerationRootPath) &&
         !string.IsNullOrWhiteSpace(GenerationOutputDirectoryPath) &&
         !string.IsNullOrWhiteSpace(PlanFileName);
+
+    public bool HasAdvancedOverrides =>
+        (autoFilledGenerationOutputDirectoryPath == null && !string.IsNullOrWhiteSpace(generationOutputDirectoryPath)) ||
+        planFileNameOverridden;
 
     public string PlanPath
     {
@@ -387,7 +396,6 @@ public sealed class PlanViewModel : IPlanViewModel
         }
 
         GenerationRootPath = selectedPath;
-        TryAutoFillGenerationOutputDirectory(selectedPath);
         ClearGenerationError();
         GenerationStatusMessage = string.Format(AppStrings.GenerateStatusRootSelected, Path.GetFileName(selectedPath));
     }

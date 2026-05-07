@@ -225,6 +225,18 @@
     <value>Build plan</value>
     <comment/>
   </data>
+  <data name="DefaultPlanFileName" xml:space="preserve">
+    <value>rename-plan.json</value>
+    <comment/>
+  </data>
+  <data name="GenerateAdvancedDisclosureLabel" xml:space="preserve">
+    <value>Advanced</value>
+    <comment/>
+  </data>
+  <data name="GenerateAdvancedDisclosureHelpCollapsed" xml:space="preserve">
+    <value>Plan will be saved beside your photos.</value>
+    <comment/>
+  </data>
   <data name="BrowseButtonGlyph" xml:space="preserve">
     <value>…</value>
     <comment>Ellipsis glyph shown on inline browse buttons beside path fields</comment>

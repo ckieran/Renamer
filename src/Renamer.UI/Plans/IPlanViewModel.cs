@@ -39,6 +39,8 @@ public interface IPlanViewModel : INotifyPropertyChanged
 
     bool CanGenerate { get; }
 
+    bool HasAdvancedOverrides { get; }
+
     string PlanPath { get; set; }
 
     string StatusMessage { get; }
