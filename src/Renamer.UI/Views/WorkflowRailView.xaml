@@ -2,156 +2,248 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:plans="clr-namespace:Renamer.UI.Plans"
-             xmlns:strings="clr-namespace:Renamer.UI.Resources.Strings"
              x:Class="Renamer.UI.Views.WorkflowRailView"
              x:DataType="plans:IPlanViewModel">
-    <VerticalStackLayout Spacing="16">
-        <Border Padding="16"
-                Margin="0,0,18,0"
-                Background="{DynamicResource BackgroundSecondary}">
-            <VerticalStackLayout Spacing="8">
-                <Label Text="{x:Static strings:AppStrings.WorkflowRailHeader}"
-                       FontSize="18"
-                       FontAttributes="Bold" />
-                <Label Text="{x:Static strings:AppStrings.WorkflowRailDescription}"
-                       FontSize="13"
-                       TextColor="{DynamicResource TextSecondary}" />
-            </VerticalStackLayout>
-        </Border>
+    <VerticalStackLayout Spacing="0"
+                         HorizontalOptions="Center"
+                         Padding="0,16,0,16">
 
-        <Border Padding="14"
-                Margin="0,0,18,0"
-                Stroke="{DynamicResource BorderPrimary}"
-                Background="{DynamicResource BackgroundSecondary}"
-                ZIndex="2">
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="8" />
-            </Border.StrokeShape>
-            <Border.GestureRecognizers>
+        <!-- Step 1: Generate -->
+        <VerticalStackLayout HorizontalOptions="Center"
+                             Spacing="6">
+            <VerticalStackLayout.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding SelectStepCommand}"
                                       CommandParameter="{x:Static plans:PlanWorkflowStep.GeneratePlan}" />
-            </Border.GestureRecognizers>
-            <Border.Triggers>
-                <DataTrigger TargetType="Border"
-                             Binding="{Binding GenerateStep.IsSelected}"
-                             Value="True">
-                    <Setter Property="Margin" Value="0,0,-1,0" />
-                    <Setter Property="Padding" Value="14,14,33,14" />
-                    <Setter Property="StrokeShape">
-                        <RoundRectangle CornerRadius="8,0,8,0" />
-                    </Setter>
-                </DataTrigger>
-            </Border.Triggers>
-            <VerticalStackLayout Spacing="10">
-                <Grid ColumnDefinitions="*,Auto"
-                      ColumnSpacing="10">
-                    <Label Text="{Binding GenerateStep.Title}"
-                           FontSize="16"
-                           FontAttributes="Bold" />
-                    <Label Grid.Column="1"
-                           Text="{Binding GenerateStep.StatusText}"
-                           FontSize="11"
-                           FontAttributes="Bold"
-                           Padding="8,4"
-                           BackgroundColor="{DynamicResource BadgeBackground}"
-                           TextColor="{Binding GenerateStep.StatusColor}"
-                           HorizontalOptions="End"
-                           VerticalOptions="Start" />
-                </Grid>
-                <Label Text="{Binding GenerateStep.Description}"
-                       FontSize="13"
-                       TextColor="{DynamicResource TextSecondary}" />
-            </VerticalStackLayout>
-        </Border>
+            </VerticalStackLayout.GestureRecognizers>
 
-        <Border Padding="14"
-                Margin="0,0,18,0"
-                Stroke="{DynamicResource BorderPrimary}"
-                Background="{DynamicResource BackgroundSecondary}"
-                ZIndex="2">
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="8" />
-            </Border.StrokeShape>
-            <Border.GestureRecognizers>
+            <Border WidthRequest="36"
+                    HeightRequest="36"
+                    HorizontalOptions="Center"
+                    StrokeThickness="2"
+                    Stroke="{DynamicResource BorderPrimary}"
+                    Background="Transparent"
+                    StrokeShape="Ellipse">
+                <Border.Triggers>
+                    <DataTrigger TargetType="Border"
+                                 Binding="{Binding GenerateStep.IndicatorState}"
+                                 Value="Now">
+                        <Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
+                        <Setter Property="Stroke" Value="Transparent" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Border"
+                                 Binding="{Binding GenerateStep.IndicatorState}"
+                                 Value="Done">
+                        <Setter Property="Background" Value="{DynamicResource StatusSuccess}" />
+                        <Setter Property="Stroke" Value="Transparent" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Border"
+                                 Binding="{Binding GenerateStep.IndicatorState}"
+                                 Value="Error">
+                        <Setter Property="Stroke" Value="{DynamicResource StatusError}" />
+                    </DataTrigger>
+                </Border.Triggers>
+                <Label Text="{Binding GenerateStep.StepNumber, StringFormat='{0}'}"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="{DynamicResource TextMuted}">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label"
+                                     Binding="{Binding GenerateStep.IndicatorState}"
+                                     Value="Now">
+                            <Setter Property="TextColor" Value="{DynamicResource ButtonText}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Label"
+                                     Binding="{Binding GenerateStep.IndicatorState}"
+                                     Value="Done">
+                            <Setter Property="Text" Value="✓" />
+                            <Setter Property="TextColor" Value="{DynamicResource ButtonText}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Label"
+                                     Binding="{Binding GenerateStep.IndicatorState}"
+                                     Value="Error">
+                            <Setter Property="TextColor" Value="{DynamicResource StatusError}" />
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+            </Border>
+
+            <VerticalStackLayout HorizontalOptions="Center"
+                                 Spacing="1"
+                                 BindableLayout.ItemsSource="{Binding GenerateStep.TitleCharacters}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <Label Text="{Binding}"
+                               FontSize="9"
+                               HorizontalOptions="Center"
+                               TextColor="{DynamicResource TextMuted}" />
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+
+        <!-- Connector -->
+        <BoxView WidthRequest="2"
+                 HeightRequest="24"
+                 HorizontalOptions="Center"
+                 BackgroundColor="{DynamicResource BorderPrimary}" />
+
+        <!-- Step 2: Preview -->
+        <VerticalStackLayout HorizontalOptions="Center"
+                             Spacing="6">
+            <VerticalStackLayout.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding SelectStepCommand}"
                                       CommandParameter="{x:Static plans:PlanWorkflowStep.PreviewPlan}" />
-            </Border.GestureRecognizers>
-            <Border.Triggers>
-                <DataTrigger TargetType="Border"
-                             Binding="{Binding PreviewStep.IsSelected}"
-                             Value="True">
-                    <Setter Property="Margin" Value="0,0,-1,0" />
-                    <Setter Property="Padding" Value="14,14,33,14" />
-                    <Setter Property="StrokeShape">
-                        <RoundRectangle CornerRadius="8,0,8,0" />
-                    </Setter>
-                </DataTrigger>
-            </Border.Triggers>
-            <VerticalStackLayout Spacing="10">
-                <Grid ColumnDefinitions="*,Auto"
-                      ColumnSpacing="10">
-                    <Label Text="{Binding PreviewStep.Title}"
-                           FontSize="16"
-                           FontAttributes="Bold" />
-                    <Label Grid.Column="1"
-                           Text="{Binding PreviewStep.StatusText}"
-                           FontSize="11"
-                           FontAttributes="Bold"
-                           Padding="8,4"
-                           BackgroundColor="{DynamicResource BadgeBackground}"
-                           TextColor="{Binding PreviewStep.StatusColor}"
-                           HorizontalOptions="End"
-                           VerticalOptions="Start" />
-                </Grid>
-                <Label Text="{Binding PreviewStep.Description}"
-                       FontSize="13"
-                       TextColor="{DynamicResource TextSecondary}" />
-            </VerticalStackLayout>
-        </Border>
+            </VerticalStackLayout.GestureRecognizers>
 
-        <Border Padding="14"
-                Margin="0,0,18,0"
-                Stroke="{DynamicResource BorderPrimary}"
-                Background="{DynamicResource BackgroundSecondary}"
-                ZIndex="2">
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="8" />
-            </Border.StrokeShape>
-            <Border.GestureRecognizers>
+            <Border WidthRequest="36"
+                    HeightRequest="36"
+                    HorizontalOptions="Center"
+                    StrokeThickness="2"
+                    Stroke="{DynamicResource BorderPrimary}"
+                    Background="Transparent"
+                    StrokeShape="Ellipse">
+                <Border.Triggers>
+                    <DataTrigger TargetType="Border"
+                                 Binding="{Binding PreviewStep.IndicatorState}"
+                                 Value="Now">
+                        <Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
+                        <Setter Property="Stroke" Value="Transparent" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Border"
+                                 Binding="{Binding PreviewStep.IndicatorState}"
+                                 Value="Done">
+                        <Setter Property="Background" Value="{DynamicResource StatusSuccess}" />
+                        <Setter Property="Stroke" Value="Transparent" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Border"
+                                 Binding="{Binding PreviewStep.IndicatorState}"
+                                 Value="Error">
+                        <Setter Property="Stroke" Value="{DynamicResource StatusError}" />
+                    </DataTrigger>
+                </Border.Triggers>
+                <Label Text="{Binding PreviewStep.StepNumber, StringFormat='{0}'}"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="{DynamicResource TextMuted}">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label"
+                                     Binding="{Binding PreviewStep.IndicatorState}"
+                                     Value="Now">
+                            <Setter Property="TextColor" Value="{DynamicResource ButtonText}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Label"
+                                     Binding="{Binding PreviewStep.IndicatorState}"
+                                     Value="Done">
+                            <Setter Property="Text" Value="✓" />
+                            <Setter Property="TextColor" Value="{DynamicResource ButtonText}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Label"
+                                     Binding="{Binding PreviewStep.IndicatorState}"
+                                     Value="Error">
+                            <Setter Property="TextColor" Value="{DynamicResource StatusError}" />
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+            </Border>
+
+            <VerticalStackLayout HorizontalOptions="Center"
+                                 Spacing="1"
+                                 BindableLayout.ItemsSource="{Binding PreviewStep.TitleCharacters}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <Label Text="{Binding}"
+                               FontSize="9"
+                               HorizontalOptions="Center"
+                               TextColor="{DynamicResource TextMuted}" />
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+
+        <!-- Connector -->
+        <BoxView WidthRequest="2"
+                 HeightRequest="24"
+                 HorizontalOptions="Center"
+                 BackgroundColor="{DynamicResource BorderPrimary}" />
+
+        <!-- Step 3: Apply -->
+        <VerticalStackLayout HorizontalOptions="Center"
+                             Spacing="6">
+            <VerticalStackLayout.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding SelectStepCommand}"
                                       CommandParameter="{x:Static plans:PlanWorkflowStep.ApplyPlan}" />
-            </Border.GestureRecognizers>
-            <Border.Triggers>
-                <DataTrigger TargetType="Border"
-                             Binding="{Binding ApplyStep.IsSelected}"
-                             Value="True">
-                    <Setter Property="Margin" Value="0,0,-1,0" />
-                    <Setter Property="Padding" Value="14,14,33,14" />
-                    <Setter Property="StrokeShape">
-                        <RoundRectangle CornerRadius="8,0,8,0" />
-                    </Setter>
-                </DataTrigger>
-            </Border.Triggers>
-            <VerticalStackLayout Spacing="10">
-                <Grid ColumnDefinitions="*,Auto"
-                      ColumnSpacing="10">
-                    <Label Text="{Binding ApplyStep.Title}"
-                           FontSize="16"
-                           FontAttributes="Bold" />
-                    <Label Grid.Column="1"
-                           Text="{Binding ApplyStep.StatusText}"
-                           FontSize="11"
-                           FontAttributes="Bold"
-                           Padding="8,4"
-                           BackgroundColor="{DynamicResource BadgeBackground}"
-                           TextColor="{Binding ApplyStep.StatusColor}"
-                           HorizontalOptions="End"
-                           VerticalOptions="Start" />
-                </Grid>
-                <Label Text="{Binding ApplyStep.Description}"
-                       FontSize="13"
-                       TextColor="{DynamicResource TextSecondary}" />
+            </VerticalStackLayout.GestureRecognizers>
+
+            <Border WidthRequest="36"
+                    HeightRequest="36"
+                    HorizontalOptions="Center"
+                    StrokeThickness="2"
+                    Stroke="{DynamicResource BorderPrimary}"
+                    Background="Transparent"
+                    StrokeShape="Ellipse">
+                <Border.Triggers>
+                    <DataTrigger TargetType="Border"
+                                 Binding="{Binding ApplyStep.IndicatorState}"
+                                 Value="Now">
+                        <Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
+                        <Setter Property="Stroke" Value="Transparent" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Border"
+                                 Binding="{Binding ApplyStep.IndicatorState}"
+                                 Value="Done">
+                        <Setter Property="Background" Value="{DynamicResource StatusSuccess}" />
+                        <Setter Property="Stroke" Value="Transparent" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Border"
+                                 Binding="{Binding ApplyStep.IndicatorState}"
+                                 Value="Error">
+                        <Setter Property="Stroke" Value="{DynamicResource StatusError}" />
+                    </DataTrigger>
+                </Border.Triggers>
+                <Label Text="{Binding ApplyStep.StepNumber, StringFormat='{0}'}"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="{DynamicResource TextMuted}">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label"
+                                     Binding="{Binding ApplyStep.IndicatorState}"
+                                     Value="Now">
+                            <Setter Property="TextColor" Value="{DynamicResource ButtonText}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Label"
+                                     Binding="{Binding ApplyStep.IndicatorState}"
+                                     Value="Done">
+                            <Setter Property="Text" Value="✓" />
+                            <Setter Property="TextColor" Value="{DynamicResource ButtonText}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Label"
+                                     Binding="{Binding ApplyStep.IndicatorState}"
+                                     Value="Error">
+                            <Setter Property="TextColor" Value="{DynamicResource StatusError}" />
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+            </Border>
+
+            <VerticalStackLayout HorizontalOptions="Center"
+                                 Spacing="1"
+                                 BindableLayout.ItemsSource="{Binding ApplyStep.TitleCharacters}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <Label Text="{Binding}"
+                               FontSize="9"
+                               HorizontalOptions="Center"
+                               TextColor="{DynamicResource TextMuted}" />
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
             </VerticalStackLayout>
-        </Border>
+        </VerticalStackLayout>
+
     </VerticalStackLayout>
 </ContentView>

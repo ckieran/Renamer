@@ -25,6 +25,33 @@ public sealed class PlanWorkflowStepItem : INotifyPropertyChanged
 
     public string Description { get; }
 
+    public int StepNumber => Step switch
+    {
+        PlanWorkflowStep.GeneratePlan => 1,
+        PlanWorkflowStep.PreviewPlan => 2,
+        _ => 3
+    };
+
+    public IReadOnlyList<string> TitleCharacters =>
+        Title.Trim().ToUpperInvariant()
+             .Where(c => !char.IsWhiteSpace(c))
+             .Select(c => c.ToString())
+             .ToList();
+
+    public string IndicatorState
+    {
+        get
+        {
+            if (isSelected) return "Now";
+            return status switch
+            {
+                PlanWorkflowStepStatus.Done => "Done",
+                PlanWorkflowStepStatus.Error => "Error",
+                _ => "Next"
+            };
+        }
+    }
+
     public PlanWorkflowStepStatus Status
     {
         get => status;
@@ -34,6 +61,7 @@ public sealed class PlanWorkflowStepItem : INotifyPropertyChanged
             {
                 OnPropertyChanged(nameof(StatusText));
                 OnPropertyChanged(nameof(StatusColor));
+                OnPropertyChanged(nameof(IndicatorState));
             }
         }
     }
@@ -55,7 +83,11 @@ public sealed class PlanWorkflowStepItem : INotifyPropertyChanged
     public bool IsSelected
     {
         get => isSelected;
-        set => SetProperty(ref isSelected, value);
+        set
+        {
+            if (SetProperty(ref isSelected, value))
+                OnPropertyChanged(nameof(IndicatorState));
+        }
     }
 
     private bool SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
