@@ -32,7 +32,7 @@
                                Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderRootFolder}"
                                ClearButtonVisibility="WhileEditing" />
                         <Button Grid.Column="1"
-                                Style="{StaticResource BrowseButton}"
+                                Style="{DynamicResource BrowseButton}"
                                 Text="{x:Static strings:AppStrings.BrowseButtonGlyph}"
                                 Command="{Binding BrowseGenerationRootCommand}"
                                 AutomationProperties.Name="{x:Static strings:AppStrings.GenerateBrowseRootFolder}"
@@ -49,7 +49,7 @@
                                Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderOutputFolder}"
                                ClearButtonVisibility="WhileEditing" />
                         <Button Grid.Column="1"
-                                Style="{StaticResource BrowseButton}"
+                                Style="{DynamicResource BrowseButton}"
                                 Text="{x:Static strings:AppStrings.BrowseButtonGlyph}"
                                 Command="{Binding BrowseGenerationOutputDirectoryCommand}"
                                 AutomationProperties.Name="{x:Static strings:AppStrings.GenerateBrowseOutputFolder}"

@@ -29,7 +29,7 @@
                            Placeholder="{x:Static strings:AppStrings.PreviewPlaceholder}"
                            ClearButtonVisibility="WhileEditing" />
                     <Button Grid.Column="1"
-                            Style="{StaticResource BrowseButton}"
+                            Style="{DynamicResource BrowseButton}"
                             Text="{x:Static strings:AppStrings.BrowseButtonGlyph}"
                             Command="{Binding BrowsePlanCommand}"
                             AutomationProperties.Name="{x:Static strings:AppStrings.ApplyButtonBrowse}"
