@@ -139,6 +139,8 @@ namespace Renamer.UI.Resources.Strings
         internal static string ApplyDescription => ResourceManager.GetString("ApplyDescription", resourceCulture)!;
         internal static string ApplyPlanArtifactSectionHeader => ResourceManager.GetString("ApplyPlanArtifactSectionHeader", resourceCulture)!;
         internal static string ApplyPlanArtifactInstructions => ResourceManager.GetString("ApplyPlanArtifactInstructions", resourceCulture)!;
+        internal static string BrowseButtonGlyph => ResourceManager.GetString("BrowseButtonGlyph", resourceCulture)!;
+
         internal static string ApplyButtonBrowse => ResourceManager.GetString("ApplyButtonBrowse", resourceCulture)!;
         internal static string ApplyButtonLoadPlan => ResourceManager.GetString("ApplyButtonLoadPlan", resourceCulture)!;
         internal static string ApplyErrorHeading => ResourceManager.GetString("ApplyErrorHeading", resourceCulture)!;

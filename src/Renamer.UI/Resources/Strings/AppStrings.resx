@@ -225,6 +225,10 @@
     <value>Build plan</value>
     <comment/>
   </data>
+  <data name="BrowseButtonGlyph" xml:space="preserve">
+    <value>…</value>
+    <comment>Ellipsis glyph shown on inline browse buttons beside path fields</comment>
+  </data>
   <data name="GenerateStatusDefault" xml:space="preserve">
     <value>Choose a photo folder and a save folder to build a plan.</value>
     <comment/>
