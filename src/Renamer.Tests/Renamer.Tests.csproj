@@ -47,6 +47,8 @@
     <Compile Include="..\Renamer.UI\Plans\PlanViewModel.cs" Link="UI\Plans\PlanViewModel.cs" />
     <Compile Include="..\Renamer.UI\Plans\PlanViewState.cs" Link="UI\Plans\PlanViewState.cs" />
     <Compile Include="..\Renamer.UI\UiLogPathProvider.cs" Link="UI\UiLogPathProvider.cs" />
+    <Compile Include="..\Renamer.UI\Services\ThemeMode.cs" Link="UI\Services\ThemeMode.cs" />
+    <Compile Include="..\Renamer.UI\Services\ThemeCycler.cs" Link="UI\Services\ThemeCycler.cs" />
   </ItemGroup>
 
 </Project>

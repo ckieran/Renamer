@@ -33,25 +33,18 @@
             </VerticalStackLayout>
 
             <Border Grid.Column="1"
+                    x:Name="ThemePill"
                     Padding="12,8"
                     VerticalOptions="Center"
                     StrokeShape="RoundRectangle 8"
                     Stroke="{DynamicResource BorderPrimary}"
                     Background="{DynamicResource BackgroundTertiary}">
-                <HorizontalStackLayout Spacing="2">
-                    <RadioButton x:Name="LightRadio"
-                                 Content="Light"
-                                 GroupName="AppTheme"
-                                 CheckedChanged="OnThemeRadioChanged" />
-                    <RadioButton x:Name="DarkRadio"
-                                 Content="Dark"
-                                 GroupName="AppTheme"
-                                 CheckedChanged="OnThemeRadioChanged" />
-                    <RadioButton x:Name="SystemRadio"
-                                 Content="System"
-                                 GroupName="AppTheme"
-                                 CheckedChanged="OnThemeRadioChanged" />
-                </HorizontalStackLayout>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnThemePillTapped" />
+                </Border.GestureRecognizers>
+                <Label x:Name="ThemePillLabel"
+                       FontSize="13"
+                       VerticalOptions="Center" />
             </Border>
         </Grid>
 

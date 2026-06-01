@@ -2,8 +2,6 @@ using Renamer.UI.Resources.Themes;
 
 namespace Renamer.UI.Services;
 
-public enum ThemeMode { System, Light, Dark }
-
 public sealed class ThemeService
 {
     private const string PreferenceKey = "AppThemeOverride";
@@ -31,6 +29,8 @@ public sealed class ThemeService
 
         Application.Current!.RequestedThemeChanged += OnOsThemeChanged;
     }
+
+    public void CycleTheme() => SetTheme(ThemeCycler.NextMode(CurrentMode));
 
     public void SetTheme(ThemeMode mode)
     {

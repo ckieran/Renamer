@@ -413,6 +413,22 @@
     <value>Details</value>
     <comment/>
   </data>
+  <data name="ThemeToggleLight" xml:space="preserve">
+    <value>Light</value>
+    <comment/>
+  </data>
+  <data name="ThemeToggleDark" xml:space="preserve">
+    <value>Dark</value>
+    <comment/>
+  </data>
+  <data name="ThemeToggleSystem" xml:space="preserve">
+    <value>System</value>
+    <comment/>
+  </data>
+  <data name="ThemeToggleAccessibilityFormat" xml:space="preserve">
+    <value>Theme: {0}</value>
+    <comment/>
+  </data>
   <data name="PreviewSummaryDescription" xml:space="preserve">
     <value>Check where the plan came from, when it was created, and how many folder names it will change.</value>
     <comment/>
