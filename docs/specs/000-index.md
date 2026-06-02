@@ -47,3 +47,7 @@ This folder defines the spec-driven development package for Renamer.
 - `370-plan-items-as-cards.md` - draft - Plan preview list restructured as bounded from→to cards with status pills.
 - `380-stat-strip-and-result-banner.md` - draft - Compact stat strip on preview and condensed result banner on apply.
 - `390-compact-theme-toggle.md` - draft - Single icon-pill theme toggle cycling Light/Dark/System, replacing three RadioButtons.
+- `400-ui-reconciliation-spec.md` - draft - Visual reconciliation baseline comparing current native screenshots with compact target mockups.
+- `410-compact-shell-workspace-frame.md` - draft - Compact app shell/header and rail/workspace frame alignment.
+- `420-plan-workspace-reconciliation.md` - draft - Plan workspace alignment to compact target references.
+- `430-review-rename-workspace-reconciliation.md` - draft - Review and Rename workspace density/action-row alignment.

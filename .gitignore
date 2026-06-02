@@ -40,3 +40,4 @@ src/**/Resources/Raw/
 plan.json
 .codex
 .claude/
+.superpowers/
