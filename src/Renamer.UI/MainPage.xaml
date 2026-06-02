@@ -17,24 +17,24 @@
     </ContentPage.MenuBarItems>
 
     <Grid RowDefinitions="Auto,*"
-          Padding="24"
-          RowSpacing="18">
+          Padding="24,18,24,24"
+          RowSpacing="12">
 
-        <!-- Header row: title/description left, theme picker right -->
+        <!-- Header row: compact app title left, theme picker right -->
         <Grid ColumnDefinitions="*,Auto">
-            <VerticalStackLayout Spacing="6">
+            <VerticalStackLayout Spacing="3">
                 <Label Text="{x:Static strings:AppStrings.MainPageHeading}"
-                       FontSize="32"
+                       FontSize="28"
                        FontAttributes="Bold"
                        SemanticProperties.HeadingLevel="Level1" />
                 <Label Text="{x:Static strings:AppStrings.MainPageDescription}"
-                       FontSize="14"
+                       FontSize="13"
                        TextColor="{DynamicResource TextMuted}" />
             </VerticalStackLayout>
 
             <Border Grid.Column="1"
                     x:Name="ThemePill"
-                    Padding="12,8"
+                    Padding="10,6"
                     VerticalOptions="Center"
                     StrokeShape="RoundRectangle 8"
                     Stroke="{DynamicResource BorderPrimary}"
@@ -51,32 +51,18 @@
         <!-- Main content: rail left, workspace right -->
         <Grid Grid.Row="1"
               ColumnDefinitions="72,*"
-              ColumnSpacing="0">
+              ColumnSpacing="12">
             <ScrollView>
                 <views:WorkflowRailView />
             </ScrollView>
 
-            <Grid Grid.Column="1"
-                  ZIndex="1">
-                <Border Padding="16"
-                        Background="{DynamicResource BackgroundSecondary}"
-                        Stroke="{DynamicResource BorderPrimary}">
-                    <ScrollView>
-                        <Grid>
-                            <views:GenerateWorkspaceView IsVisible="{Binding IsGenerateStepActive}" />
-                            <views:PreviewWorkspaceView IsVisible="{Binding IsPreviewStepActive}" />
-                            <views:ApplyWorkspaceView IsVisible="{Binding IsApplyStepActive}" />
-                        </Grid>
-                    </ScrollView>
-                </Border>
-
-                <BoxView WidthRequest="2"
-                         Margin="-1,0,0,0"
-                         HorizontalOptions="Start"
-                         VerticalOptions="Fill"
-                         BackgroundColor="{DynamicResource BackgroundSecondary}"
-                         ZIndex="3" />
-            </Grid>
+            <ScrollView Grid.Column="1">
+                <Grid>
+                    <views:GenerateWorkspaceView IsVisible="{Binding IsGenerateStepActive}" />
+                    <views:PreviewWorkspaceView IsVisible="{Binding IsPreviewStepActive}" />
+                    <views:ApplyWorkspaceView IsVisible="{Binding IsApplyStepActive}" />
+                </Grid>
+            </ScrollView>
         </Grid>
     </Grid>
 </ContentPage>
