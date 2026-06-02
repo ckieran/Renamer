@@ -11,26 +11,22 @@
                    FontSize="24"
                    FontAttributes="Bold" />
             <Label Text="{x:Static strings:AppStrings.GenerateDescription}"
-                   FontSize="13"
+                   FontSize="14"
                    TextColor="{DynamicResource TextSecondary}" />
         </VerticalStackLayout>
 
-        <Border Padding="16">
-            <VerticalStackLayout Spacing="12">
-                <Label Text="{x:Static strings:AppStrings.GenerateSectionHeader}"
-                       FontSize="18"
-                       FontAttributes="Bold" />
-                <Label Text="{x:Static strings:AppStrings.GenerateInstructions}"
-                       FontSize="13" />
-
+        <Border Padding="18">
+            <VerticalStackLayout Spacing="14">
                 <VerticalStackLayout Spacing="6">
                     <Label Text="{x:Static strings:AppStrings.GenerateLabelRootFolder}"
                            FontAttributes="Bold" />
                     <Grid ColumnDefinitions="*,Auto" ColumnSpacing="6">
-                        <Entry Grid.Column="0"
-                               Text="{Binding GenerationRootPath}"
-                               Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderRootFolder}"
-                               ClearButtonVisibility="WhileEditing" />
+                        <Border Grid.Column="0"
+                                Style="{DynamicResource FieldFrame}">
+                            <Entry Text="{Binding GenerationRootPath}"
+                                   Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderRootFolder}"
+                                   ClearButtonVisibility="WhileEditing" />
+                        </Border>
                         <Button Grid.Column="1"
                                 Style="{DynamicResource BrowseButton}"
                                 Text="{x:Static strings:AppStrings.BrowseButtonGlyph}"
@@ -40,16 +36,21 @@
                     </Grid>
                 </VerticalStackLayout>
 
-                <VerticalStackLayout Spacing="4">
+                <Grid ColumnDefinitions="*,Auto"
+                      ColumnSpacing="12"
+                      Padding="0,2,0,0">
                     <Label Text="{x:Static strings:AppStrings.GenerateAdvancedDisclosureHelpCollapsed}"
                            x:Name="AdvancedCollapsedHint"
-                           FontSize="12"
+                           FontSize="13"
+                           VerticalOptions="Center"
                            TextColor="{DynamicResource TextSecondary}" />
                     <Button x:Name="AdvancedToggle"
+                            Grid.Column="1"
+                            Style="{DynamicResource CompactSecondaryButton}"
                             Text="{x:Static strings:AppStrings.GenerateAdvancedDisclosureLabel}"
                             Clicked="OnAdvancedToggleClicked"
-                            HorizontalOptions="Start" />
-                </VerticalStackLayout>
+                            HorizontalOptions="End" />
+                </Grid>
 
                 <VerticalStackLayout x:Name="AdvancedPanel"
                                      Spacing="12"
@@ -58,10 +59,12 @@
                         <Label Text="{x:Static strings:AppStrings.GenerateLabelOutputFolder}"
                                FontAttributes="Bold" />
                         <Grid ColumnDefinitions="*,Auto" ColumnSpacing="6">
-                            <Entry Grid.Column="0"
-                                   Text="{Binding GenerationOutputDirectoryPath}"
-                                   Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderOutputFolder}"
-                                   ClearButtonVisibility="WhileEditing" />
+                            <Border Grid.Column="0"
+                                    Style="{DynamicResource FieldFrame}">
+                                <Entry Text="{Binding GenerationOutputDirectoryPath}"
+                                       Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderOutputFolder}"
+                                       ClearButtonVisibility="WhileEditing" />
+                            </Border>
                             <Button Grid.Column="1"
                                     Style="{DynamicResource BrowseButton}"
                                     Text="{x:Static strings:AppStrings.BrowseButtonGlyph}"
@@ -74,32 +77,42 @@
                     <VerticalStackLayout Spacing="6">
                         <Label Text="{x:Static strings:AppStrings.GenerateLabelPlanFileName}"
                                FontAttributes="Bold" />
-                        <Entry Text="{Binding PlanFileName}"
-                               Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderPlanFileName}"
-                               ClearButtonVisibility="WhileEditing" />
+                        <Border Style="{DynamicResource FieldFrame}">
+                            <Entry Text="{Binding PlanFileName}"
+                                   Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderPlanFileName}"
+                                   ClearButtonVisibility="WhileEditing" />
+                        </Border>
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Spacing="4">
                         <Label Text="{x:Static strings:AppStrings.GenerateLabelGeneratedPlanPath}"
                                FontAttributes="Bold" />
                         <Label Text="{Binding GeneratedPlanPathPreview}"
-                               FontSize="12"
+                               FontSize="13"
                                LineBreakMode="WordWrap"
                                TextColor="{DynamicResource TextLink}" />
                     </VerticalStackLayout>
                 </VerticalStackLayout>
 
-                <HorizontalStackLayout Spacing="10">
-                    <Button Text="{x:Static strings:AppStrings.GenerateButtonGenerateAndLoad}"
-                            Command="{Binding GeneratePlanCommand}"
-                            IsEnabled="{Binding CanGenerate}" />
-                    <ActivityIndicator IsRunning="{Binding IsGenerating}"
-                                       IsVisible="{Binding IsGenerating}"
-                                       VerticalOptions="Center" />
-                </HorizontalStackLayout>
-
-                <Label Text="{Binding GenerationStatusMessage}"
-                       FontSize="13" />
+                <Grid ColumnDefinitions="*,Auto"
+                      ColumnSpacing="12"
+                      Padding="0,2,0,0">
+                    <Label Text="{Binding GenerationStatusMessage}"
+                           FontSize="14"
+                           VerticalOptions="Center"
+                           LineBreakMode="WordWrap" />
+                    <HorizontalStackLayout Grid.Column="1"
+                                           Spacing="10"
+                                           HorizontalOptions="End"
+                                           VerticalOptions="Center">
+                        <ActivityIndicator IsRunning="{Binding IsGenerating}"
+                                           IsVisible="{Binding IsGenerating}"
+                                           VerticalOptions="Center" />
+                        <Button Text="{x:Static strings:AppStrings.GenerateButtonGenerateAndLoad}"
+                                Command="{Binding GeneratePlanCommand}"
+                                IsEnabled="{Binding CanGenerate}" />
+                    </HorizontalStackLayout>
+                </Grid>
             </VerticalStackLayout>
         </Border>
 

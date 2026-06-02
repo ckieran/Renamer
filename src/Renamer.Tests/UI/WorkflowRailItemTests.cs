@@ -23,6 +23,17 @@ public sealed class WorkflowRailItemTests
         Assert.Equal(["P", "L", "A", "N"], item.TitleCharacters);
     }
 
+    [Theory]
+    [InlineData(PlanWorkflowStep.GeneratePlan, new[] { "P", "L", "A", "N" })]
+    [InlineData(PlanWorkflowStep.PreviewPlan, new[] { "R", "E", "V", "I", "E", "W" })]
+    [InlineData(PlanWorkflowStep.ApplyPlan, new[] { "R", "E", "N", "A", "M", "E" })]
+    public void RailTitleCharacters_UsesShortWorkflowLabels(PlanWorkflowStep step, string[] expected)
+    {
+        var item = MakeItem(step: step, title: "Ignored long title");
+
+        Assert.Equal(expected, item.RailTitleCharacters);
+    }
+
     [Fact]
     public void StepNumber_MapsEnumToOrdinal()
     {
