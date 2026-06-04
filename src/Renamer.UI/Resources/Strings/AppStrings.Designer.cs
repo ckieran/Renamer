@@ -114,6 +114,9 @@ namespace Renamer.UI.Resources.Strings
         internal static string PreviewPlaceholder => ResourceManager.GetString("PreviewPlaceholder", resourceCulture)!;
         internal static string PreviewBrowse => ResourceManager.GetString("PreviewBrowse", resourceCulture)!;
         internal static string PreviewButtonLoad => ResourceManager.GetString("PreviewButtonLoad", resourceCulture)!;
+        internal static string PreviewButtonBackToPlan => ResourceManager.GetString("PreviewButtonBackToPlan", resourceCulture)!;
+        internal static string PreviewButtonReloadPlan => ResourceManager.GetString("PreviewButtonReloadPlan", resourceCulture)!;
+        internal static string PreviewButtonContinue => ResourceManager.GetString("PreviewButtonContinue", resourceCulture)!;
         internal static string PreviewIdleLabel => ResourceManager.GetString("PreviewIdleLabel", resourceCulture)!;
         internal static string PreviewIdleDescription => ResourceManager.GetString("PreviewIdleDescription", resourceCulture)!;
         internal static string PreviewLoadingLabel => ResourceManager.GetString("PreviewLoadingLabel", resourceCulture)!;
