@@ -71,13 +71,13 @@
 
             <VerticalStackLayout HorizontalOptions="Center"
                                  Spacing="1"
-                                 BindableLayout.ItemsSource="{Binding GenerateStep.TitleCharacters}">
+                                 BindableLayout.ItemsSource="{Binding GenerateStep.RailTitleCharacters}">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
                         <Label Text="{Binding}"
-                               FontSize="9"
+                               FontSize="14"
                                HorizontalOptions="Center"
-                               TextColor="{DynamicResource TextMuted}" />
+                               TextColor="{DynamicResource TextSecondary}" />
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </VerticalStackLayout>
@@ -152,13 +152,13 @@
 
             <VerticalStackLayout HorizontalOptions="Center"
                                  Spacing="1"
-                                 BindableLayout.ItemsSource="{Binding PreviewStep.TitleCharacters}">
+                                 BindableLayout.ItemsSource="{Binding PreviewStep.RailTitleCharacters}">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
                         <Label Text="{Binding}"
-                               FontSize="9"
+                               FontSize="14"
                                HorizontalOptions="Center"
-                               TextColor="{DynamicResource TextMuted}" />
+                               TextColor="{DynamicResource TextSecondary}" />
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </VerticalStackLayout>
@@ -233,13 +233,13 @@
 
             <VerticalStackLayout HorizontalOptions="Center"
                                  Spacing="1"
-                                 BindableLayout.ItemsSource="{Binding ApplyStep.TitleCharacters}">
+                                 BindableLayout.ItemsSource="{Binding ApplyStep.RailTitleCharacters}">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
                         <Label Text="{Binding}"
-                               FontSize="9"
+                               FontSize="14"
                                HorizontalOptions="Center"
-                               TextColor="{DynamicResource TextMuted}" />
+                               TextColor="{DynamicResource TextSecondary}" />
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </VerticalStackLayout>

@@ -38,6 +38,13 @@ public sealed class PlanWorkflowStepItem : INotifyPropertyChanged
              .Select(c => c.ToString())
              .ToList();
 
+    public IReadOnlyList<string> RailTitleCharacters => Step switch
+    {
+        PlanWorkflowStep.GeneratePlan => ToCharacters(AppStrings.StepGenerateRailTitle),
+        PlanWorkflowStep.PreviewPlan => ToCharacters(AppStrings.StepPreviewRailTitle),
+        _ => ToCharacters(AppStrings.StepApplyRailTitle)
+    };
+
     public string IndicatorState
     {
         get
@@ -100,4 +107,10 @@ public sealed class PlanWorkflowStepItem : INotifyPropertyChanged
 
     private void OnPropertyChanged([CallerMemberName] string? propertyName = null) =>
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+    private static IReadOnlyList<string> ToCharacters(string value) =>
+        value.Trim().ToUpperInvariant()
+             .Where(c => !char.IsWhiteSpace(c))
+             .Select(c => c.ToString())
+             .ToList();
 }

@@ -137,6 +137,10 @@
     <value>Build a plan</value>
     <comment/>
   </data>
+  <data name="StepGenerateRailTitle" xml:space="preserve">
+    <value>Plan</value>
+    <comment/>
+  </data>
   <data name="StepGenerateDescription" xml:space="preserve">
     <value>Choose a photo folder and create a rename plan.</value>
     <comment/>
@@ -145,12 +149,20 @@
     <value>Review the plan</value>
     <comment/>
   </data>
+  <data name="StepPreviewRailTitle" xml:space="preserve">
+    <value>Review</value>
+    <comment/>
+  </data>
   <data name="StepPreviewDescription" xml:space="preserve">
     <value>Check the proposed folder names before you make changes.</value>
     <comment/>
   </data>
   <data name="StepApplyTitle" xml:space="preserve">
     <value>Rename folders</value>
+    <comment/>
+  </data>
+  <data name="StepApplyRailTitle" xml:space="preserve">
+    <value>Rename</value>
     <comment/>
   </data>
   <data name="StepApplyDescription" xml:space="preserve">
@@ -170,11 +182,11 @@
     <comment/>
   </data>
   <data name="GenerateHeading" xml:space="preserve">
-    <value>Build a plan</value>
+    <value>Pick a folder</value>
     <comment/>
   </data>
   <data name="GenerateDescription" xml:space="preserve">
-    <value>Choose your photo folder and where to save the plan, then review the folder names before anything changes.</value>
+    <value>Choose the folder of photos you'd like to rename.</value>
     <comment/>
   </data>
   <data name="GenerateSectionHeader" xml:space="preserve">
@@ -242,7 +254,7 @@
     <comment>Ellipsis glyph shown on inline browse buttons beside path fields</comment>
   </data>
   <data name="GenerateStatusDefault" xml:space="preserve">
-    <value>Choose a photo folder and a save folder to build a plan.</value>
+    <value>Choose a photo folder to build a plan.</value>
     <comment/>
   </data>
   <data name="GenerateStatusRootCanceled" xml:space="preserve">

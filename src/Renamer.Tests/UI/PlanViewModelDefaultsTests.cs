@@ -60,6 +60,14 @@ public sealed class PlanViewModelDefaultsTests
     }
 
     [Fact]
+    public void GenerationStatusMessage_DefaultsToPhotoFolderOnlyPrompt()
+    {
+        var vm = MakeViewModel();
+
+        Assert.Equal("Choose a photo folder to build a plan.", vm.GenerationStatusMessage);
+    }
+
+    [Fact]
     public void HasAdvancedOverrides_WhenOutputAutoFilled_RemainsFlase()
     {
         var vm = MakeViewModel();

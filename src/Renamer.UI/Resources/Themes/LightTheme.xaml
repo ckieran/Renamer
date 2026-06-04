@@ -29,7 +29,7 @@
     <Color x:Key="ButtonText">#FFFFFF</Color>
 
     <!-- Surfaces and borders -->
-    <Color x:Key="BorderPrimary">#CBD5E1</Color>
+    <Color x:Key="BorderPrimary">#94A3B8</Color>
     <Color x:Key="BadgeBackground">#E2E8F0</Color>
     <Color x:Key="DividerColor">#D8D8D8</Color>
 
