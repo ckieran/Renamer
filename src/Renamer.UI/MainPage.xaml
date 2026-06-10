@@ -28,13 +28,13 @@
                        FontAttributes="Bold"
                        SemanticProperties.HeadingLevel="Level1" />
                 <Label Text="{x:Static strings:AppStrings.MainPageDescription}"
-                       FontSize="13"
+                       FontSize="14"
                        TextColor="{DynamicResource TextMuted}" />
             </VerticalStackLayout>
 
             <Border Grid.Column="1"
                     x:Name="ThemePill"
-                    Padding="10,6"
+                    Padding="14,9"
                     VerticalOptions="Center"
                     StrokeShape="RoundRectangle 8"
                     Stroke="{DynamicResource BorderPrimary}"
@@ -43,7 +43,7 @@
                     <TapGestureRecognizer Tapped="OnThemePillTapped" />
                 </Border.GestureRecognizers>
                 <Label x:Name="ThemePillLabel"
-                       FontSize="13"
+                       FontSize="15"
                        VerticalOptions="Center" />
             </Border>
         </Grid>
@@ -56,13 +56,12 @@
                 <views:WorkflowRailView />
             </ScrollView>
 
-            <ScrollView Grid.Column="1">
-                <Grid>
-                    <views:GenerateWorkspaceView IsVisible="{Binding IsGenerateStepActive}" />
-                    <views:PreviewWorkspaceView IsVisible="{Binding IsPreviewStepActive}" />
-                    <views:ApplyWorkspaceView IsVisible="{Binding IsApplyStepActive}" />
-                </Grid>
-            </ScrollView>
+            <!-- Each workspace owns its scrolling so status/action rows stay pinned at the bottom -->
+            <Grid Grid.Column="1">
+                <views:GenerateWorkspaceView IsVisible="{Binding IsGenerateStepActive}" />
+                <views:PreviewWorkspaceView IsVisible="{Binding IsPreviewStepActive}" />
+                <views:ApplyWorkspaceView IsVisible="{Binding IsApplyStepActive}" />
+            </Grid>
         </Grid>
     </Grid>
 </ContentPage>

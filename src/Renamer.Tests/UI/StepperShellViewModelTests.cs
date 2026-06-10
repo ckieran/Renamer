@@ -49,7 +49,7 @@ public sealed class StepperShellViewModelTests
     }
 
     [Fact]
-    public async Task GeneratePlanAsync_MarksGenerateAndPreviewStepsDone()
+    public async Task GeneratePlanAsync_MarksGenerateDoneAndPreviewPending()
     {
         var existingDirectory = Path.GetTempPath();
         var plan = CreatePlan();
@@ -62,12 +62,32 @@ public sealed class StepperShellViewModelTests
 
         await viewModel.GeneratePlanAsync();
 
+        // A freshly generated plan is loaded but not yet reviewed, so the
+        // preview step must not show as done while the user is still on Generate.
         Assert.Equal(PlanWorkflowStepStatus.Done, viewModel.GenerateStep.Status);
-        Assert.Equal(PlanWorkflowStepStatus.Done, viewModel.PreviewStep.Status);
+        Assert.Equal(PlanWorkflowStepStatus.NeedsInfo, viewModel.PreviewStep.Status);
         Assert.Equal(PlanWorkflowStepStatus.NeedsInfo, viewModel.ApplyStep.Status);
         Assert.Equal(AppStrings.StepStatusDone, viewModel.GenerateStep.StatusText);
-        Assert.Equal(AppStrings.StepStatusDone, viewModel.PreviewStep.StatusText);
+        Assert.Equal(AppStrings.StepStatusNeedsInfo, viewModel.PreviewStep.StatusText);
         Assert.Equal(AppStrings.StepStatusNeedsInfo, viewModel.ApplyStep.StatusText);
+    }
+
+    [Fact]
+    public async Task GeneratePlanAsync_MarksPreviewDoneOnceUserMovesPastReview()
+    {
+        var existingDirectory = Path.GetTempPath();
+        var plan = CreatePlan();
+        var viewModel = CreateViewModel(
+            new FakePlanBuilder(plan),
+            new RecordingPlanSerializer(plan));
+        viewModel.GenerationRootPath = existingDirectory;
+        viewModel.GenerationOutputDirectoryPath = existingDirectory;
+        viewModel.PlanFileName = "rename-plan.json";
+
+        await viewModel.GeneratePlanAsync();
+        viewModel.SelectStep(PlanWorkflowStep.ApplyPlan);
+
+        Assert.Equal(PlanWorkflowStepStatus.Done, viewModel.PreviewStep.Status);
     }
 
     [Fact]

@@ -5,127 +5,131 @@
              xmlns:strings="clr-namespace:Renamer.UI.Resources.Strings"
              x:Class="Renamer.UI.Views.GenerateWorkspaceView"
              x:DataType="plans:IPlanViewModel">
-    <VerticalStackLayout Spacing="18">
+    <Grid RowDefinitions="Auto,*,Auto"
+          RowSpacing="16">
         <VerticalStackLayout Spacing="4">
             <Label Text="{x:Static strings:AppStrings.GenerateHeading}"
-                   FontSize="24"
-                   FontAttributes="Bold" />
+                   Style="{DynamicResource WorkspaceTitle}" />
             <Label Text="{x:Static strings:AppStrings.GenerateDescription}"
-                   FontSize="14"
-                   TextColor="{DynamicResource TextSecondary}" />
+                   Style="{DynamicResource SecondaryText}" />
         </VerticalStackLayout>
 
-        <Border Padding="18">
-            <VerticalStackLayout Spacing="14">
-                <VerticalStackLayout Spacing="6">
-                    <Label Text="{x:Static strings:AppStrings.GenerateLabelRootFolder}"
-                           FontAttributes="Bold" />
-                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="6">
-                        <Border Grid.Column="0"
-                                Style="{DynamicResource FieldFrame}">
-                            <Entry Text="{Binding GenerationRootPath}"
-                                   Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderRootFolder}"
-                                   ClearButtonVisibility="WhileEditing" />
-                        </Border>
-                        <Button Grid.Column="1"
-                                Style="{DynamicResource BrowseButton}"
-                                Text="{x:Static strings:AppStrings.BrowseButtonGlyph}"
-                                Command="{Binding BrowseGenerationRootCommand}"
-                                AutomationProperties.Name="{x:Static strings:AppStrings.GenerateBrowseRootFolder}"
-                                ToolTipProperties.Text="{x:Static strings:AppStrings.GenerateBrowseRootFolder}" />
-                    </Grid>
-                </VerticalStackLayout>
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="16">
+                <Border Padding="18">
+                    <VerticalStackLayout Spacing="14">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="{x:Static strings:AppStrings.GenerateLabelRootFolder}"
+                                   FontAttributes="Bold" />
+                            <Grid ColumnDefinitions="7*,3*">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="6">
+                                    <Border Grid.Column="0"
+                                            Style="{DynamicResource FieldFrame}">
+                                        <Entry Text="{Binding GenerationRootPath}"
+                                               Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderRootFolder}"
+                                               ClearButtonVisibility="WhileEditing" />
+                                    </Border>
+                                    <Button Grid.Column="1"
+                                            Style="{DynamicResource BrowseButton}"
+                                            Text="{x:Static strings:AppStrings.BrowseButtonGlyph}"
+                                            Command="{Binding BrowseGenerationRootCommand}"
+                                            AutomationProperties.Name="{x:Static strings:AppStrings.GenerateBrowseRootFolder}"
+                                            ToolTipProperties.Text="{x:Static strings:AppStrings.GenerateBrowseRootFolder}" />
+                                </Grid>
+                            </Grid>
+                        </VerticalStackLayout>
 
-                <Grid ColumnDefinitions="*,Auto"
-                      ColumnSpacing="12"
-                      Padding="0,2,0,0">
-                    <Label Text="{x:Static strings:AppStrings.GenerateAdvancedDisclosureHelpCollapsed}"
-                           x:Name="AdvancedCollapsedHint"
-                           FontSize="13"
-                           VerticalOptions="Center"
-                           TextColor="{DynamicResource TextSecondary}" />
-                    <Button x:Name="AdvancedToggle"
-                            Grid.Column="1"
-                            Style="{DynamicResource CompactSecondaryButton}"
-                            Text="{x:Static strings:AppStrings.GenerateAdvancedDisclosureLabel}"
-                            Clicked="OnAdvancedToggleClicked"
-                            HorizontalOptions="End" />
-                </Grid>
-
-                <VerticalStackLayout x:Name="AdvancedPanel"
-                                     Spacing="12"
-                                     IsVisible="False">
-                    <VerticalStackLayout Spacing="6">
-                        <Label Text="{x:Static strings:AppStrings.GenerateLabelOutputFolder}"
-                               FontAttributes="Bold" />
-                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="6">
-                            <Border Grid.Column="0"
-                                    Style="{DynamicResource FieldFrame}">
-                                <Entry Text="{Binding GenerationOutputDirectoryPath}"
-                                       Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderOutputFolder}"
-                                       ClearButtonVisibility="WhileEditing" />
-                            </Border>
-                            <Button Grid.Column="1"
-                                    Style="{DynamicResource BrowseButton}"
-                                    Text="{x:Static strings:AppStrings.BrowseButtonGlyph}"
-                                    Command="{Binding BrowseGenerationOutputDirectoryCommand}"
-                                    AutomationProperties.Name="{x:Static strings:AppStrings.GenerateBrowseOutputFolder}"
-                                    ToolTipProperties.Text="{x:Static strings:AppStrings.GenerateBrowseOutputFolder}" />
+                        <Grid ColumnDefinitions="*,Auto"
+                              ColumnSpacing="12"
+                              Padding="0,2,0,0">
+                            <Label Text="{x:Static strings:AppStrings.GenerateAdvancedDisclosureHelpCollapsed}"
+                                   x:Name="AdvancedCollapsedHint"
+                                   Style="{DynamicResource SecondaryText}"
+                                   VerticalOptions="Center" />
+                            <Button x:Name="AdvancedToggle"
+                                    Grid.Column="1"
+                                    Style="{DynamicResource CompactSecondaryButton}"
+                                    Text="{x:Static strings:AppStrings.GenerateAdvancedDisclosureLabel}"
+                                    Clicked="OnAdvancedToggleClicked"
+                                    HorizontalOptions="End" />
                         </Grid>
-                    </VerticalStackLayout>
 
-                    <VerticalStackLayout Spacing="6">
-                        <Label Text="{x:Static strings:AppStrings.GenerateLabelPlanFileName}"
-                               FontAttributes="Bold" />
-                        <Border Style="{DynamicResource FieldFrame}">
-                            <Entry Text="{Binding PlanFileName}"
-                                   Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderPlanFileName}"
-                                   ClearButtonVisibility="WhileEditing" />
-                        </Border>
-                    </VerticalStackLayout>
+                        <VerticalStackLayout x:Name="AdvancedPanel"
+                                             Spacing="12"
+                                             IsVisible="False">
+                            <VerticalStackLayout Spacing="6">
+                                <Label Text="{x:Static strings:AppStrings.GenerateLabelOutputFolder}"
+                                       FontAttributes="Bold" />
+                                <Grid ColumnDefinitions="7*,3*">
+                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="6">
+                                        <Border Grid.Column="0"
+                                                Style="{DynamicResource FieldFrame}">
+                                            <Entry Text="{Binding GenerationOutputDirectoryPath}"
+                                                   Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderOutputFolder}"
+                                                   ClearButtonVisibility="WhileEditing" />
+                                        </Border>
+                                        <Button Grid.Column="1"
+                                                Style="{DynamicResource BrowseButton}"
+                                                Text="{x:Static strings:AppStrings.BrowseButtonGlyph}"
+                                                Command="{Binding BrowseGenerationOutputDirectoryCommand}"
+                                                AutomationProperties.Name="{x:Static strings:AppStrings.GenerateBrowseOutputFolder}"
+                                                ToolTipProperties.Text="{x:Static strings:AppStrings.GenerateBrowseOutputFolder}" />
+                                    </Grid>
+                                </Grid>
+                            </VerticalStackLayout>
 
-                    <VerticalStackLayout Spacing="4">
-                        <Label Text="{x:Static strings:AppStrings.GenerateLabelGeneratedPlanPath}"
-                               FontAttributes="Bold" />
-                        <Label Text="{Binding GeneratedPlanPathPreview}"
-                               FontSize="13"
-                               LineBreakMode="WordWrap"
-                               TextColor="{DynamicResource TextLink}" />
-                    </VerticalStackLayout>
-                </VerticalStackLayout>
+                            <VerticalStackLayout Spacing="6">
+                                <Label Text="{x:Static strings:AppStrings.GenerateLabelPlanFileName}"
+                                       FontAttributes="Bold" />
+                                <Grid ColumnDefinitions="7*,3*">
+                                    <Border Style="{DynamicResource FieldFrame}">
+                                        <Entry Text="{Binding PlanFileName}"
+                                               Placeholder="{x:Static strings:AppStrings.GeneratePlaceholderPlanFileName}"
+                                               ClearButtonVisibility="WhileEditing" />
+                                    </Border>
+                                </Grid>
+                            </VerticalStackLayout>
 
-                <Grid ColumnDefinitions="*,Auto"
-                      ColumnSpacing="12"
-                      Padding="0,2,0,0">
-                    <Label Text="{Binding GenerationStatusMessage}"
-                           FontSize="14"
-                           VerticalOptions="Center"
-                           LineBreakMode="WordWrap" />
-                    <HorizontalStackLayout Grid.Column="1"
-                                           Spacing="10"
-                                           HorizontalOptions="End"
-                                           VerticalOptions="Center">
-                        <ActivityIndicator IsRunning="{Binding IsGenerating}"
-                                           IsVisible="{Binding IsGenerating}"
-                                           VerticalOptions="Center" />
-                        <Button Text="{x:Static strings:AppStrings.GenerateButtonGenerateAndLoad}"
-                                Command="{Binding GeneratePlanCommand}"
-                                IsEnabled="{Binding CanGenerate}" />
-                    </HorizontalStackLayout>
-                </Grid>
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="{x:Static strings:AppStrings.GenerateLabelGeneratedPlanPath}"
+                                       FontAttributes="Bold" />
+                                <Label Text="{Binding GeneratedPlanPathPreview}"
+                                       FontSize="14"
+                                       LineBreakMode="WordWrap"
+                                       TextColor="{DynamicResource TextLink}" />
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Padding="16"
+                        IsVisible="{Binding HasGenerationError}">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding GenerationErrorTitle}"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{DynamicResource StatusError}" />
+                        <Label Text="{Binding GenerationErrorMessage}"
+                               FontSize="14" />
+                    </VerticalStackLayout>
+                </Border>
             </VerticalStackLayout>
-        </Border>
+        </ScrollView>
 
-        <Border Padding="16"
-                IsVisible="{Binding HasGenerationError}">
-            <VerticalStackLayout Spacing="8">
-                <Label Text="{Binding GenerationErrorTitle}"
-                       FontSize="16"
-                       FontAttributes="Bold"
-                       TextColor="{DynamicResource StatusError}" />
-                <Label Text="{Binding GenerationErrorMessage}"
-                       FontSize="13" />
-            </VerticalStackLayout>
-        </Border>
-    </VerticalStackLayout>
+        <Grid Grid.Row="2"
+              ColumnDefinitions="*,Auto,Auto"
+              ColumnSpacing="10">
+            <Label Text="{Binding GenerationStatusMessage}"
+                   VerticalOptions="Center"
+                   LineBreakMode="WordWrap" />
+            <ActivityIndicator Grid.Column="1"
+                               IsRunning="{Binding IsGenerating}"
+                               IsVisible="{Binding IsGenerating}"
+                               VerticalOptions="Center" />
+            <Button Grid.Column="2"
+                    Text="{x:Static strings:AppStrings.GenerateButtonGenerateAndLoad}"
+                    Command="{Binding GeneratePlanCommand}"
+                    IsEnabled="{Binding CanGenerate}" />
+        </Grid>
+    </Grid>
 </ContentView>

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:plans="clr-namespace:Renamer.UI.Plans"
              x:Class="Renamer.UI.Views.WorkflowRailView"
+             x:Name="RailRoot"
              x:DataType="plans:IPlanViewModel">
     <VerticalStackLayout Spacing="0"
                          HorizontalOptions="Center"
@@ -70,14 +71,23 @@
             </Border>
 
             <VerticalStackLayout HorizontalOptions="Center"
-                                 Spacing="1"
+                                 Spacing="2"
                                  BindableLayout.ItemsSource="{Binding GenerateStep.RailTitleCharacters}">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
                         <Label Text="{Binding}"
-                               FontSize="14"
+                               FontSize="15"
                                HorizontalOptions="Center"
-                               TextColor="{DynamicResource TextSecondary}" />
+                               TextColor="{DynamicResource TextSecondary}">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label"
+                                             Binding="{Binding BindingContext.GenerateStep.IndicatorState, Source={x:Reference RailRoot}}"
+                                             Value="Now">
+                                    <Setter Property="TextColor" Value="{DynamicResource AccentMid}" />
+                                    <Setter Property="FontAttributes" Value="Bold" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </VerticalStackLayout>
@@ -85,7 +95,8 @@
 
         <!-- Connector -->
         <BoxView WidthRequest="2"
-                 HeightRequest="24"
+                 HeightRequest="32"
+                 Margin="0,8"
                  HorizontalOptions="Center"
                  BackgroundColor="{DynamicResource BorderPrimary}" />
 
@@ -151,14 +162,23 @@
             </Border>
 
             <VerticalStackLayout HorizontalOptions="Center"
-                                 Spacing="1"
+                                 Spacing="2"
                                  BindableLayout.ItemsSource="{Binding PreviewStep.RailTitleCharacters}">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
                         <Label Text="{Binding}"
-                               FontSize="14"
+                               FontSize="15"
                                HorizontalOptions="Center"
-                               TextColor="{DynamicResource TextSecondary}" />
+                               TextColor="{DynamicResource TextSecondary}">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label"
+                                             Binding="{Binding BindingContext.PreviewStep.IndicatorState, Source={x:Reference RailRoot}}"
+                                             Value="Now">
+                                    <Setter Property="TextColor" Value="{DynamicResource AccentMid}" />
+                                    <Setter Property="FontAttributes" Value="Bold" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </VerticalStackLayout>
@@ -166,7 +186,8 @@
 
         <!-- Connector -->
         <BoxView WidthRequest="2"
-                 HeightRequest="24"
+                 HeightRequest="32"
+                 Margin="0,8"
                  HorizontalOptions="Center"
                  BackgroundColor="{DynamicResource BorderPrimary}" />
 
@@ -232,14 +253,23 @@
             </Border>
 
             <VerticalStackLayout HorizontalOptions="Center"
-                                 Spacing="1"
+                                 Spacing="2"
                                  BindableLayout.ItemsSource="{Binding ApplyStep.RailTitleCharacters}">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
                         <Label Text="{Binding}"
-                               FontSize="14"
+                               FontSize="15"
                                HorizontalOptions="Center"
-                               TextColor="{DynamicResource TextSecondary}" />
+                               TextColor="{DynamicResource TextSecondary}">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label"
+                                             Binding="{Binding BindingContext.ApplyStep.IndicatorState, Source={x:Reference RailRoot}}"
+                                             Value="Now">
+                                    <Setter Property="TextColor" Value="{DynamicResource AccentMid}" />
+                                    <Setter Property="FontAttributes" Value="Bold" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </VerticalStackLayout>

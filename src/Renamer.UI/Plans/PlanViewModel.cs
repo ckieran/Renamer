@@ -875,7 +875,11 @@ public sealed class PlanViewModel : IPlanViewModel
 
     private PlanWorkflowStepStatus GetPreviewStepStatus() =>
         HasError ? PlanWorkflowStepStatus.Error :
-        IsLoaded ? PlanWorkflowStepStatus.Done : PlanWorkflowStepStatus.NeedsInfo;
+        // A loaded plan alone doesn't mean the user has reviewed it; only show
+        // the review step as done once they have moved past it to Apply.
+        IsLoaded && ActiveStep == PlanWorkflowStep.ApplyPlan
+            ? PlanWorkflowStepStatus.Done
+            : PlanWorkflowStepStatus.NeedsInfo;
 
     private PlanWorkflowStepStatus GetApplyStepStatus() =>
         HasApplyError ? PlanWorkflowStepStatus.Error :
@@ -930,8 +934,10 @@ public sealed class PlanViewModel : IPlanViewModel
         isAutoUpdatingGenerationOutputDirectory = true;
         try
         {
-            GenerationOutputDirectoryPath = rootPath;
+            // Record the auto-filled value before the property fires
+            // HasAdvancedOverrides, or the disclosure auto-expands on first keystroke.
             autoFilledGenerationOutputDirectoryPath = rootPath;
+            GenerationOutputDirectoryPath = rootPath;
         }
         finally
         {
