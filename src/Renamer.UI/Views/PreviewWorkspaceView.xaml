@@ -6,45 +6,76 @@
              xmlns:strings="clr-namespace:Renamer.UI.Resources.Strings"
              x:Class="Renamer.UI.Views.PreviewWorkspaceView"
              x:DataType="plans:IPlanViewModel">
-    <VerticalStackLayout Spacing="18">
+    <VerticalStackLayout Spacing="16">
         <VerticalStackLayout Spacing="4">
             <Label Text="{x:Static strings:AppStrings.PreviewHeading}"
                    FontSize="24"
                    FontAttributes="Bold" />
             <Label Text="{x:Static strings:AppStrings.PreviewDescription}"
-                   FontSize="13"
+                   FontSize="14"
                    TextColor="{DynamicResource TextSecondary}" />
         </VerticalStackLayout>
 
-        <Border Padding="16">
-            <VerticalStackLayout Spacing="12">
-                <Label Text="{x:Static strings:AppStrings.PreviewSectionHeader}"
-                       FontSize="18"
-                       FontAttributes="Bold" />
-                <Label Text="{x:Static strings:AppStrings.PreviewInstructions}"
-                       FontSize="13" />
-                <Entry Text="{Binding PlanPath}"
-                       Placeholder="{x:Static strings:AppStrings.PreviewPlaceholder}"
-                       ClearButtonVisibility="WhileEditing" />
-                <HorizontalStackLayout Spacing="10">
-                    <Button Text="{x:Static strings:AppStrings.PreviewBrowse}"
+        <Border Padding="18">
+            <Border.Triggers>
+                <DataTrigger TargetType="Border"
+                             Binding="{Binding IsLoaded}"
+                             Value="True">
+                    <Setter Property="IsVisible" Value="False" />
+                </DataTrigger>
+                <DataTrigger TargetType="Border"
+                             Binding="{Binding IsLoading}"
+                             Value="True">
+                    <Setter Property="IsVisible" Value="False" />
+                </DataTrigger>
+            </Border.Triggers>
+            <VerticalStackLayout Spacing="14">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="{x:Static strings:AppStrings.PreviewSectionHeader}"
+                           FontSize="18"
+                           FontAttributes="Bold" />
+                    <Label Text="{x:Static strings:AppStrings.PreviewInstructions}"
+                           FontSize="14"
+                           TextColor="{DynamicResource TextSecondary}" />
+                </VerticalStackLayout>
+
+                <Grid ColumnDefinitions="*,Auto"
+                      ColumnSpacing="6">
+                    <Border Grid.Column="0"
+                            Style="{DynamicResource FieldFrame}">
+                        <Entry Text="{Binding PlanPath}"
+                               Placeholder="{x:Static strings:AppStrings.PreviewPlaceholder}"
+                               ClearButtonVisibility="WhileEditing" />
+                    </Border>
+                    <Button Grid.Column="1"
+                            Style="{DynamicResource SecondaryButton}"
+                            Text="{x:Static strings:AppStrings.PreviewBrowse}"
                             Command="{Binding BrowsePlanCommand}" />
-                    <Button Text="{x:Static strings:AppStrings.PreviewButtonLoad}"
+                </Grid>
+
+                <Grid ColumnDefinitions="*,Auto"
+                      ColumnSpacing="12">
+                    <Label Text="{Binding StatusMessage}"
+                           FontSize="14"
+                           VerticalOptions="Center"
+                           LineBreakMode="WordWrap" />
+                    <Button Grid.Column="1"
+                            Text="{x:Static strings:AppStrings.PreviewButtonLoad}"
                             Command="{Binding LoadPreviewCommand}" />
-                </HorizontalStackLayout>
-                <Label Text="{Binding StatusMessage}"
-                       FontSize="13" />
+                </Grid>
             </VerticalStackLayout>
         </Border>
 
         <Border Padding="16"
-                IsVisible="{Binding IsIdle}">
+                IsVisible="{Binding HasError}">
             <VerticalStackLayout Spacing="8">
-                <Label Text="{x:Static strings:AppStrings.PreviewIdleLabel}"
-                       FontSize="18"
-                       FontAttributes="Bold" />
-                <Label Text="{x:Static strings:AppStrings.PreviewIdleDescription}"
-                       FontSize="13" />
+                <Label Text="{x:Static strings:AppStrings.PreviewErrorHeading}"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       TextColor="{DynamicResource StatusError}" />
+                <Label Text="{Binding ErrorMessage}"
+                       FontSize="14"
+                       LineBreakMode="WordWrap" />
             </VerticalStackLayout>
         </Border>
 
@@ -61,63 +92,73 @@
                        FontAttributes="Bold"
                        HorizontalTextAlignment="Center" />
                 <Label Text="{Binding StatusMessage}"
-                       FontSize="13"
+                       FontSize="14"
                        HorizontalTextAlignment="Center" />
             </VerticalStackLayout>
         </Border>
 
         <Border Padding="16"
-                IsVisible="{Binding HasError}">
+                IsVisible="{Binding IsIdle}">
             <VerticalStackLayout Spacing="8">
-                <Label Text="{x:Static strings:AppStrings.PreviewErrorHeading}"
-                       FontSize="16"
-                       FontAttributes="Bold"
-                       TextColor="{DynamicResource StatusError}" />
-                <Label Text="{Binding ErrorMessage}"
-                       FontSize="13" />
+                <Label Text="{x:Static strings:AppStrings.PreviewIdleLabel}"
+                       FontSize="18"
+                       FontAttributes="Bold" />
+                <Label Text="{x:Static strings:AppStrings.PreviewIdleDescription}"
+                       FontSize="14" />
             </VerticalStackLayout>
         </Border>
 
-        <VerticalStackLayout Spacing="18"
+        <VerticalStackLayout Spacing="14"
                              IsVisible="{Binding IsLoaded}">
             <Border Padding="16">
-                <VerticalStackLayout Spacing="12">
-                    <Border Padding="14"
-                            Background="{DynamicResource BackgroundTertiary}">
-                        <VerticalStackLayout Spacing="6">
-                            <Label Text="{x:Static strings:AppStrings.PreviewFieldRootPath}"
-                                   FontAttributes="Bold" />
-                            <Label Text="{Binding RootPath}"
-                                   LineBreakMode="WordWrap"
-                                   TextColor="{DynamicResource TextLink}">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding OpenRootPathCommand}" />
-                                </Label.GestureRecognizers>
-                            </Label>
-                        </VerticalStackLayout>
-                    </Border>
+                <Grid ColumnDefinitions="*,Auto,Auto"
+                      ColumnSpacing="10"
+                      RowDefinitions="Auto,Auto"
+                      RowSpacing="12">
+                    <VerticalStackLayout Grid.Column="0"
+                                         Grid.Row="0"
+                                         Grid.RowSpan="2"
+                                         Spacing="4">
+                        <Label Text="{x:Static strings:AppStrings.PreviewSummarySectionHeader}"
+                               FontSize="18"
+                               FontAttributes="Bold" />
+                        <Label Text="{Binding RootPath}"
+                               FontSize="14"
+                               LineBreakMode="WordWrap"
+                               TextColor="{DynamicResource TextLink}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OpenRootPathCommand}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </VerticalStackLayout>
 
-                    <Grid ColumnDefinitions="*,*"
-                          ColumnSpacing="12">
-                        <Border Grid.Column="0"
-                                Padding="14"
-                                Background="{DynamicResource BackgroundTertiary}">
+                    <Border Grid.Column="1"
+                            Grid.Row="0"
+                            Padding="14,10"
+                            Background="{DynamicResource BackgroundTertiary}"
+                            StrokeShape="RoundRectangle 8">
+                        <VerticalStackLayout Spacing="6">
                             <Label Text="{Binding PreviewStatChanges}"
                                    FontSize="16"
                                    FontAttributes="Bold" />
-                        </Border>
-                        <Border Grid.Column="1"
-                                Padding="14"
-                                Background="{DynamicResource BackgroundTertiary}">
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border Grid.Column="2"
+                            Grid.Row="0"
+                            Padding="14,10"
+                            Background="{DynamicResource BackgroundTertiary}"
+                            StrokeShape="RoundRectangle 8">
+                        <VerticalStackLayout Spacing="6">
                             <Label Text="{Binding PreviewStatNotes}"
                                    FontSize="16"
                                    FontAttributes="Bold" />
-                        </Border>
-                    </Grid>
-                </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
             </Border>
 
-            <VerticalStackLayout Spacing="12">
+            <VerticalStackLayout Spacing="10">
                 <Grid ColumnDefinitions="*,Auto"
                       ColumnSpacing="12">
                     <Label Text="{x:Static strings:AppStrings.PreviewOperationsSectionHeader}"
@@ -129,9 +170,6 @@
                            VerticalOptions="Center"
                            TextColor="{DynamicResource TextSecondary}" />
                 </Grid>
-                <Label Text="{x:Static strings:AppStrings.PreviewOperationsDescription}"
-                       FontSize="13"
-                       TextColor="{DynamicResource TextSecondary}" />
 
                 <VerticalStackLayout Spacing="0"
                                      BindableLayout.ItemsSource="{Binding Operations}">
@@ -141,19 +179,19 @@
                                 <Grid ColumnDefinitions="*,Auto"
                                       ColumnSpacing="12">
                                     <VerticalStackLayout Grid.Column="0"
-                                                         Spacing="4">
+                                                         Spacing="3">
                                         <Label Text="{Binding FromDisplay}"
-                                               FontSize="12"
+                                               FontSize="13"
                                                FontFamily="Courier New"
                                                TextColor="{DynamicResource TextMuted}"
                                                LineBreakMode="TailTruncation" />
                                         <Label Text="{Binding ToDisplay}"
-                                               FontSize="14"
+                                               FontSize="15"
                                                FontFamily="Courier New"
                                                FontAttributes="Bold"
                                                LineBreakMode="TailTruncation" />
                                         <Label Text="{Binding DateRangeText}"
-                                               FontSize="11"
+                                               FontSize="12"
                                                TextColor="{DynamicResource TextSecondary}" />
                                     </VerticalStackLayout>
 
@@ -173,6 +211,23 @@
                     </BindableLayout.ItemTemplate>
                 </VerticalStackLayout>
             </VerticalStackLayout>
+
+            <Grid ColumnDefinitions="Auto,*,Auto,Auto"
+                  ColumnSpacing="8">
+                <Button Grid.Column="0"
+                        Style="{DynamicResource CompactSecondaryButton}"
+                        Text="{x:Static strings:AppStrings.PreviewButtonBackToPlan}"
+                        Command="{Binding SelectStepCommand}"
+                        CommandParameter="{x:Static plans:PlanWorkflowStep.GeneratePlan}" />
+                <Button Grid.Column="2"
+                        Style="{DynamicResource CompactSecondaryButton}"
+                        Text="{x:Static strings:AppStrings.PreviewButtonReloadPlan}"
+                        Command="{Binding LoadPreviewCommand}" />
+                <Button Grid.Column="3"
+                        Text="{x:Static strings:AppStrings.PreviewButtonContinue}"
+                        Command="{Binding SelectStepCommand}"
+                        CommandParameter="{x:Static plans:PlanWorkflowStep.ApplyPlan}" />
+            </Grid>
         </VerticalStackLayout>
     </VerticalStackLayout>
 </ContentView>

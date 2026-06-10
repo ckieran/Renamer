@@ -377,6 +377,18 @@
     <value>Review plan</value>
     <comment/>
   </data>
+  <data name="PreviewButtonBackToPlan" xml:space="preserve">
+    <value>Back to plan</value>
+    <comment/>
+  </data>
+  <data name="PreviewButtonReloadPlan" xml:space="preserve">
+    <value>Reload plan</value>
+    <comment/>
+  </data>
+  <data name="PreviewButtonContinue" xml:space="preserve">
+    <value>Continue</value>
+    <comment/>
+  </data>
   <data name="PreviewIdleLabel" xml:space="preserve">
     <value>Ready to review</value>
     <comment/>
@@ -634,7 +646,7 @@
     <comment/>
   </data>
   <data name="ApplyStatusDefault" xml:space="preserve">
-    <value>Load a reviewed plan before you rename folders.</value>
+    <value>Review the plan, then rename when you're ready.</value>
     <comment/>
   </data>
   <data name="ApplyStatusOutcomeDefault" xml:space="preserve">

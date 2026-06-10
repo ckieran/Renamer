@@ -16,8 +16,12 @@ public sealed class PlanViewModelTests
     {
         Assert.Equal("Review the plan", AppStrings.PreviewHeading);
         Assert.Equal("Review plan", AppStrings.PreviewButtonLoad);
+        Assert.Equal("Back to plan", AppStrings.PreviewButtonBackToPlan);
+        Assert.Equal("Reload plan", AppStrings.PreviewButtonReloadPlan);
+        Assert.Equal("Continue", AppStrings.PreviewButtonContinue);
         Assert.Equal("Before you rename", AppStrings.PreviewSummarySectionHeader);
         Assert.Equal("Proposed folder names", AppStrings.PreviewOperationsSectionHeader);
+        Assert.Equal("Review the plan, then rename when you're ready.", AppStrings.ApplyStatusDefault);
     }
 
     [Fact]
