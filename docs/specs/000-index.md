@@ -51,3 +51,4 @@ This folder defines the spec-driven development package for Renamer.
 - `410-compact-shell-workspace-frame.md` - draft - Compact app shell/header and rail/workspace frame alignment.
 - `420-plan-workspace-reconciliation.md` - draft - Plan workspace alignment to compact target references.
 - `430-review-rename-workspace-reconciliation.md` - draft - Review and Rename workspace density/action-row alignment.
+- `440-visual-polish-pass.md` - draft - Visual polish: type scale, rail highlight/spacing, full-height workspaces, pinned action rows.

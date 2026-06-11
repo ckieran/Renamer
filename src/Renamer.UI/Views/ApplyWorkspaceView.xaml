@@ -6,266 +6,270 @@
              xmlns:strings="clr-namespace:Renamer.UI.Resources.Strings"
              x:Class="Renamer.UI.Views.ApplyWorkspaceView"
              x:DataType="plans:IPlanViewModel">
-    <VerticalStackLayout Spacing="16">
+    <Grid RowDefinitions="Auto,*,Auto"
+          RowSpacing="16">
         <VerticalStackLayout Spacing="4">
             <Label Text="{x:Static strings:AppStrings.ApplyHeading}"
-                   FontSize="24"
-                   FontAttributes="Bold" />
+                   Style="{DynamicResource WorkspaceTitle}" />
             <Label Text="{x:Static strings:AppStrings.ApplyDescription}"
-                   FontSize="14"
-                   TextColor="{DynamicResource TextSecondary}" />
+                   Style="{DynamicResource SecondaryText}" />
         </VerticalStackLayout>
 
-        <Border Padding="18">
-            <Border.Triggers>
-                <DataTrigger TargetType="Border"
-                             Binding="{Binding IsLoaded}"
-                             Value="True">
-                    <Setter Property="IsVisible" Value="False" />
-                </DataTrigger>
-            </Border.Triggers>
-            <VerticalStackLayout Spacing="14">
-                <VerticalStackLayout Spacing="4">
-                    <Label Text="{x:Static strings:AppStrings.ApplyPlanArtifactSectionHeader}"
-                           FontSize="18"
-                           FontAttributes="Bold" />
-                    <Label Text="{x:Static strings:AppStrings.ApplyPlanArtifactInstructions}"
-                           FontSize="14"
-                           TextColor="{DynamicResource TextSecondary}" />
-                </VerticalStackLayout>
-                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="6">
-                    <Border Grid.Column="0"
-                            Style="{DynamicResource FieldFrame}">
-                        <Entry Text="{Binding PlanPath}"
-                               Placeholder="{x:Static strings:AppStrings.PreviewPlaceholder}"
-                               ClearButtonVisibility="WhileEditing" />
-                    </Border>
-                    <Button Grid.Column="1"
-                            Style="{DynamicResource BrowseButton}"
-                            Text="{x:Static strings:AppStrings.BrowseButtonGlyph}"
-                            Command="{Binding BrowsePlanCommand}"
-                            AutomationProperties.Name="{x:Static strings:AppStrings.ApplyButtonBrowse}"
-                            ToolTipProperties.Text="{x:Static strings:AppStrings.ApplyButtonBrowse}" />
-                </Grid>
-                <Label Text="{Binding StatusMessage}"
-                       FontSize="14"
-                       LineBreakMode="WordWrap" />
-                <Grid ColumnDefinitions="*,Auto,Auto"
-                      ColumnSpacing="10">
-                    <ActivityIndicator Grid.Column="1"
-                                       IsRunning="{Binding IsLoading}"
-                                       IsVisible="{Binding IsLoading}"
-                                       VerticalOptions="Center" />
-                    <Button Grid.Column="2"
-                            Text="{x:Static strings:AppStrings.ApplyButtonLoadPlan}"
-                            Command="{Binding LoadPreviewCommand}" />
-                </Grid>
-            </VerticalStackLayout>
-        </Border>
-
-        <Border Padding="16"
-                IsVisible="{Binding HasError}">
-            <VerticalStackLayout Spacing="8">
-                <Label Text="{x:Static strings:AppStrings.ApplyErrorHeading}"
-                       FontSize="16"
-                       FontAttributes="Bold"
-                       TextColor="{DynamicResource StatusError}" />
-                <Label Text="{Binding ErrorMessage}"
-                       FontSize="14"
-                       LineBreakMode="WordWrap" />
-            </VerticalStackLayout>
-        </Border>
-
-        <Border Padding="18">
-            <Grid ColumnDefinitions="*,Auto,Auto"
-                  RowDefinitions="Auto,Auto"
-                  ColumnSpacing="10"
-                  RowSpacing="8">
-                <Label Grid.Column="0"
-                       Grid.Row="0"
-                       Text="{x:Static strings:AppStrings.ApplySectionHeader}"
-                       FontSize="18"
-                       FontAttributes="Bold" />
-                <Label Grid.Column="0"
-                       Grid.Row="1"
-                       Text="{Binding ApplyStatusMessage}"
-                       FontSize="14"
-                       LineBreakMode="WordWrap"
-                       VerticalOptions="Center" />
-                <ActivityIndicator Grid.Column="1"
-                                   Grid.Row="1"
-                                   IsRunning="{Binding IsApplying}"
-                                   IsVisible="{Binding IsApplying}"
-                                   VerticalOptions="Center" />
-                <Button Grid.Column="2"
-                        Grid.Row="1"
-                        Text="{x:Static strings:AppStrings.ApplyButtonRun}"
-                        Command="{Binding ApplyCommand}"
-                        IsEnabled="{Binding CanApply}" />
-            </Grid>
-        </Border>
-
-        <Border Padding="16"
-                IsVisible="{Binding HasApplyError}">
-            <VerticalStackLayout Spacing="8">
-                <Label Text="{Binding ApplyErrorTitle}"
-                       FontSize="16"
-                       FontAttributes="Bold"
-                       TextColor="{DynamicResource StatusError}" />
-                <Label Text="{Binding ApplyErrorMessage}"
-                       FontSize="14"
-                       LineBreakMode="WordWrap" />
-            </VerticalStackLayout>
-        </Border>
-
-        <Border Padding="16"
-                IsVisible="{Binding HasApplyReport}">
-            <VerticalStackLayout Spacing="8">
-                <Grid ColumnDefinitions="*,Auto"
-                      ColumnSpacing="10">
-                    <VerticalStackLayout Grid.Column="0"
-                                         Spacing="3">
-                        <Label Text="{Binding ApplyResultHeadline}"
-                               FontSize="20"
-                               FontAttributes="Bold" />
-                        <Label Text="{Binding ApplyResultBreakdown}"
-                               FontSize="14"
-                               TextColor="{DynamicResource TextSecondary}" />
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="16">
+                <Border Padding="18">
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border"
+                                     Binding="{Binding IsLoaded}"
+                                     Value="True">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <VerticalStackLayout Spacing="14">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="{x:Static strings:AppStrings.ApplyPlanArtifactSectionHeader}"
+                                   Style="{DynamicResource SectionTitle}" />
+                            <Label Text="{x:Static strings:AppStrings.ApplyPlanArtifactInstructions}"
+                                   Style="{DynamicResource SecondaryText}" />
+                        </VerticalStackLayout>
+                        <Grid ColumnDefinitions="7*,3*">
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="6">
+                                <Border Grid.Column="0"
+                                        Style="{DynamicResource FieldFrame}">
+                                    <Entry Text="{Binding PlanPath}"
+                                           Placeholder="{x:Static strings:AppStrings.PreviewPlaceholder}"
+                                           ClearButtonVisibility="WhileEditing" />
+                                </Border>
+                                <Button Grid.Column="1"
+                                        Style="{DynamicResource BrowseButton}"
+                                        Text="{x:Static strings:AppStrings.BrowseButtonGlyph}"
+                                        Command="{Binding BrowsePlanCommand}"
+                                        AutomationProperties.Name="{x:Static strings:AppStrings.ApplyButtonBrowse}"
+                                        ToolTipProperties.Text="{x:Static strings:AppStrings.ApplyButtonBrowse}" />
+                            </Grid>
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto,Auto"
+                              ColumnSpacing="10">
+                            <Label Text="{Binding StatusMessage}"
+                                   VerticalOptions="Center"
+                                   LineBreakMode="WordWrap" />
+                            <ActivityIndicator Grid.Column="1"
+                                               IsRunning="{Binding IsLoading}"
+                                               IsVisible="{Binding IsLoading}"
+                                               VerticalOptions="Center" />
+                            <Button Grid.Column="2"
+                                    Text="{x:Static strings:AppStrings.ApplyButtonLoadPlan}"
+                                    Command="{Binding LoadPreviewCommand}" />
+                        </Grid>
                     </VerticalStackLayout>
-                    <Button x:Name="DetailsToggle"
-                            Grid.Column="1"
-                            Style="{DynamicResource CompactSecondaryButton}"
-                            Text="{x:Static strings:AppStrings.ApplyResultDetailsLabel}"
-                            Clicked="OnDetailsToggleClicked"
-                            VerticalOptions="Center" />
-                </Grid>
-                <VerticalStackLayout x:Name="DetailsPanel"
-                                     Spacing="14"
-                                     IsVisible="False">
-                    <Grid ColumnDefinitions="*,*"
-                          ColumnSpacing="16">
-                        <VerticalStackLayout Grid.Column="0"
-                                             Spacing="4">
-                            <Label Text="{x:Static strings:AppStrings.ApplyFieldOutcome}"
-                                   FontAttributes="Bold" />
-                            <Label Text="{Binding ApplyOutcomeText}" />
+                </Border>
+
+                <Border Padding="16"
+                        IsVisible="{Binding HasError}">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{x:Static strings:AppStrings.ApplyErrorHeading}"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{DynamicResource StatusError}" />
+                        <Label Text="{Binding ErrorMessage}"
+                               FontSize="14"
+                               LineBreakMode="WordWrap" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Padding="18"
+                        IsVisible="{Binding IsLoaded}">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="{x:Static strings:AppStrings.ApplySectionHeader}"
+                               Style="{DynamicResource SectionTitle}" />
+                        <Label Text="{Binding RootPath}"
+                               FontSize="14"
+                               LineBreakMode="WordWrap"
+                               TextColor="{DynamicResource TextLink}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OpenRootPathCommand}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Padding="16"
+                        IsVisible="{Binding HasApplyError}">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding ApplyErrorTitle}"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{DynamicResource StatusError}" />
+                        <Label Text="{Binding ApplyErrorMessage}"
+                               FontSize="14"
+                               LineBreakMode="WordWrap" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Padding="16"
+                        IsVisible="{Binding HasApplyReport}">
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto"
+                              ColumnSpacing="10">
+                            <VerticalStackLayout Grid.Column="0"
+                                                 Spacing="3">
+                                <Label Text="{Binding ApplyResultHeadline}"
+                                       FontSize="20"
+                                       FontAttributes="Bold" />
+                                <Label Text="{Binding ApplyResultBreakdown}"
+                                       Style="{DynamicResource SecondaryText}" />
+                            </VerticalStackLayout>
+                            <Button x:Name="DetailsToggle"
+                                    Grid.Column="1"
+                                    Style="{DynamicResource CompactSecondaryButton}"
+                                    Text="{x:Static strings:AppStrings.ApplyResultDetailsLabel}"
+                                    Clicked="OnDetailsToggleClicked"
+                                    VerticalOptions="Center" />
+                        </Grid>
+                        <VerticalStackLayout x:Name="DetailsPanel"
+                                             Spacing="14"
+                                             IsVisible="False">
+                            <Grid ColumnDefinitions="*,*"
+                                  ColumnSpacing="16">
+                                <VerticalStackLayout Grid.Column="0"
+                                                     Spacing="4">
+                                    <Label Text="{x:Static strings:AppStrings.ApplyFieldOutcome}"
+                                           FontAttributes="Bold" />
+                                    <Label Text="{Binding ApplyOutcomeText}" />
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="1"
+                                                     Spacing="4">
+                                    <Label Text="{x:Static strings:AppStrings.ApplyFieldDrifted}"
+                                           FontAttributes="Bold" />
+                                    <Label Text="{Binding ApplyDriftedCountText}" />
+                                </VerticalStackLayout>
+                            </Grid>
+                            <Grid ColumnDefinitions="*,*"
+                                  ColumnSpacing="16">
+                                <VerticalStackLayout Grid.Column="0"
+                                                     Spacing="4">
+                                    <Label Text="{x:Static strings:AppStrings.ApplyFieldStarted}"
+                                           FontAttributes="Bold" />
+                                    <Label Text="{Binding ApplyStartedAtDisplay}" />
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="1"
+                                                     Spacing="4">
+                                    <Label Text="{x:Static strings:AppStrings.ApplyFieldFinished}"
+                                           FontAttributes="Bold" />
+                                    <Label Text="{Binding ApplyFinishedAtDisplay}" />
+                                </VerticalStackLayout>
+                            </Grid>
+                            <Grid ColumnDefinitions="*,*,*"
+                                  ColumnSpacing="16">
+                                <VerticalStackLayout Grid.Column="0"
+                                                     Spacing="4">
+                                    <Label Text="{x:Static strings:AppStrings.ApplyFieldSuccess}"
+                                           FontAttributes="Bold" />
+                                    <Label Text="{Binding ApplySuccessCountText}" />
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="1"
+                                                     Spacing="4">
+                                    <Label Text="{x:Static strings:AppStrings.ApplyFieldSkipped}"
+                                           FontAttributes="Bold" />
+                                    <Label Text="{Binding ApplySkippedCountText}" />
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="2"
+                                                     Spacing="4">
+                                    <Label Text="{x:Static strings:AppStrings.ApplyFieldFailed}"
+                                           FontAttributes="Bold" />
+                                    <Label Text="{Binding ApplyFailedCountText}" />
+                                </VerticalStackLayout>
+                            </Grid>
                         </VerticalStackLayout>
-                        <VerticalStackLayout Grid.Column="1"
-                                             Spacing="4">
-                            <Label Text="{x:Static strings:AppStrings.ApplyFieldDrifted}"
-                                   FontAttributes="Bold" />
-                            <Label Text="{Binding ApplyDriftedCountText}" />
-                        </VerticalStackLayout>
-                    </Grid>
-                    <Grid ColumnDefinitions="*,*"
-                          ColumnSpacing="16">
-                        <VerticalStackLayout Grid.Column="0"
-                                             Spacing="4">
-                            <Label Text="{x:Static strings:AppStrings.ApplyFieldStarted}"
-                                   FontAttributes="Bold" />
-                            <Label Text="{Binding ApplyStartedAtDisplay}" />
-                        </VerticalStackLayout>
-                        <VerticalStackLayout Grid.Column="1"
-                                             Spacing="4">
-                            <Label Text="{x:Static strings:AppStrings.ApplyFieldFinished}"
-                                   FontAttributes="Bold" />
-                            <Label Text="{Binding ApplyFinishedAtDisplay}" />
-                        </VerticalStackLayout>
-                    </Grid>
-                    <Grid ColumnDefinitions="*,*,*"
-                          ColumnSpacing="16">
-                        <VerticalStackLayout Grid.Column="0"
-                                             Spacing="4">
-                            <Label Text="{x:Static strings:AppStrings.ApplyFieldSuccess}"
-                                   FontAttributes="Bold" />
-                            <Label Text="{Binding ApplySuccessCountText}" />
-                        </VerticalStackLayout>
-                        <VerticalStackLayout Grid.Column="1"
-                                             Spacing="4">
-                            <Label Text="{x:Static strings:AppStrings.ApplyFieldSkipped}"
-                                   FontAttributes="Bold" />
-                            <Label Text="{Binding ApplySkippedCountText}" />
-                        </VerticalStackLayout>
-                        <VerticalStackLayout Grid.Column="2"
-                                             Spacing="4">
-                            <Label Text="{x:Static strings:AppStrings.ApplyFieldFailed}"
-                                   FontAttributes="Bold" />
-                            <Label Text="{Binding ApplyFailedCountText}" />
-                        </VerticalStackLayout>
-                    </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <VerticalStackLayout Spacing="12"
+                                     IsVisible="{Binding HasApplyReport}">
+                    <Label Text="{x:Static strings:AppStrings.ApplyResultsSectionHeader}"
+                           Style="{DynamicResource SectionTitle}" />
+                    <VerticalStackLayout Spacing="0"
+                                         BindableLayout.ItemsSource="{Binding ApplyResults}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="model:ApplyResultItem">
+                                <Border Padding="14"
+                                        Margin="0,0,0,10">
+                                    <VerticalStackLayout Spacing="8">
+                                        <Grid ColumnDefinitions="*,Auto"
+                                              ColumnSpacing="12">
+                                            <VerticalStackLayout Spacing="2">
+                                                <Label Text="{Binding SourceName}"
+                                                       FontSize="16"
+                                                       FontAttributes="Bold" />
+                                                <Label Text="{Binding SourcePath}"
+                                                       FontSize="13"
+                                                       LineBreakMode="WordWrap"
+                                                       TextColor="{DynamicResource TextMuted}" />
+                                            </VerticalStackLayout>
+                                            <Label Grid.Column="1"
+                                                   Text="{Binding StatusText}"
+                                                   FontSize="13"
+                                                   HorizontalTextAlignment="End" />
+                                        </Grid>
+
+                                        <VerticalStackLayout Spacing="2">
+                                            <Label Text="{x:Static strings:AppStrings.ApplyFieldPlannedDestination}"
+                                                   FontAttributes="Bold"
+                                                   FontSize="13" />
+                                            <Label Text="{Binding PlannedDestinationPath}"
+                                                   FontSize="13"
+                                                   LineBreakMode="WordWrap" />
+                                        </VerticalStackLayout>
+
+                                        <VerticalStackLayout Spacing="2">
+                                            <Label Text="{x:Static strings:AppStrings.ApplyFieldActualDestination}"
+                                                   FontAttributes="Bold"
+                                                   FontSize="13" />
+                                            <Label Text="{Binding ActualDestinationPathText}"
+                                                   FontSize="13"
+                                                   LineBreakMode="WordWrap" />
+                                        </VerticalStackLayout>
+
+                                        <VerticalStackLayout Spacing="2">
+                                            <Label Text="{x:Static strings:AppStrings.ApplyFieldResultWarnings}"
+                                                   FontAttributes="Bold"
+                                                   FontSize="13" />
+                                            <Label Text="{Binding WarningText}"
+                                                   FontSize="13"
+                                                   LineBreakMode="WordWrap" />
+                                        </VerticalStackLayout>
+
+                                        <VerticalStackLayout Spacing="2">
+                                            <Label Text="{x:Static strings:AppStrings.ApplyFieldError}"
+                                                   FontAttributes="Bold"
+                                                   FontSize="13" />
+                                            <Label Text="{Binding ErrorText}"
+                                                   FontSize="13"
+                                                   LineBreakMode="WordWrap" />
+                                        </VerticalStackLayout>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
                 </VerticalStackLayout>
             </VerticalStackLayout>
-        </Border>
+        </ScrollView>
 
-        <VerticalStackLayout Spacing="12"
-                             IsVisible="{Binding HasApplyReport}">
-            <Label Text="{x:Static strings:AppStrings.ApplyResultsSectionHeader}"
-                   FontSize="18"
-                   FontAttributes="Bold" />
-            <VerticalStackLayout Spacing="0"
-                                 BindableLayout.ItemsSource="{Binding ApplyResults}">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate x:DataType="model:ApplyResultItem">
-                        <Border Padding="14"
-                                Margin="0,0,0,10">
-                            <VerticalStackLayout Spacing="8">
-                                <Grid ColumnDefinitions="*,Auto"
-                                      ColumnSpacing="12">
-                                    <VerticalStackLayout Spacing="2">
-                                        <Label Text="{Binding SourceName}"
-                                               FontSize="16"
-                                               FontAttributes="Bold" />
-                                        <Label Text="{Binding SourcePath}"
-                                               FontSize="12"
-                                               LineBreakMode="WordWrap"
-                                               TextColor="{DynamicResource TextMuted}" />
-                                    </VerticalStackLayout>
-                                    <Label Grid.Column="1"
-                                           Text="{Binding StatusText}"
-                                           FontSize="12"
-                                           HorizontalTextAlignment="End" />
-                                </Grid>
-
-                                <VerticalStackLayout Spacing="2">
-                                    <Label Text="{x:Static strings:AppStrings.ApplyFieldPlannedDestination}"
-                                           FontAttributes="Bold"
-                                           FontSize="12" />
-                                    <Label Text="{Binding PlannedDestinationPath}"
-                                           FontSize="12"
-                                           LineBreakMode="WordWrap" />
-                                </VerticalStackLayout>
-
-                                <VerticalStackLayout Spacing="2">
-                                    <Label Text="{x:Static strings:AppStrings.ApplyFieldActualDestination}"
-                                           FontAttributes="Bold"
-                                           FontSize="12" />
-                                    <Label Text="{Binding ActualDestinationPathText}"
-                                           FontSize="12"
-                                           LineBreakMode="WordWrap" />
-                                </VerticalStackLayout>
-
-                                <VerticalStackLayout Spacing="2">
-                                    <Label Text="{x:Static strings:AppStrings.ApplyFieldResultWarnings}"
-                                           FontAttributes="Bold"
-                                           FontSize="12" />
-                                    <Label Text="{Binding WarningText}"
-                                           FontSize="12"
-                                           LineBreakMode="WordWrap" />
-                                </VerticalStackLayout>
-
-                                <VerticalStackLayout Spacing="2">
-                                    <Label Text="{x:Static strings:AppStrings.ApplyFieldError}"
-                                           FontAttributes="Bold"
-                                           FontSize="12" />
-                                    <Label Text="{Binding ErrorText}"
-                                           FontSize="12"
-                                           LineBreakMode="WordWrap" />
-                                </VerticalStackLayout>
-                            </VerticalStackLayout>
-                        </Border>
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
-            </VerticalStackLayout>
-        </VerticalStackLayout>
-    </VerticalStackLayout>
+        <Grid Grid.Row="2"
+              ColumnDefinitions="*,Auto,Auto"
+              ColumnSpacing="10">
+            <Label Text="{Binding ApplyStatusMessage}"
+                   VerticalOptions="Center"
+                   LineBreakMode="WordWrap" />
+            <ActivityIndicator Grid.Column="1"
+                               IsRunning="{Binding IsApplying}"
+                               IsVisible="{Binding IsApplying}"
+                               VerticalOptions="Center" />
+            <Button Grid.Column="2"
+                    Text="{x:Static strings:AppStrings.ApplyButtonRun}"
+                    Command="{Binding ApplyCommand}"
+                    IsEnabled="{Binding CanApply}" />
+        </Grid>
+    </Grid>
 </ContentView>
